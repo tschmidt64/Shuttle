@@ -8,13 +8,23 @@
 
 import UIKit
 import MapKit
+import ArcGIS
 
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, CLLocationManagerDelegate {
+    var locationManager: CLLocationManager!
+    let regionRadius: CLLocationDistance = 1000
     
+    @IBOutlet weak var mapView: MKMapView!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        let initialLocation = CLLocation(latitude: 30.302135, longitude: -97.740153)
+        centerMapOnLocation(initialLocation)
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.startUpdatingLocation()
         getData()
         var timer = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: "getData", userInfo: nil, repeats: true)
     }
@@ -47,7 +57,7 @@ class ViewController: UIViewController {
                                 print(lat)
                                 print(long)
                             } else {
-                                print("ahhhh")
+                                print("ERROR - Something wrong w/ JSON")
                             }
                         }
                     }
@@ -58,6 +68,26 @@ class ViewController: UIViewController {
         }
         task.resume() // start the request */
     }
+    
+    func centerMapOnLocation(location: CLLocation) {
+        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate,
+            regionRadius * 2.0, regionRadius * 2.0)
+        mapView.setRegion(coordinateRegion, animated: true)
+    }
+    
+    func checkLocationAuthorizationStatus() {
+        if CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse {
+            mapView.showsUserLocation = true
+        } else {
+            locationManager.requestWhenInUseAuthorization()
+        }
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        checkLocationAuthorizationStatus()
+    }
+
     
     
     

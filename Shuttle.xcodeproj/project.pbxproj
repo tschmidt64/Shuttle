@@ -126,6 +126,7 @@
 				TargetAttributes = {
 					825485701C7402BA0023E1A5 = {
 						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = 2N9WH3D3CV;
 					};
 				};
 			};
@@ -327,6 +328,8 @@
 			baseConfigurationReference = 4768BF6868BC6F57E7C197C2 /* Pods-Shuttle.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Shuttle/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "tdimhcS-rolyaT.Shuttle";
@@ -339,6 +342,8 @@
 			baseConfigurationReference = 790FBBA77BF8D933CD635DD0 /* Pods-Shuttle.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Shuttle/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "tdimhcS-rolyaT.Shuttle";
