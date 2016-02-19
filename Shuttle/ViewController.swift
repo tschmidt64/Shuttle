@@ -53,9 +53,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                                 let route:String = tripSub["route_id"] as! String
                                 let lat:Double = positionSub["latitude"] as! Double
                                 let long:Double = positionSub ["longitude"] as! Double
-                                print(route)
-                                print(lat)
-                                print(long)
+                                
+                                // Create annotation from lattitude and longitude
+                                let coord: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: lat, longitude: long)
+                                let annotation = MapPin(coordinate: coord, title: "Route" + route, subtitle: "")
+                                self.mapView.addAnnotation(annotation)
+                                self.centerMapOnLocation(CLLocation(latitude: lat, longitude: long))
+                                
+                                print("Route ID: " + route)
+                                print("Lat: " + String(lat))
+                                print("Long:" + String(long))
+                                print("")
                             } else {
                                 print("ERROR - Something wrong w/ JSON")
                             }
@@ -67,6 +75,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             }
         }
         task.resume() // start the request */
+    }
+    
+    // Called by mapview when adding new annotation
+    func mapView(mapView: MKMapView, annotation: MapPin) -> MKPinAnnotationView {
+        // Remove all annotations from the map view
+        self.mapView.removeAnnotations(self.mapView.annotations)
+        let view:MKPinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "mcniff")
+        view.canShowCallout = true
+        return view
     }
     
     func centerMapOnLocation(location: CLLocation) {
