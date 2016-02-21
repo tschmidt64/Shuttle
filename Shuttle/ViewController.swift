@@ -14,12 +14,15 @@ import ArcGIS
 class ViewController: UIViewController, CLLocationManagerDelegate {
     var locationManager: CLLocationManager!
     let regionRadius: CLLocationDistance = 1000
+    var startTime = NSTimeInterval() //start stopwatch timer
+    var latitude:Double = 0;
+    var longitude:Double = 0;
 
     @IBOutlet weak var mapView: MKMapView!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-
+        self.startTime = NSDate.timeIntervalSinceReferenceDate()
         let initialLocation = CLLocation(latitude: 30.302135, longitude: -97.740153)
         centerMapOnLocation(initialLocation)
         locationManager = CLLocationManager()
@@ -54,6 +57,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                                 let route:String = tripSub["route_id"] as! String
                                 let lat:Double = positionSub["latitude"] as! Double
                                 let long:Double = positionSub ["longitude"] as! Double
+                                
+                                
+                                if(lat != self.latitude || long != self.longitude) {
+                                    //values have changed since last pull, update global versions and restart stopwatch
+                                    //self.startTime = NSTimeInterval() //update stopwatch
+                                    self.latitude = lat
+                                    self.longitude = long
+                                    print("Update!")
+                                    self.updateStopwatch()
+                                    self.startTime = NSDate.timeIntervalSinceReferenceDate()
+                                }
+
                                 
                                 // Have thread updating UI in foreground
                                 dispatch_async(dispatch_get_main_queue(), {
@@ -91,6 +106,36 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         view.canShowCallout = true
         return view
     }
+    
+    func updateStopwatch() {
+        var currentTime = NSDate.timeIntervalSinceReferenceDate()
+        
+        //Find the difference between current time and start time.
+        
+        var elapsedTime: NSTimeInterval = currentTime - startTime
+        print(elapsedTime)
+        
+        //calculate the minutes in elapsed time.
+        
+        let minutes = UInt32(elapsedTime / 60.0)
+        
+        elapsedTime -= (NSTimeInterval(minutes) * 60)
+        
+        //calculate the seconds in elapsed time.
+        
+        let seconds = UInt32(elapsedTime)
+        
+        elapsedTime -= NSTimeInterval(seconds)
+        
+        //add the leading zero for minutes, seconds and millseconds and store them as string constants
+        
+        let strMinutes = String(format: "%02d", minutes)
+        let strSeconds = String(format: "%02d", seconds)
+        
+        print(strMinutes)
+        print(strSeconds)
+    }
+
 
     func centerMapOnLocation(location: CLLocation) {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate,
