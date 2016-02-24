@@ -8,20 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		6485B59D1C77DBBA00AD7434 /* MapPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6485B59C1C77DBBA00AD7434 /* MapPin.swift */; };
-		7C130E6F96F80D7B950A170E /* Pods_Shuttle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7200EA9A192D07F14BB6E710 /* Pods_Shuttle.framework */; };
 		825485751C7402BA0023E1A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825485741C7402BA0023E1A5 /* AppDelegate.swift */; };
 		825485771C7402BA0023E1A5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825485761C7402BA0023E1A5 /* ViewController.swift */; };
 		8254857A1C7402BA0023E1A5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 825485781C7402BA0023E1A5 /* Main.storyboard */; };
 		8254857D1C7402BA0023E1A5 /* Shuttle.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8254857B1C7402BA0023E1A5 /* Shuttle.xcdatamodeld */; };
 		8254857F1C7402BA0023E1A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8254857E1C7402BA0023E1A5 /* Assets.xcassets */; };
 		825485821C7402BA0023E1A5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 825485801C7402BA0023E1A5 /* LaunchScreen.storyboard */; };
+		86D876EAB0E8E84F8A9F405C /* Pods_Shuttle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DE629B51D9989E775AFE34 /* Pods_Shuttle.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4768BF6868BC6F57E7C197C2 /* Pods-Shuttle.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shuttle.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Shuttle/Pods-Shuttle.debug.xcconfig"; sourceTree = "<group>"; };
+		122EE3CAA9B83A380B3DCD07 /* Pods-Shuttle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shuttle.release.xcconfig"; path = "Pods/Target Support Files/Pods-Shuttle/Pods-Shuttle.release.xcconfig"; sourceTree = "<group>"; };
+		30DE629B51D9989E775AFE34 /* Pods_Shuttle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Shuttle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6485B59C1C77DBBA00AD7434 /* MapPin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapPin.swift; sourceTree = "<group>"; };
-		7200EA9A192D07F14BB6E710 /* Pods_Shuttle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Shuttle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		790FBBA77BF8D933CD635DD0 /* Pods-Shuttle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shuttle.release.xcconfig"; path = "Pods/Target Support Files/Pods-Shuttle/Pods-Shuttle.release.xcconfig"; sourceTree = "<group>"; };
 		825485711C7402BA0023E1A5 /* Shuttle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shuttle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		825485741C7402BA0023E1A5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		825485761C7402BA0023E1A5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -30,6 +29,7 @@
 		8254857E1C7402BA0023E1A5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		825485811C7402BA0023E1A5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		825485831C7402BA0023E1A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D5FADDCED5F0A2B695DCA90F /* Pods-Shuttle.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shuttle.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Shuttle/Pods-Shuttle.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,28 +37,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7C130E6F96F80D7B950A170E /* Pods_Shuttle.framework in Frameworks */,
+				86D876EAB0E8E84F8A9F405C /* Pods_Shuttle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6446D6401E377F0E4DF75AD5 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				7200EA9A192D07F14BB6E710 /* Pods_Shuttle.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		825485681C7402BA0023E1A5 = {
 			isa = PBXGroup;
 			children = (
 				825485731C7402BA0023E1A5 /* Shuttle */,
 				825485721C7402BA0023E1A5 /* Products */,
-				C14B2F4F618F1EA5D9473A39 /* Pods */,
-				6446D6401E377F0E4DF75AD5 /* Frameworks */,
+				CC6956C30AD29FACAFE2DBBE /* Pods */,
+				BB9D8FC6DE53DC4203BA41E7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -85,11 +77,19 @@
 			path = Shuttle;
 			sourceTree = "<group>";
 		};
-		C14B2F4F618F1EA5D9473A39 /* Pods */ = {
+		BB9D8FC6DE53DC4203BA41E7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4768BF6868BC6F57E7C197C2 /* Pods-Shuttle.debug.xcconfig */,
-				790FBBA77BF8D933CD635DD0 /* Pods-Shuttle.release.xcconfig */,
+				30DE629B51D9989E775AFE34 /* Pods_Shuttle.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CC6956C30AD29FACAFE2DBBE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D5FADDCED5F0A2B695DCA90F /* Pods-Shuttle.debug.xcconfig */,
+				122EE3CAA9B83A380B3DCD07 /* Pods-Shuttle.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -101,12 +101,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 825485861C7402BA0023E1A5 /* Build configuration list for PBXNativeTarget "Shuttle" */;
 			buildPhases = (
-				38475AFEBBE7A620ADFD1E0C /* Check Pods Manifest.lock */,
+				8A1175CDE9E621BAEE769464 /* Check Pods Manifest.lock */,
 				8254856D1C7402BA0023E1A5 /* Sources */,
 				8254856E1C7402BA0023E1A5 /* Frameworks */,
 				8254856F1C7402BA0023E1A5 /* Resources */,
-				1B90854C37A5A6A0CC5739FF /* Embed Pods Frameworks */,
-				78137AEB7B5B39B9663A3081 /* Copy Pods Resources */,
+				35B5352D9389F7426E553D2D /* Embed Pods Frameworks */,
+				104E80256CF880D1473E5195 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -165,7 +165,22 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1B90854C37A5A6A0CC5739FF /* Embed Pods Frameworks */ = {
+		104E80256CF880D1473E5195 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Shuttle/Pods-Shuttle-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		35B5352D9389F7426E553D2D /* Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -180,7 +195,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Shuttle/Pods-Shuttle-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		38475AFEBBE7A620ADFD1E0C /* Check Pods Manifest.lock */ = {
+		8A1175CDE9E621BAEE769464 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -193,21 +208,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		78137AEB7B5B39B9663A3081 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Shuttle/Pods-Shuttle-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -329,7 +329,7 @@
 		};
 		825485871C7402BA0023E1A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4768BF6868BC6F57E7C197C2 /* Pods-Shuttle.debug.xcconfig */;
+			baseConfigurationReference = D5FADDCED5F0A2B695DCA90F /* Pods-Shuttle.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -343,7 +343,7 @@
 		};
 		825485881C7402BA0023E1A5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 790FBBA77BF8D933CD635DD0 /* Pods-Shuttle.release.xcconfig */;
+			baseConfigurationReference = 122EE3CAA9B83A380B3DCD07 /* Pods-Shuttle.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";

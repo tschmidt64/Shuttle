@@ -48,22 +48,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 do {
                     let jsonResult = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as? NSDictionary
                     if jsonResult != nil {
-                        if let allArray = jsonResult!["entity"] as? NSArray {
-                            if(allArray.count > 0) {
-                                let randomBus:NSDictionary = allArray[1] as! NSDictionary;
-                                let randomBus2:NSDictionary = randomBus["vehicle"] as! NSDictionary
-                                let positionSub:NSDictionary = randomBus2["position"] as! NSDictionary
-                                let tripSub:NSDictionary = randomBus2["trip"] as! NSDictionary
+                        if let allEntities = jsonResult!["entity"] as? NSArray {
+                            if(allEntities.count > 0) {
+                                let entity0:NSDictionary = allEntities[0] as! NSDictionary;
+                                let vehicle0:NSDictionary = entity0["vehicle"] as! NSDictionary
+                                let positionSub:NSDictionary = vehicle0["position"] as! NSDictionary
+                                let tripSub:NSDictionary = vehicle0["trip"] as! NSDictionary
                                 let route:String = tripSub["route_id"] as! String
-                                let lat:Double = positionSub["latitude"] as! Double
-                                let long:Double = positionSub ["longitude"] as! Double
+                                let newLatitude:Double = positionSub["latitude"] as! Double
+                                let newLongitude:Double = positionSub ["longitude"] as! Double
                                 
-                                
-                                if(lat != self.latitude || long != self.longitude) {
+                                if(newLatitude != self.latitude || newLongitude != self.longitude) {
                                     //values have changed since last pull, update global versions and restart stopwatch
                                     //self.startTime = NSTimeInterval() //update stopwatch
-                                    self.latitude = lat
-                                    self.longitude = long
+                                    self.latitude = newLatitude
+                                    self.longitude = newLongitude
                                     print("Update!")
                                     self.updateStopwatch()
                                     self.startTime = NSDate.timeIntervalSinceReferenceDate()
@@ -74,16 +73,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                                 dispatch_async(dispatch_get_main_queue(), {
                                     
                                     // Create annotation from lattitude and longitude
-                                    let coord: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: lat, longitude: long)
+                                    let coord: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: newLatitude, longitude: newLongitude)
                                     let annotation = MapPin(coordinate: coord, title: "Route" + route, subtitle: "")
                                     self.mapView.addAnnotation(annotation)
-                                    self.centerMapOnLocation(CLLocation(latitude: lat, longitude: long))
+                                    self.centerMapOnLocation(CLLocation(latitude: newLatitude, longitude: newLongitude))
                                     
                                 })
 
                                 print("Route ID: " + route)
-                                print("Lat: " + String(lat))
-                                print("Long:" + String(long))
+                                print("Lat: " + String(newLatitude))
+                                print("Long:" + String(newLongitude))
                                 print("")
                             } else {
                                 print("ERROR - Something wrong w/ JSON")
@@ -99,7 +98,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
 
     // Called by mapview when adding new annotation
-    func mapView(mapView: MKMapView, annotation: MapPin) -> MKPinAnnotationView {
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MapPin) -> MKPinAnnotationView! {
         // Remove all annotations from the map view
         self.mapView.removeAnnotations(self.mapView.annotations)
         let view:MKPinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "mcniff")
