@@ -1,5 +1,5 @@
 //
-//  MapPin.swift
+//  BusAnnotation.swift
 //  MapKit Playground
 //
 //  Created by Micah Peoples on 2/14/16.
@@ -8,7 +8,7 @@
 
 import MapKit
 
-class MapPin : NSObject, MKAnnotation
+class BusAnnotation : NSObject, MKAnnotation
 {
     var coordinate: CLLocationCoordinate2D
     var title: String?
