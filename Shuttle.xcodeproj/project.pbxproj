@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6485B59D1C77DBBA00AD7434 /* BusAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6485B59C1C77DBBA00AD7434 /* BusAnnotation.swift */; };
+		64BAAAC61C8747EB0056E2AF /* RoutesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BAAAC51C8747EB0056E2AF /* RoutesTableViewController.swift */; };
 		825485751C7402BA0023E1A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825485741C7402BA0023E1A5 /* AppDelegate.swift */; };
 		825485771C7402BA0023E1A5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825485761C7402BA0023E1A5 /* ViewController.swift */; };
 		8254857A1C7402BA0023E1A5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 825485781C7402BA0023E1A5 /* Main.storyboard */; };
@@ -21,6 +22,7 @@
 		122EE3CAA9B83A380B3DCD07 /* Pods-Shuttle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shuttle.release.xcconfig"; path = "Pods/Target Support Files/Pods-Shuttle/Pods-Shuttle.release.xcconfig"; sourceTree = "<group>"; };
 		30DE629B51D9989E775AFE34 /* Pods_Shuttle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Shuttle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6485B59C1C77DBBA00AD7434 /* BusAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusAnnotation.swift; sourceTree = "<group>"; };
+		64BAAAC51C8747EB0056E2AF /* RoutesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoutesTableViewController.swift; sourceTree = "<group>"; };
 		825485711C7402BA0023E1A5 /* Shuttle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shuttle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		825485741C7402BA0023E1A5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		825485761C7402BA0023E1A5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 				825485801C7402BA0023E1A5 /* LaunchScreen.storyboard */,
 				825485831C7402BA0023E1A5 /* Info.plist */,
 				8254857B1C7402BA0023E1A5 /* Shuttle.xcdatamodeld */,
+				64BAAAC51C8747EB0056E2AF /* RoutesTableViewController.swift */,
 			);
 			path = Shuttle;
 			sourceTree = "<group>";
@@ -221,6 +224,7 @@
 				825485771C7402BA0023E1A5 /* ViewController.swift in Sources */,
 				825485751C7402BA0023E1A5 /* AppDelegate.swift in Sources */,
 				8254857D1C7402BA0023E1A5 /* Shuttle.xcdatamodeld in Sources */,
+				64BAAAC61C8747EB0056E2AF /* RoutesTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
