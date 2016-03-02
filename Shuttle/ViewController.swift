@@ -17,6 +17,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var startTime = NSTimeInterval() //start stopwatch timer
     var latitude:Double = 0;
     var longitude:Double = 0;
+    var busDict = [String:AnyObject]()
 
     @IBOutlet weak var mapView: MKMapView!
     override func viewDidLoad() {
@@ -50,13 +51,56 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     if jsonResult != nil {
                         if let allEntities = jsonResult!["entity"] as? NSArray {
                             if(allEntities.count > 0) {
-                                let entity0:NSDictionary = allEntities[0] as! NSDictionary;
-                                let vehicle0:NSDictionary = entity0["vehicle"] as! NSDictionary
-                                let positionSub:NSDictionary = vehicle0["position"] as! NSDictionary
-                                let tripSub:NSDictionary = vehicle0["trip"] as! NSDictionary
-                                let route:String = tripSub["route_id"] as! String
-                                let newLatitude:Double = positionSub["latitude"] as! Double
-                                let newLongitude:Double = positionSub ["longitude"] as! Double
+                                
+                                // Populate busDict
+                                for bus in allEntities{
+                                    
+                                    var temp = [String:AnyObject]()
+                                    
+                                    temp["array_index"] = bus["id"]
+                                    temp["alert"]       = bus["alert"]
+                                    temp["is_deleted"]  = bus["is_deleted"]
+                                    
+                                    let vehicleSub:NSDictionary = bus["vehicle"] as! NSDictionary
+                                    temp["congestion_level"]      = vehicleSub["congestion_level"]
+                                    temp["current_status"]        = vehicleSub["current_status"]
+                                    temp["current_stop_sequence"] = vehicleSub["current_stop_sequence"]
+                                    
+                                    let positionSub:NSDictionary = vehicleSub["position"] as! NSDictionary
+                                    temp["bearing"]   = positionSub["bearing"]
+                                    temp["latitude"]  = positionSub["latitude"]
+                                    temp["longitude"] = positionSub["longitude"]
+                                    temp["odometer"]  = positionSub["odometer"]
+                                    temp["speed"]     = positionSub["speed"]
+                                    
+                                    temp["stop_id"]   = vehicleSub["stop_id"]
+                                    temp["timestamp"] = vehicleSub["timestamp"]
+                                    
+                                    let tripSub:NSDictionary = vehicleSub["trip"] as! NSDictionary
+                                    let route:String = tripSub["route_id"] as! String
+                                    
+                                    temp["route_id"]                    = tripSub["route_id"]
+                                    temp["trip_schedule_relationship"]  = tripSub["schedule_relationship"]
+                                    temp["trip_start_date"]             = tripSub["start_date"]
+                                    temp["trip_start_time"]             = tripSub["start_time"]
+                                    temp["trip_id"]                     = tripSub["speed"]
+                                    
+                                    let subVehicleSub:NSDictionary = vehicleSub["vehicle"] as! NSDictionary
+                                    temp["vehicle_id"]     = subVehicleSub["id"]
+                                    temp["vehicle_label"]  = subVehicleSub["label"]
+                                    temp["license_plate"]  = subVehicleSub["license_plate"]
+                                    
+                                    self.busDict[route] = temp
+                                    
+                                }
+                                
+//                                let entity0:NSDictionary = allEntities[0] as! NSDictionary;
+//                                let vehicle0:NSDictionary = entity0["vehicle"] as! NSDictionary
+//                                let positionSub:NSDictionary = vehicle0["position"] as! NSDictionary
+//                                let tripSub:NSDictionary = vehicle0["trip"] as! NSDictionary
+                                let route:String = self.busDict["642"]!["route_id"] as! String
+                                let newLatitude:Double = self.busDict["642"]!["latitude"] as! Double
+                                let newLongitude:Double = self.busDict["642"]!["longitude"] as! Double
                                 
                                 if(newLatitude != self.latitude || newLongitude != self.longitude) {
                                     //values have changed since last pull, update global versions and restart stopwatch
