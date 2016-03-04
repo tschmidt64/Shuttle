@@ -73,12 +73,12 @@
 				6485B59C1C77DBBA00AD7434 /* BusAnnotation.swift */,
 				825485761C7402BA0023E1A5 /* ViewController.swift */,
 				64BAAAC51C8747EB0056E2AF /* RoutesTableViewController.swift */,
+				6478531F1C88EC7E003B66C9 /* StopsTableViewController.swift */,
 				825485781C7402BA0023E1A5 /* Main.storyboard */,
 				8254857E1C7402BA0023E1A5 /* Assets.xcassets */,
 				825485801C7402BA0023E1A5 /* LaunchScreen.storyboard */,
 				825485831C7402BA0023E1A5 /* Info.plist */,
 				8254857B1C7402BA0023E1A5 /* Shuttle.xcdatamodeld */,
-				6478531F1C88EC7E003B66C9 /* StopsTableViewController.swift */,
 			);
 			path = Shuttle;
 			sourceTree = "<group>";
