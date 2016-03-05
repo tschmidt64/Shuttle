@@ -17,7 +17,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var startTime = NSTimeInterval() //start stopwatch timer
     var latitude:Double = 0;
     var longitude:Double = 0;
-    var busDict = [String:AnyObject]()
+    var busDict = [String:[AnyObject]]()
 
     @IBOutlet weak var mapView: MKMapView!
     override func viewDidLoad() {
@@ -90,17 +90,22 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                                     temp["vehicle_label"]  = subVehicleSub["label"]
                                     temp["license_plate"]  = subVehicleSub["license_plate"]
                                     
-                                    self.busDict[route] = temp
-                                    
+                                    if let existingEntry = self.busDict[route]{
+                                        self.busDict[route]!.append(temp)
+                                    } else {
+                                        self.busDict[route] = [AnyObject]()
+                                    }
                                 }
                                 
 //                                let entity0:NSDictionary = allEntities[0] as! NSDictionary;
 //                                let vehicle0:NSDictionary = entity0["vehicle"] as! NSDictionary
 //                                let positionSub:NSDictionary = vehicle0["position"] as! NSDictionary
 //                                let tripSub:NSDictionary = vehicle0["trip"] as! NSDictionary
-                                let route:String = self.busDict["642"]!["route_id"] as! String
-                                let newLatitude:Double = self.busDict["642"]!["latitude"] as! Double
-                                let newLongitude:Double = self.busDict["642"]!["longitude"] as! Double
+                                print(self.busDict["642"]!.count)
+                                let bus:NSDictionary = self.busDict["642"]![0] as! NSDictionary
+                                let route:String = bus["route_id"] as! String
+                                let newLatitude:Double = bus["latitude"] as! Double
+                                let newLongitude:Double = bus["longitude"] as! Double
                                 
                                 if(newLatitude != self.latitude || newLongitude != self.longitude) {
                                     //values have changed since last pull, update global versions and restart stopwatch
