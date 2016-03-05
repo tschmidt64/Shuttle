@@ -124,6 +124,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                                     // Create annotation from lattitude and longitude
                                     let coord: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: newLatitude, longitude: newLongitude)
                                     let annotation = BusAnnotation(coordinate: coord, title: "Route" + route, subtitle: "")
+                                    self.mapView.removeAnnotations(self.mapView.annotations)
                                     self.mapView.addAnnotation(annotation)
                                     self.centerMapOnLocation(CLLocation(latitude: newLatitude, longitude: newLongitude))
                                     
@@ -149,11 +150,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     // Called by mapview when adding new annotation
     func mapView(mapView: MKMapView, viewForAnnotation annotation: BusAnnotation) -> MKPinAnnotationView! {
         // Remove all annotations from the map view
-        self.mapView.removeAnnotations(self.mapView.annotations)
-        let view:MKPinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "mcniff")
+        var view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "mcniff")
         view.canShowCallout = true
         return view
     }
+    
+    
+    
     
     func updateStopwatch() {
         var currentTime = NSDate.timeIntervalSinceReferenceDate()
