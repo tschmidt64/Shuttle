@@ -11,7 +11,7 @@ import MapKit
 import ArcGIS
 
 
-class ViewController: UIViewController, CLLocationManagerDelegate {
+class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     var locationManager: CLLocationManager!
     let regionRadius: CLLocationDistance = 1000
     var startTime = NSTimeInterval() //start stopwatch timer
@@ -19,19 +19,41 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var longitude:Double = 0;
     //var busDict = [String:[AnyObject]]()
     var busDict = [String:AnyObject]()
+    var stopLat:Double = 0 //lattitude for selected stop
+    var stopLong:Double = 0 //longitude for selected stop
+    var stopName:String = ""
     
     @IBOutlet weak var mapView: MKMapView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        mapView.delegate = self
+        annotateStop()
         // Do any additional setup after loading the view, typically from a nib.
         self.startTime = NSDate.timeIntervalSinceReferenceDate()
-        let initialLocation = CLLocation(latitude: 30.302135, longitude: -97.740153)
-        centerMapOnLocation(initialLocation)
+        //let initialLocation = CLLocation(latitude: 30.302135, longitude: -97.740153)
+        //centerMapOnLocation(initialLocation)
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.startUpdatingLocation()
         getData()
         var timer = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: "getData", userInfo: nil, repeats: true)
+    }
+    
+    func annotateStop() {
+        // Create annotation from lattitude and longitude
+        // Have thread updating UI in foreground
+        dispatch_async(dispatch_get_main_queue(), {
+            let coord: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: self.stopLat, longitude: self.stopLong)
+            //let annotation = StopAnnotation(coordinate: coord, title: "Stop " + self.stopName, subtitle: "")
+            let annotation = StopPointAnnotation(coordinate: coord, title: "Stop at" + self.stopName, subtitle: "", img: "location-pin.png")
+            
+            //self.mapView.removeAnnotations(self.mapView.annotations)
+            self.mapView.addAnnotation(annotation)
+            print("after add stop annotation")
+            self.centerMapOnLocation(CLLocation(latitude: self.stopLat, longitude: self.stopLong)) //consider centering on stop instead
+        })
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -129,7 +151,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                                     let annotation = BusAnnotation(coordinate: coord, title: "Route" + route, subtitle: "")
                                     self.mapView.removeAnnotations(self.mapView.annotations)
                                     self.mapView.addAnnotation(annotation)
-                                    self.centerMapOnLocation(CLLocation(latitude: newLatitude, longitude: newLongitude))
+                                    //self.centerMapOnLocation(CLLocation(latitude: newLatitude, longitude: newLongitude)) //consider centering on stop instead
                                     
                                 })
 
@@ -151,12 +173,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
 
     // Called by mapview when adding new annotation
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: BusAnnotation) -> MKPinAnnotationView! {
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView! {
+        print("yo")
         // Remove all annotations from the map view
         var view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "mcniff")
         view.canShowCallout = true
+        view.pinTintColor = MKPinAnnotationView.greenPinColor()
+        //let ann = annotation as! StopPointAnnotation
+        //view.image = UIImage(named:ann.img)
+        
         return view
     }
+
     
     
     
