@@ -17,8 +17,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var startTime = NSTimeInterval() //start stopwatch timer
     var latitude:Double = 0;
     var longitude:Double = 0;
-    var busDict = [String:[AnyObject]]()
-
+    //var busDict = [String:[AnyObject]]()
+    var busDict = [String:AnyObject]()
+    
     @IBOutlet weak var mapView: MKMapView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,7 +52,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     if jsonResult != nil {
                         if let allEntities = jsonResult!["entity"] as? NSArray {
                             if(allEntities.count > 0) {
-                                
+                                print(allEntities)
                                 // Populate busDict
                                 for bus in allEntities{
                                     
@@ -90,19 +91,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                                     temp["vehicle_label"]  = subVehicleSub["label"]
                                     temp["license_plate"]  = subVehicleSub["license_plate"]
                                     
-                                    if let existingEntry = self.busDict[route]{
-                                        self.busDict[route]!.append(temp)
-                                    } else {
-                                        self.busDict[route] = [AnyObject]()
-                                    }
+//                                    if let existingEntry = self.busDict[route]{
+//                                        self.busDict[route]!.append(temp)
+//                                    } else {
+//                                        self.busDict[route] = [AnyObject]()
+//                                    }
+                                    self.busDict[route] = temp
                                 }
                                 
 //                                let entity0:NSDictionary = allEntities[0] as! NSDictionary;
 //                                let vehicle0:NSDictionary = entity0["vehicle"] as! NSDictionary
 //                                let positionSub:NSDictionary = vehicle0["position"] as! NSDictionary
 //                                let tripSub:NSDictionary = vehicle0["trip"] as! NSDictionary
-                                print(self.busDict["642"]!.count)
-                                let bus:NSDictionary = self.busDict["642"]![0] as! NSDictionary
+                                //print(self.busDict["642"]!.count)
+                                //let bus:NSDictionary = self.busDict["642"]![0] as! NSDictionary
+                                let bus:NSDictionary = self.busDict["642"] as! NSDictionary
                                 let route:String = bus["route_id"] as! String
                                 let newLatitude:Double = bus["latitude"] as! Double
                                 let newLongitude:Double = bus["longitude"] as! Double
