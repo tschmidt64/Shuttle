@@ -4,7 +4,6 @@ platform :ios, '9.2'
 use_frameworks!
 
 target 'Shuttle' do
-    pod 'ArcGIS-Runtime-SDK-iOS'
-    pod 'Firebase', '>= 2.5.0'
+    pod 'SwiftyJSON', :git => 'https://github.com/SwiftyJSON/SwiftyJSON.git'
 end
 

@@ -4,12 +4,12 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Firebase.xcscheme</key>
+		<key>Pods-Shuttle.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-Shuttle.xcscheme</key>
+		<key>SwiftyJSON.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -17,12 +17,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>B7AC9326D819482593FE118E915409D7</key>
+		<key>3845302953FCF5DF81232F5D332C81DD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>FBBE3D1EBA5F8CDCAD87834FDB95ECB7</key>
+		<key>88C90169879E84EF145E2A5992E1E4D1</key>
 		<dict>
 			<key>primary</key>
 			<true/>

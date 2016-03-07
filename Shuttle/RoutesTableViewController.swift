@@ -27,6 +27,7 @@ class RoutesTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -104,4 +105,5 @@ class RoutesTableViewController: UITableViewController {
         stopsTableView.curRoute = selectedRoute
         stopsTableView.curRouteStops = routes[selectedRoute]!
     }
+    
 }

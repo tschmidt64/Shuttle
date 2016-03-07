@@ -8,8 +8,8 @@
 
 import UIKit
 import MapKit
-import ArcGIS
-
+import SwiftyJSON
+import CoreLocation
 
 class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     var locationManager: CLLocationManager!
@@ -17,11 +17,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     var startTime = NSTimeInterval() //start stopwatch timer
     var latitude:Double = 0;
     var longitude:Double = 0;
-    //var busDict = [String:[AnyObject]]()
     var busDict = [String:AnyObject]()
-    var stopLat:Double = 0 //lattitude for selected stop
-    var stopLong:Double = 0 //longitude for selected stop
-    var stopName:String = ""
+    
+    var stopLat:  Double = 0  //lattitude for selected stop
+    var stopLong: Double = 0 //longitude for selected stop
+    var stopName: String = ""
     
     @IBOutlet weak var mapView: MKMapView!
     override func viewDidLoad() {
@@ -36,8 +36,59 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         locationManager.delegate = self
         locationManager.startUpdatingLocation()
         getData()
-        var timer = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: "getData", userInfo: nil, repeats: true)
+        _ = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: "getData", userInfo: nil, repeats: true)
+        
+        add640Route()
     }
+    
+    func add640Route() {
+        var coords = [CLLocationCoordinate2D]()
+        coords.append(CLLocationCoordinate2D(latitude: 30.283836, longitude: -97.741878))
+        coords.append(CLLocationCoordinate2D(latitude: 30.289812, longitude: -97.741363))
+        coords.append(CLLocationCoordinate2D(latitude: 30.289414, longitude: -97.736031))
+        coords.append(CLLocationCoordinate2D(latitude: 30.289210, longitude: -97.732727))
+        coords.append(CLLocationCoordinate2D(latitude: 30.289312, longitude: -97.731407))
+        coords.append(CLLocationCoordinate2D(latitude: 30.289321, longitude: -97.731016))
+        coords.append(CLLocationCoordinate2D(latitude: 30.289173, longitude: -97.730305))
+        coords.append(CLLocationCoordinate2D(latitude: 30.288930, longitude: -97.729726))
+        coords.append(CLLocationCoordinate2D(latitude: 30.288687, longitude: -97.729388))
+        coords.append(CLLocationCoordinate2D(latitude: 30.288338, longitude: -97.729157))
+        coords.append(CLLocationCoordinate2D(latitude: 30.287856, longitude: -97.729629))
+        coords.append(CLLocationCoordinate2D(latitude: 30.287532, longitude: -97.729886))
+        coords.append(CLLocationCoordinate2D(latitude: 30.285077, longitude: -97.730658))
+        coords.append(CLLocationCoordinate2D(latitude: 30.285318, longitude: -97.733705))
+        coords.append(CLLocationCoordinate2D(latitude: 30.283502, longitude: -97.734064))
+        coords.append(CLLocationCoordinate2D(latitude: 30.283233, longitude: -97.734032))
+        coords.append(CLLocationCoordinate2D(latitude: 30.283813, longitude: -97.741895))
+        let polyline = MKPolyline(coordinates: &coords, count: coords.count)
+        self.mapView.addOverlay(polyline)
+    }
+    
+    func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
+        if overlay is MKPolyline {
+            var polyRenderer = MKPolylineRenderer(overlay: overlay)
+            polyRenderer.strokeColor = UIColor.blueColor()
+            polyRenderer.lineWidth = 2
+            return polyRenderer
+        }
+        return nil
+    }
+    
+    func getCoordsFromStr() -> [CLLocationCoordinate2D] {
+        var coords = [CLLocationCoordinate2D]()
+        if let dataFromStr = routeData640.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+            let json = JSON(data: dataFromStr)
+            for (_, val):(String, JSON) in json {
+                let points = val["geometry"]["coordinates"].arrayObject as! [Double]
+                let coord = CLLocationCoordinate2D(latitude: points[0], longitude: points[1])
+                coords.append(coord)
+            }
+            print(coords)
+        }
+        return coords
+    }
+    
+    
     
     func annotateStop() {
         // Create annotation from lattitude and longitude
@@ -238,6 +289,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         checkLocationAuthorizationStatus()
     }
 
+    var routeData640 = "[{ \"type\": \"Feature\", \"properties\": { \"ID\": 4136, \"STOPNAME\": \"300 21ST SAN JACINTO\", \"ONSTREET\": \"21ST\", \"ATSTREET\": \"SAN JACINTO\" }, \"geometry\": { \"type\": \"Point\", \"coordinates\": [ 3116788.6417877, 10076357.069287 ] } }, { \"type\": \"Feature\", \"properties\": { \"ID\": 3750, \"STOPNAME\": \"400 23RD SAN JACINTO\", \"ONSTREET\": \"23RD\", \"ATSTREET\": \"SAN JACINTO\" }, \"geometry\": { \"type\": \"Point\", \"coordinates\": [ 3117101.130664, 10077110.572374 ] } }, { \"type\": \"Feature\", \"properties\": { \"ID\": 4143, \"STOPNAME\": \"ROBERT DEDMAN TRINITY\", \"ONSTREET\": \"ROBERT DEDMAN\", \"ATSTREET\": \"TRINITY\" }, \"geometry\": { \"type\": \"Point\", \"coordinates\": [ 3118165.3047168, 10077858.024947 ] } }, { \"type\": \"Feature\", \"properties\": { \"ID\": 2005, \"STOPNAME\": \"701 DEAN KEETON SAN JACINTO\", \"ONSTREET\": \"DEAN KEETON\", \"ATSTREET\": \"SAN JACINTO\" }, \"geometry\": { \"type\": \"Point\", \"coordinates\": [ 3117688.2784399, 10078481.421666 ] } }, { \"type\": \"Feature\", \"properties\": { \"ID\": 5438, \"STOPNAME\": \"305 DEAN KEETON SAN JACINTO\", \"ONSTREET\": \"DEAN KEETON\", \"ATSTREET\": \"SAN JACINTO\" }, \"geometry\": { \"type\": \"Point\", \"coordinates\": [ 3116537.8693234, 10078500.28613 ] } }, { \"type\": \"Feature\", \"properties\": { \"ID\": 3512, \"STOPNAME\": \"201 DEAN KEETON UNIVERSITY\", \"ONSTREET\": \"DEAN KEETON\", \"ATSTREET\": \"UNIVERSITY\" }, \"geometry\": { \"type\": \"Point\", \"coordinates\": [ 3115235.3735688, 10078584.577628 ] } }, { \"type\": \"Feature\", \"properties\": { \"ID\": 1042, \"STOPNAME\": \"2231 GUADALUPE WEST MALL UT\", \"ONSTREET\": \"GUADALUPE\", \"ATSTREET\": \"WEST MALL UT\" }, \"geometry\": { \"type\": \"Point\", \"coordinates\": [ 3114542.7552034, 10077186.693284 ] } }, { \"type\": \"Feature\", \"properties\": { \"ID\": 2780, \"STOPNAME\": \"21ST WHITIS MID-BLOCK\", \"ONSTREET\": \"21ST\", \"ATSTREET\": \"WHITIS\" }, \"geometry\": { \"type\": \"Point\", \"coordinates\": [ 3114708.615764, 10076501.782909 ] } }, { \"type\": \"Feature\", \"properties\": { \"ID\": 5207, \"STOPNAME\": \"21ST SPEEDWAY\", \"ONSTREET\": \"21ST\", \"ATSTREET\": \"SPEEDWAY\" }, \"geometry\": { \"type\": \"Point\", \"coordinates\": [ 3115964.0200774, 10076403.71552 ] } }]"
 
 
 
