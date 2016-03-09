@@ -20,4 +20,9 @@ class BusAnnotation : NSObject, MKAnnotation
         self.title = title
         self.subtitle = subtitle
     }
+    
+    func pinColor() -> UIColor
+    {
+        return UIColor.redColor()
+    }
 }
