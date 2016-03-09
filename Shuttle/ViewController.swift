@@ -19,9 +19,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     var longitude:Double = 0;
     var busDict = [String:AnyObject]()
     
+    
     var stopLat:  Double = 0  //lattitude for selected stop
     var stopLong: Double = 0 //longitude for selected stop
     var stopName: String = ""
+    var stopAnnotation: StopPointAnnotation!
     
     @IBOutlet weak var mapView: MKMapView!
     override func viewDidLoad() {
@@ -96,10 +98,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         dispatch_async(dispatch_get_main_queue(), {
             let coord: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: self.stopLat, longitude: self.stopLong)
             //let annotation = StopAnnotation(coordinate: coord, title: "Stop " + self.stopName, subtitle: "")
-            let annotation = StopPointAnnotation(coordinate: coord, title: "Stop at" + self.stopName, subtitle: "", img: "location-pin.png")
-            
+            self.stopAnnotation = StopPointAnnotation(coordinate: coord, title: "Stop at " + self.stopName, subtitle: "", img: "location-pin.png")
             //self.mapView.removeAnnotations(self.mapView.annotations)
-            self.mapView.addAnnotation(annotation)
+            self.mapView.addAnnotation(self.stopAnnotation)
             print("after add stop annotation")
             self.centerMapOnLocation(CLLocation(latitude: self.stopLat, longitude: self.stopLong)) //consider centering on stop instead
         })
@@ -125,7 +126,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                     if jsonResult != nil {
                         if let allEntities = jsonResult!["entity"] as? NSArray {
                             if(allEntities.count > 0) {
-                                print(allEntities)
                                 // Populate busDict
                                 for bus in allEntities{
                                     
@@ -178,7 +178,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
 //                                let tripSub:NSDictionary = vehicle0["trip"] as! NSDictionary
                                 //print(self.busDict["642"]!.count)
                                 //let bus:NSDictionary = self.busDict["642"]![0] as! NSDictionary
-                                let bus:NSDictionary = self.busDict["642"] as! NSDictionary
+                                let bus:NSDictionary = self.busDict["640"] as! NSDictionary
                                 let route:String = bus["route_id"] as! String
                                 let newLatitude:Double = bus["latitude"] as! Double
                                 let newLongitude:Double = bus["longitude"] as! Double
@@ -202,8 +202,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                                     let annotation = BusAnnotation(coordinate: coord, title: "Route" + route, subtitle: "")
                                     self.mapView.removeAnnotations(self.mapView.annotations)
                                     self.mapView.addAnnotation(annotation)
+                                    self.mapView.addAnnotation(self.stopAnnotation)
                                     //self.centerMapOnLocation(CLLocation(latitude: newLatitude, longitude: newLongitude)) //consider centering on stop instead
-                                    
                                 })
 
                                 print("Route ID: " + route)
@@ -225,11 +225,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
 
     // Called by mapview when adding new annotation
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView! {
-        print("yo")
-        // Remove all annotations from the map view
-        var view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "mcniff")
+        var view: MKPinAnnotationView
+        if(annotation.isKindOfClass(StopPointAnnotation)){
+            view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "stop")
+            view.pinTintColor = MKPinAnnotationView.greenPinColor()
+        } else {
+            view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "bus")
+            view.pinTintColor = MKPinAnnotationView.redPinColor()
+        }
         view.canShowCallout = true
-        view.pinTintColor = MKPinAnnotationView.greenPinColor()
         //let ann = annotation as! StopPointAnnotation
         //view.image = UIImage(named:ann.img)
         
