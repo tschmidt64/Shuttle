@@ -112,6 +112,7 @@ class StopsTableViewController: UITableViewController {
         vc.stopLat =  stop["lat"] as! Double
         vc.stopLong = stop["long"] as! Double
         vc.stopName = stop["name"] as! String
+        vc.routeNum = curRoute
     }
 
     
