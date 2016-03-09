@@ -199,7 +199,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                                     
                                     // Create annotation from lattitude and longitude
                                     let coord: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: newLatitude, longitude: newLongitude)
-                                    let annotation = BusAnnotation(coordinate: coord, title: "Route" + route, subtitle: "")
+                                    let annotation = BusAnnotation(coordinate: coord, title: "Route " + route, subtitle: "")
                                     self.mapView.removeAnnotations(self.mapView.annotations)
                                     self.mapView.addAnnotation(annotation)
                                     self.mapView.addAnnotation(self.stopAnnotation)
@@ -226,7 +226,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     // Called by mapview when adding new annotation
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView! {
         var view: MKPinAnnotationView
-        if(annotation.isKindOfClass(StopPointAnnotation)){
+        if(annotation is StopPointAnnotation){
             view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "stop")
             view.pinTintColor = MKPinAnnotationView.greenPinColor()
         } else {
