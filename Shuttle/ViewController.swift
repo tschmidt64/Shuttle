@@ -18,6 +18,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     var latitude:Double = 0;
     var longitude:Double = 0;
     var busDict = [String:AnyObject]()
+    var buses = [CLLocationCoordinate2D]()
     
     var stopLat:  Double = 0  //lattitude for selected stop
     var stopLong: Double = 0 //longitude for selected stop
@@ -39,7 +40,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         locationManager.delegate = self
         locationManager.startUpdatingLocation()
         getData()
-        _ = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: "getData", userInfo: nil, repeats: true)
+        _ = NSTimer.scheduledTimerWithTimeInterval(15, target: self, selector: "getData", userInfo: nil, repeats: true)
         
         add640Route()
         print(self.routeNum)
@@ -70,7 +71,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
         if overlay is MKPolyline {
-            var polyRenderer = MKPolylineRenderer(overlay: overlay)
+            let polyRenderer = MKPolylineRenderer(overlay: overlay)
             polyRenderer.strokeColor = UIColor(red: 0.5703125, green: 0.83203125, blue: 0.63671875, alpha: 0.8)
             polyRenderer.lineWidth = 5
             return polyRenderer
@@ -115,112 +116,53 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
 
     func getData() {
-        let urlPath = "https://data.texas.gov/download/cuc7-ywmd/text/plain"
-        let url:NSURL? = NSURL(string: urlPath)
-        let session = NSURLSession.sharedSession()
-        let task = session.dataTaskWithURL(url!) { (data, response, error) -> Void in
+        let newUrlString = "http://52.88.82.199:8080/onebusaway-api-webapp/api/where/trips-for-route/1_640.json?key=TEST&includeSchedules=true&includeStatus=true&_=50000"
+        
+        let newURL = NSURL(string: newUrlString)
+        var busLocations = [CLLocationCoordinate2D]()
+        let newSession = NSURLSession.sharedSession()
+        let newTask = newSession.dataTaskWithURL(newURL!) { (data, response, error) -> Void in
             if error != nil {
-                print("error found")
+                print("ERROR FOUND")
             } else {
-                do {
-                    let jsonResult = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as? NSDictionary
-                    if jsonResult != nil {
-                        if let allEntities = jsonResult!["entity"] as? NSArray {
-                            if(allEntities.count > 0) {
-                                // Populate busDict
-                                for bus in allEntities{
-                                    
-                                    var temp = [String:AnyObject]()
-                                    
-                                    temp["array_index"] = bus["id"]
-                                    temp["alert"]       = bus["alert"]
-                                    temp["is_deleted"]  = bus["is_deleted"]
-                                    
-                                    let vehicleSub:NSDictionary = bus["vehicle"] as! NSDictionary
-                                    temp["congestion_level"]      = vehicleSub["congestion_level"]
-                                    temp["current_status"]        = vehicleSub["current_status"]
-                                    temp["current_stop_sequence"] = vehicleSub["current_stop_sequence"]
-                                    
-                                    let positionSub:NSDictionary = vehicleSub["position"] as! NSDictionary
-                                    temp["bearing"]   = positionSub["bearing"]
-                                    temp["latitude"]  = positionSub["latitude"]
-                                    temp["longitude"] = positionSub["longitude"]
-                                    temp["odometer"]  = positionSub["odometer"]
-                                    temp["speed"]     = positionSub["speed"]
-                                    
-                                    temp["stop_id"]   = vehicleSub["stop_id"]
-                                    temp["timestamp"] = vehicleSub["timestamp"]
-                                    
-                                    let tripSub:NSDictionary = vehicleSub["trip"] as! NSDictionary
-                                    let route:String = tripSub["route_id"] as! String
-                                    
-                                    temp["route_id"]                    = tripSub["route_id"]
-                                    temp["trip_schedule_relationship"]  = tripSub["schedule_relationship"]
-                                    temp["trip_start_date"]             = tripSub["start_date"]
-                                    temp["trip_start_time"]             = tripSub["start_time"]
-                                    temp["trip_id"]                     = tripSub["speed"]
-                                    
-                                    let subVehicleSub:NSDictionary = vehicleSub["vehicle"] as! NSDictionary
-                                    temp["vehicle_id"]     = subVehicleSub["id"]
-                                    temp["vehicle_label"]  = subVehicleSub["label"]
-                                    temp["license_plate"]  = subVehicleSub["license_plate"]
-                                    
-                                    self.busDict[route] = temp
-                                }
-
-                                let bus:NSDictionary = self.busDict[self.routeNum] as! NSDictionary
-                                let route:String = bus["route_id"] as! String
-                                let newLatitude:Double = bus["latitude"] as! Double
-                                let newLongitude:Double = bus["longitude"] as! Double
-                                
-                                if(newLatitude != self.latitude || newLongitude != self.longitude) {
-                                    //values have changed since last pull, update global versions and restart stopwatch
-                                    //self.startTime = NSTimeInterval() //update stopwatch
-                                    self.latitude = newLatitude
-                                    self.longitude = newLongitude
-                                    print("Update!")
-                                    self.updateStopwatch()
-                                    self.startTime = NSDate.timeIntervalSinceReferenceDate()
-                                }
-
-                                
-                                // Have thread updating UI in foreground
-                                dispatch_async(dispatch_get_main_queue(), {
-                                    
-                                    // Create annotation from lattitude and longitude
-                                    let coord: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: newLatitude, longitude: newLongitude)
-                                    let annotation = BusAnnotation(coordinate: coord, title: "Route " + route, subtitle: "")
-                                    self.mapView.removeAnnotations(self.mapView.annotations)
-                                    self.mapView.addAnnotation(annotation)
-                                    self.mapView.addAnnotation(self.stopAnnotation)
-                                    //self.centerMapOnLocation(CLLocation(latitude: newLatitude, longitude: newLongitude)) //consider centering on stop instead
-                                })
-
-                                print("Route ID: " + route)
-                                print("Lat: " + String(newLatitude))
-                                print("Long:" + String(newLongitude))
-                                print("")
-                            } else {
-                                print("ERROR - Something wrong w/ JSON")
-                            }
-                        }
-                    }
-                } catch {
-                    print("Exception found")
+                let json = JSON(data: data!)
+                let newData = json["data", "list"]
+                for (_, subJson):(String, JSON) in newData {
+                    let bus = subJson["status", "position"].dictionaryValue
+                    let lat = bus["lat"]!.double!
+                    let lon = bus["lon"]!.double!
+                    busLocations.append(CLLocationCoordinate2D(latitude: lat, longitude: lon))
                 }
+                self.buses = busLocations
+                
+                self.updateStopwatch()
+                self.startTime = NSDate.timeIntervalSinceReferenceDate()
+                
+                // Have thread updating UI in foreground
+                dispatch_async(dispatch_get_main_queue(), {
+                    
+                    // Create annotation from lattitude and longitude
+                    self.mapView.removeAnnotations(self.mapView.annotations)
+                    for (index, busCoord) in self.buses.enumerate() {
+                        let annotation = BusAnnotation(coordinate: busCoord, title: "Bus 640", subtitle: "\(index)")
+                        self.mapView.addAnnotation(annotation)
+                    }
+                    self.mapView.addAnnotation(self.stopAnnotation)
+                })
             }
+            
         }
-        task.resume() // start the request */
+        newTask.resume()
     }
 
     // Called by mapview when adding new annotation
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView! {
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         var view: MKPinAnnotationView
         if(annotation is StopPointAnnotation){
-            view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "stop")
+            view = MKPinAnnotationView(annotation: annotation as! StopPointAnnotation, reuseIdentifier: "stop")
             view.pinTintColor = MKPinAnnotationView.greenPinColor()
         } else {
-            view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "bus")
+            view = MKPinAnnotationView(annotation: annotation as! BusAnnotation, reuseIdentifier: "bus")
             view.pinTintColor = MKPinAnnotationView.redPinColor()
         }
         view.canShowCallout = true
@@ -235,7 +177,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     
     func updateStopwatch() {
-        var currentTime = NSDate.timeIntervalSinceReferenceDate()
+        let currentTime = NSDate.timeIntervalSinceReferenceDate()
         
         //Find the difference between current time and start time.
         
@@ -255,12 +197,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         elapsedTime -= NSTimeInterval(seconds)
         
         //add the leading zero for minutes, seconds and millseconds and store them as string constants
-        
+        /*
         let strMinutes = String(format: "%02d", minutes)
         let strSeconds = String(format: "%02d", seconds)
         
         print(strMinutes)
         print(strSeconds)
+        */
     }
 
 

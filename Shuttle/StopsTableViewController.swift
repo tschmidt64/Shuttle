@@ -51,7 +51,7 @@ class StopsTableViewController: UITableViewController {
 
         let stopId:String = curRouteStops[indexPath.row]
         let stop = stops[stopId]
-        cell.textLabel!.text = stop!["name"] as! String
+        cell.textLabel!.text = stop!["name"] as? String
         return cell
     }
     
