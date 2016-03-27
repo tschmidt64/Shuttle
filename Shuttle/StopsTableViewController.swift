@@ -64,10 +64,19 @@ class StopsTableViewController: UITableViewController {
         if let path = NSBundle.mainBundle().pathForResource(filePath, ofType: "json") {
             if let data = NSData(contentsOfFile: path) {
                 let json = JSON(data: data, options: NSJSONReadingOptions.AllowFragments, error: nil)
-                //iterate through all stops in this array
-                //put the stops on the map w/ name
-                //
-                print("jsonData:\(json)")
+                for (_, stop) in json {
+                    
+                    let lat = Double(stop["stop_lat"].stringValue)!
+                    let long  = Double(stop["stop_lon"].stringValue)!
+                    let name = stop["name"].stringValue
+                    let stopID:Int = Int(stop["stop_id"].stringValue)!
+                    print("lat \(lat)")
+                    print("long \(long)")
+                    print("name \(name)")
+                    print("stopID \(stopID)")
+                    //coords.append(CLLocationCoordinate2D(latitude: lat, longitude: long)
+                    //print("jsonData:\(json)")
+                }
             }
         }
     }
