@@ -128,7 +128,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                 let json = JSON(data: data!)
                 let newData = json["data", "list"]
                 for (_, subJson):(String, JSON) in newData {
-                    let bus = subJson["status", "position"].dictionaryValue
+                    let bus = subJson["status", "lastKnownLocation"].dictionaryValue
                     let lat = bus["lat"]!.double!
                     let lon = bus["lon"]!.double!
                     busLocations.append(CLLocationCoordinate2D(latitude: lat, longitude: lon))
