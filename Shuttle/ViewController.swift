@@ -27,6 +27,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     var routeNum: String = ""
     
+    var routePoints = [CLLocationCoordinate2D]()
+    
     @IBOutlet weak var mapView: MKMapView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,10 +42,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         locationManager.delegate = self
         locationManager.startUpdatingLocation()
         getData()
-        _ = NSTimer.scheduledTimerWithTimeInterval(15, target: self, selector: "getData", userInfo: nil, repeats: true)
+        _ = NSTimer.scheduledTimerWithTimeInterval(15, target: self, selector: #selector(ViewController.getData), userInfo: nil, repeats: true)
         
-        add640Route()
+        //add640Route()
+        addRoutePolyline()
         print(self.routeNum)
+    }
+    
+    func addRoutePolyline() {
+        let polyline = MKPolyline(coordinates: &self.routePoints, count: self.routePoints.count)
+        self.mapView.addOverlay(polyline)
     }
     
     func add640Route() {
@@ -65,6 +73,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         coords.append(CLLocationCoordinate2D(latitude: 30.283502, longitude: -97.734064))
         coords.append(CLLocationCoordinate2D(latitude: 30.283233, longitude: -97.734032))
         coords.append(CLLocationCoordinate2D(latitude: 30.283813, longitude: -97.741895))
+        print(coords)
         let polyline = MKPolyline(coordinates: &coords, count: coords.count)
         self.mapView.addOverlay(polyline)
     }

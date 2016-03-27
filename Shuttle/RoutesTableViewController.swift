@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 import SwiftyJSON
 
 class RoutesTableViewController: UITableViewController {
@@ -19,7 +20,6 @@ class RoutesTableViewController: UITableViewController {
         //this adds all the routes stop ID's
         routes["640"] = ["4136", "3750", "2005", "4143", "5438", "3512", "1042", "2780", "5207"]
         routeKeys = [String](routes.keys)
-
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -34,15 +34,26 @@ class RoutesTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func getPolyLineForRoute(routeNum: String) {
-        var coords = []
+    func getPolyLineForRoute(routeNum: String, direction: String) -> [CLLocationCoordinate2D] {
+        print(routeNum)
+        var coords = [CLLocationCoordinate2D]()
         
-        if let path = NSBundle.mainBundle().pathForResource("routes/shapes_" + routeNum + "_0", ofType: "json") {
+        if let path = NSBundle.mainBundle().pathForResource("routes/shapes_" + routeNum + "_" + direction, ofType: "json") {
             if let data = NSData(contentsOfFile: path) {
                 let json = JSON(data: data, options: NSJSONReadingOptions.AllowFragments, error: nil)
-                print("jsonData:\(json)")
+                //coords.append(CLLocationCoordinate2D(latitude: <#T##CLLocationDegrees#>, longitude: <#T##CLLocationDegrees#>)
+                for (_, point) in json {
+                    
+                    let lat = Double(point["shape_pt_lat"].stringValue)!
+                    let long  = Double(point["shape_pt_lon"].stringValue)!
+                    coords.append(CLLocationCoordinate2D(latitude: lat, longitude: long))
+
+                }
+
+                //print(coords)
             }
         }
+        return coords;
     }
     
 
@@ -115,6 +126,7 @@ class RoutesTableViewController: UITableViewController {
         //pass selected route into viewcontroller by sending the string for the route and the array for the route
         let stopsTableView:StopsTableViewController = segue.destinationViewController as! StopsTableViewController
         let selectedRoute:String = routeKeys[index!]
+        stopsTableView.routePoints = getPolyLineForRoute(selectedRoute, direction: "0")
         stopsTableView.curRoute = selectedRoute
         stopsTableView.curRouteStops = routes[selectedRoute]!
     }

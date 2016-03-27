@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftyJSON
+import CoreLocation
 
 class StopsTableViewController: UITableViewController {
     //stops dictionary contains all of the stops key:value = stopID:stopDictionary
@@ -18,6 +19,7 @@ class StopsTableViewController: UITableViewController {
     var curRouteStops = [String]() //this is the array that all the stops for curRoute will be displayed and used to reference the stops dictionary to display the stop names, etc.
     var stops = [String:AnyObject]()
     var tempStop = [String:AnyObject]()
+    var routePoints = [CLLocationCoordinate2D]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -128,6 +130,7 @@ class StopsTableViewController: UITableViewController {
         vc.stopLong = stop["long"] as! Double
         vc.stopName = stop["name"] as! String
         vc.routeNum = curRoute
+        vc.routePoints = routePoints
     }
 
     
