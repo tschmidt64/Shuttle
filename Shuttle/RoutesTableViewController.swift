@@ -13,12 +13,28 @@ import SwiftyJSON
 class RoutesTableViewController: UITableViewController {
     //will be dictionary of arrays which comprise of a bus's stop ID's for use in acccesing the bus's stops.
     var routes = [String:[String]]()
+    var routeList = [Int]()
     var routeKeys = [String]()
     override func viewDidLoad() {
         super.viewDidLoad()
         //in prepare for segue, going to pass selected route's dictionary to the stops view controllers.
         //this adds all the routes stop ID's
         routes["640"] = ["4136", "3750", "2005", "4143", "5438", "3512", "1042", "2780", "5207"]
+        
+/*
+ 642 WC West Campus/UT
+ 653 RR Red River/UT
+ 656 IF Intramural Fields/UT
+ 661 FW Far West/UT
+ 663 LA Lake Austin/UT
+ 640 FA Forty Acres
+ 641 EC East Campus
+ 670 CP Crossing Place
+ 671 NR North Riverside
+ 672 LS Lakeshore
+ 680 NR/LS North Riverside/Lakeshore
+ 681 IF/FW Intramural/Far West
+*/
         routeKeys = [String](routes.keys)
         
         // Uncomment the following line to preserve selection between presentations
