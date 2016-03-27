@@ -34,7 +34,7 @@ class RoutesTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func getPolyLineForRoute(routeNum: String, direction: String) -> [CLLocationCoordinate2D] {
+    func getCoordsForRoute(routeNum: String, direction: String) -> [CLLocationCoordinate2D] {
         print(routeNum)
         var coords = [CLLocationCoordinate2D]()
         
@@ -126,7 +126,7 @@ class RoutesTableViewController: UITableViewController {
         //pass selected route into viewcontroller by sending the string for the route and the array for the route
         let stopsTableView:StopsTableViewController = segue.destinationViewController as! StopsTableViewController
         let selectedRoute:String = routeKeys[index!]
-        stopsTableView.routePoints = getPolyLineForRoute(selectedRoute, direction: "0")
+        stopsTableView.routePoints = getCoordsForRoute(selectedRoute, direction: "0")
         stopsTableView.curRoute = selectedRoute
         stopsTableView.curRouteStops = routes[selectedRoute]!
     }
