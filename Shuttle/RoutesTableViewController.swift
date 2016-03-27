@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class RoutesTableViewController: UITableViewController {
     //will be dictionary of arrays which comprise of a bus's stop ID's for use in acccesing the bus's stops.
@@ -32,6 +33,18 @@ class RoutesTableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func getPolyLineForRoute(routeNum: String) {
+        var coords = []
+        
+        if let path = NSBundle.mainBundle().pathForResource("routes/shapes_" + routeNum + "_0", ofType: "json") {
+            if let data = NSData(contentsOfFile: path) {
+                let json = JSON(data: data, options: NSJSONReadingOptions.AllowFragments, error: nil)
+                print("jsonData:\(json)")
+            }
+        }
+    }
+    
 
     // MARK: - Table view data source
 
