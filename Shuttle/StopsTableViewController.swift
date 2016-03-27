@@ -21,7 +21,7 @@ class StopsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        popRouteObj(640, direction: 1)
+        popRouteObj(640, direction: 0)
         generateStops()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -58,10 +58,13 @@ class StopsTableViewController: UITableViewController {
     }
     
     func popRouteObj(route:Int, direction:Int) {
-        var file = "stops_" + String(route) + "_" + String(direction)
-        if let path = NSBundle.mainBundle().pathForResource("stops/stops_640_0", ofType: "json") {
+        let filePath:String = "stops/stops_" + String(route) + "_" + String(direction)
+        if let path = NSBundle.mainBundle().pathForResource(filePath, ofType: "json") {
             if let data = NSData(contentsOfFile: path) {
                 let json = JSON(data: data, options: NSJSONReadingOptions.AllowFragments, error: nil)
+                //iterate through all stops in this array
+                //put the stops on the map w/ name
+                //
                 print("jsonData:\(json)")
             }
         }
