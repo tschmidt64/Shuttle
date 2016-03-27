@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		64265DE01C8CB3DC00876484 /* StopAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64265DDF1C8CB3DC00876484 /* StopAnnotation.swift */; };
 		64265DE21C8CC20200876484 /* StopPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64265DE11C8CC20200876484 /* StopPointAnnotation.swift */; };
+		6475B1841CA87DBF00B36F4C /* routes in Resources */ = {isa = PBXBuildFile; fileRef = 6475B1821CA87DBF00B36F4C /* routes */; };
+		6475B1851CA87DBF00B36F4C /* stops in Resources */ = {isa = PBXBuildFile; fileRef = 6475B1831CA87DBF00B36F4C /* stops */; };
 		647853201C88EC7E003B66C9 /* StopsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6478531F1C88EC7E003B66C9 /* StopsTableViewController.swift */; };
 		6485B59D1C77DBBA00AD7434 /* BusAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6485B59C1C77DBBA00AD7434 /* BusAnnotation.swift */; };
 		64BAAAC61C8747EB0056E2AF /* RoutesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BAAAC51C8747EB0056E2AF /* RoutesTableViewController.swift */; };
@@ -26,6 +28,8 @@
 		30DE629B51D9989E775AFE34 /* Pods_Shuttle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Shuttle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		64265DDF1C8CB3DC00876484 /* StopAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StopAnnotation.swift; sourceTree = "<group>"; };
 		64265DE11C8CC20200876484 /* StopPointAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StopPointAnnotation.swift; sourceTree = "<group>"; };
+		6475B1821CA87DBF00B36F4C /* routes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = routes; sourceTree = "<group>"; };
+		6475B1831CA87DBF00B36F4C /* stops */ = {isa = PBXFileReference; lastKnownFileType = folder; path = stops; sourceTree = "<group>"; };
 		6478531F1C88EC7E003B66C9 /* StopsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StopsTableViewController.swift; sourceTree = "<group>"; };
 		6485B59C1C77DBBA00AD7434 /* BusAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusAnnotation.swift; sourceTree = "<group>"; };
 		64BAAAC51C8747EB0056E2AF /* RoutesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoutesTableViewController.swift; sourceTree = "<group>"; };
@@ -58,6 +62,8 @@
 				825485731C7402BA0023E1A5 /* Shuttle */,
 				825485721C7402BA0023E1A5 /* Products */,
 				CC6956C30AD29FACAFE2DBBE /* Pods */,
+				6475B1821CA87DBF00B36F4C /* routes */,
+				6475B1831CA87DBF00B36F4C /* stops */,
 				BB9D8FC6DE53DC4203BA41E7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -168,8 +174,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6475B1841CA87DBF00B36F4C /* routes in Resources */,
 				825485821C7402BA0023E1A5 /* LaunchScreen.storyboard in Resources */,
 				8254857F1C7402BA0023E1A5 /* Assets.xcassets in Resources */,
+				6475B1851CA87DBF00B36F4C /* stops in Resources */,
 				8254857A1C7402BA0023E1A5 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
