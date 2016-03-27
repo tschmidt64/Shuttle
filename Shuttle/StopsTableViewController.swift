@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class StopsTableViewController: UITableViewController {
     //stops dictionary contains all of the stops key:value = stopID:stopDictionary
@@ -20,6 +21,7 @@ class StopsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        popRouteObj(640, direction: 1)
         generateStops()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -53,6 +55,16 @@ class StopsTableViewController: UITableViewController {
         let stop = stops[stopId]
         cell.textLabel!.text = stop!["name"] as? String
         return cell
+    }
+    
+    func popRouteObj(route:Int, direction:Int) {
+        var file = "stops_" + String(route) + "_" + String(direction)
+        if let path = NSBundle.mainBundle().pathForResource("stops/stops_640_0", ofType: "json") {
+            if let data = NSData(contentsOfFile: path) {
+                let json = JSON(data: data, options: NSJSONReadingOptions.AllowFragments, error: nil)
+                print("jsonData:\(json)")
+            }
+        }
     }
     
 
