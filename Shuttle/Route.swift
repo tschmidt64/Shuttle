@@ -18,9 +18,13 @@ class Route {
 
     init(routeNum rNum: Int) {
         self.routeNum = rNum
-        refreshBuses()
-        refreshRouteCoords()
-        refreshStopCoords()
+        self.refreshAll()
+    }
+    
+    func refreshAll() {
+        self.refreshBuses()
+        self.refreshRouteCoords()
+        self.refreshStopCoords()
     }
     
     /*
@@ -54,10 +58,16 @@ class Route {
         newTask.resume()
     }
     
+    /*
+     This refreshes the array self.routeCoords with the most recent data available
+     */
     func refreshRouteCoords() {
         // This is where Micah's code to fetch routes goes
     }
     
+    /*
+     This refreshes the array self.stopCoords with the most recent data available
+     */
     func refreshStopCoords() {
         // This is where Julio's code to fetch stops goes
     }
