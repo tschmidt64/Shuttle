@@ -40,7 +40,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         locationManager.delegate = self
         locationManager.startUpdatingLocation()
         getData()
-        _ = NSTimer.scheduledTimerWithTimeInterval(15, target: self, selector: "getData", userInfo: nil, repeats: true)
+        _ = NSTimer.scheduledTimerWithTimeInterval(15, target: self, selector: #selector(ViewController.getData), userInfo: nil, repeats: true)
         
         add640Route()
         print(self.routeNum)
