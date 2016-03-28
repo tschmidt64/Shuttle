@@ -11,19 +11,17 @@ import SwiftyJSON
 import CoreLocation
 
 class StopsTableViewController: UITableViewController {
-    //stops dictionary contains all of the stops key:value = stopID:stopDictionary
-    //tempStop holds the specific information for a stop
-    
-    
-    var curRoute:Route //this is where the route will be passed into that this view will show stops for
-    var stops = [String:AnyObject]()
-    var tempStop = [String:AnyObject]()
-    var routePoints = [CLLocationCoordinate2D]()
+
+    var curRoute:Route = Route(routeNum: 0, nameShort: "", nameLong: "")
+    var curStops:[Stop] = []
+    //var routePoints = [CLLocationCoordinate2D]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        popRouteObj(640, direction: 0)
-        generateStops()
+        curStops = curRoute.stops
+        
+        //popRouteObj(curRoute.routeNum, direction: 0)
+        //generateStops()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -45,16 +43,15 @@ class StopsTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return curRouteStops.count
+        return curStops.count
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
-
-        let stopId:String = curRouteStops[indexPath.row]
-        let stop = stops[stopId]
-        cell.textLabel!.text = stop!["name"] as? String
+        
+        let name:String = curStops[indexPath.row].name
+        cell.textLabel!.text = name
         return cell
     }
     
@@ -64,15 +61,12 @@ class StopsTableViewController: UITableViewController {
             if let data = NSData(contentsOfFile: path) {
                 let json = JSON(data: data, options: NSJSONReadingOptions.AllowFragments, error: nil)
                 for (_, stop) in json {
-                    
                     let lat = Double(stop["stop_lat"].stringValue)!
                     let long  = Double(stop["stop_lon"].stringValue)!
-                    let name = stop["name"].stringValue
-                    let stopID:Int = Int(stop["stop_id"].stringValue)!
-                    print("lat \(lat)")
-                    print("long \(long)")
-                    print("name \(name)")
-                    print("stopID \(stopID)")
+                    let name = stop["stop_desc"].stringValue
+                    let stopID = stop["stop_id"].stringValue
+                    let tempStop:Stop = Stop(location: CLLocationCoordinate2D(latitude: lat, longitude: long), name: name, stopID: stopID)
+                    curRoute.stops.append(tempStop)
                     //coords.append(CLLocationCoordinate2D(latitude: lat, longitude: long)
                     //print("jsonData:\(json)")
                 }
@@ -132,18 +126,14 @@ class StopsTableViewController: UITableViewController {
         //pass selected route into viewcontroller by sending the string for the route and the array for the route
         let vc:ViewController = segue.destinationViewController as! ViewController
         
-        let stopId:String = curRouteStops[index!]
-        let stop = stops[stopId] as! NSDictionary
-        vc.stopLat =  stop["lat"] as! Double
-        vc.stopLong = stop["long"] as! Double
-        vc.stopName = stop["name"] as! String
-        vc.routeNum = curRoute
-        vc.routePoints = routePoints
+        //let stopId:String = curStops[index!].stopId
+        vc.stop = curStops[index!]
+        vc.route = curRoute
     }
 
     
     //this should be integrated with core data so not needed to repeat
-    func generateStops() {
+    /* func generateStops() {
         tempStop["name"] = "300 21ST & SAN JACINTO"
         tempStop["lat"]  = 3116788.6417877
         tempStop["long"] = 10076357.069287
@@ -189,6 +179,6 @@ class StopsTableViewController: UITableViewController {
         tempStop["long"] = -97.737158
         stops["5207"] = tempStop
         
-    }
+    } */
 
 }
