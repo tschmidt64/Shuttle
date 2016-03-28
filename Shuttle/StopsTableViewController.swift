@@ -11,18 +11,17 @@ import SwiftyJSON
 import CoreLocation
 
 class StopsTableViewController: UITableViewController {
-    //stops dictionary contains all of the stops key:value = stopID:stopDictionary
-    //tempStop holds the specific information for a stop
-    
-    
-    var curRoute:Route //this is where the route will be passed into that this view will show stops for
+
+    var curRoute:Route
+    var curStops:
     var stops = [String:AnyObject]()
     var tempStop = [String:AnyObject]()
     var routePoints = [CLLocationCoordinate2D]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        popRouteObj(640, direction: 0)
+        curStops = curRoute.stops
+        popRouteObj(curRoute.routeNum, direction: 0)
         generateStops()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false

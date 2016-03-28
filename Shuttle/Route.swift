@@ -17,11 +17,13 @@ class Route {
     var busesOnRoute: [Bus] = []
     var nameLong: String
     var nameShort: String
+    var stops: [Stop]
 
     init(routeNum rNum: Int, nameShort: String, nameLong: String) {
         self.routeNum = rNum
         self.nameLong = nameLong
         self.nameShort = nameShort
+        self.stops = []
         self.refreshAll()
     }
     
