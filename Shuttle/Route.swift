@@ -36,6 +36,7 @@ class Route {
      */
     func refreshBuses() {
         let newUrlString = "http://52.88.82.199:8080/onebusaway-api-webapp/api/where/trips-for-route/1_\(routeNum).json?key=TEST&includeSchedules=true&includeStatus=true&_=50000"
+        
         let newURL = NSURL(string: newUrlString)
         var buses: [Bus] = []
         
@@ -48,9 +49,12 @@ class Route {
                 let newData = json["data", "list"]
                 // Get the pieces data from the JSON
                 for (_, subJson):(String, JSON) in newData {
-                    let busLoc = subJson["status", "lastKnownLocation"].dictionaryValue
+//                    print("newUrlString: \(newUrlString)")
+//                    print("JSON: \(subJson)")
+                    let busLoc = subJson["status", "position"].dictionaryValue
                     let lat = busLoc["lat"]!.double!
                     let lon = busLoc["lon"]!.double!
+                    //print("Bus location \(lat), \(lon)")
                     let busId = subJson["status", "vehicleId"].string!
                     let busOrient = subJson["status", "orientation"].double!
                     let busUpdateSecs = subJson["status", "lastUpdateTime"].double!
@@ -58,9 +62,12 @@ class Route {
                     
                     buses.append(Bus(longitude: lon, latitude: lat, orientation: busOrient, updateTime: busUpdateSecs, nextStopId: nextStopId, busId: busId))
                 }
+                self.busesOnRoute = buses // Update the object's bus array
             }
         }
-        self.busesOnRoute = buses // Update the object's bus array
+//        print("in refresh buses")
+//        print(busesOnRoute)
+        
         newTask.resume()
     }
     

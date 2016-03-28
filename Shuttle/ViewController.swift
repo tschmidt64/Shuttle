@@ -43,8 +43,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.startUpdatingLocation()
-        //getData()
-        _ = NSTimer.scheduledTimerWithTimeInterval(15, target: self, selector: #selector(ViewController.refresh), userInfo: nil, repeats: true)
+        getDataFromBuses()
+        _ = NSTimer.scheduledTimerWithTimeInterval(15, target: self, selector: #selector(ViewController.getDataFromBuses), userInfo: nil, repeats: true)
         
         //add640Route()
         addRoutePolyline()
@@ -112,6 +112,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
 
     /*func getData() {
+        
         let newUrlString = "http://52.88.82.199:8080/onebusaway-api-webapp/api/where/trips-for-route/1_640.json?key=TEST&includeSchedules=true&includeStatus=true&_=50000"
         
         let newURL = NSURL(string: newUrlString)
@@ -149,7 +150,38 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             
         }
         newTask.resume()
-    } */
+    }*/
+    
+    
+    // get ahold of current Route object
+    // Set up timer to periodically run refresh on this object
+    // use the object's list of buses to populate map with annotations
+    func getDataFromBuses() {
+        print("in get get data from buses   ")
+        
+        self.route.refreshBuses()
+        
+        self.updateStopwatch()
+        self.startTime = NSDate.timeIntervalSinceReferenceDate()
+        
+        
+        // Have thread updating UI in foreground
+        dispatch_async(dispatch_get_main_queue(), {
+        
+            // Create annotation from lattitude and longitude
+            self.mapView.removeAnnotations(self.mapView.annotations)
+            print(self.route.busesOnRoute)
+            print("About to loop over all buses")
+            for bus in self.route.busesOnRoute {
+                var annotation = BusAnnotation(coordinate: bus.location, title: "Bus \(self.route.routeNum)", subtitle: "Bus Id: \(bus.busId)", img: "Bus.png")
+                print("bus  latitude: \(bus.location.latitude), bus longitude: \(bus.location.longitude)")
+                self.mapView.addAnnotation(annotation)
+            }
+            self.mapView.addAnnotation(self.stopAnnotation)
+        })
+
+        
+    }
 
     // Called by mapview when adding new annotation
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
@@ -163,6 +195,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             let ann = annotation as! BusAnnotation
             view = MKAnnotationView(annotation: ann, reuseIdentifier: "bus")
             //view.pinTintColor = MKPinAnnotationView.redPinColor()
+            // ROTATE IMAGE
             view.image = UIImage(named: ann.img)
         } else {
             return nil
