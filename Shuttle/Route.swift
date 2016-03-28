@@ -51,11 +51,12 @@ class Route {
                     let busLoc = subJson["status", "lastKnownLocation"].dictionaryValue
                     let lat = busLoc["lat"]!.double!
                     let lon = busLoc["lon"]!.double!
+                    let busId = subJson["status", "vehicleId"].string!
                     let busOrient = subJson["status", "orientation"].double!
                     let busUpdateSecs = subJson["status", "lastUpdateTime"].double!
                     let nextStopId = subJson["status", "nextStop"].string!
                     
-                    buses.append(Bus(longitude: lon, latitude: lat, orientation: busOrient, updateTime: busUpdateSecs, nextStopId: nextStopId))
+                    buses.append(Bus(longitude: lon, latitude: lat, orientation: busOrient, updateTime: busUpdateSecs, nextStopId: nextStopId, busId: busId))
                 }
             }
         }
@@ -77,8 +78,8 @@ class Route {
         // This is where Julio's code to fetch stops goes
     }
     
-    func busDistancesFromStop(stopId startStopId: String) -> [Double] {
-        var distances: [Double] = []
+    func busDistancesFromStop(stopId startStopId: String) -> [String:Double] {
+        var distances: [String:Double] = [:]
         for bus in self.busesOnRoute {
             var currentIndex = 0
             var currentStop: String = self.stops[currentIndex].stopId
@@ -110,7 +111,7 @@ class Route {
             let busLoc = CLLocation(latitude: bus.location.latitude, longitude: bus.location.longitude)
             distance += curStopLoc.distanceFromLocation(busLoc)
             // Append to the return value
-            distances.append(distance)
+            distances[bus.busId] = distance
         }
         return distances
     }

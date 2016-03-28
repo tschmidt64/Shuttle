@@ -14,11 +14,13 @@ class Bus {
     var orientation: Double
     var lastUpdateTime: NSDate
     var nextStopId: String
-    init(longitude lon: Double, latitude lat: Double, orientation: Double, updateTime: Double, nextStopId: String) {
+    var busId: String
+    init(longitude lon: Double, latitude lat: Double, orientation: Double, updateTime: Double, nextStopId: String, busId: String) {
         self.location = CLLocationCoordinate2D(latitude: lat, longitude: lon)
         self.orientation = orientation
         self.lastUpdateTime = NSDate(timeIntervalSince1970: updateTime)
         self.nextStopId = nextStopId
+        self.busId = busId
     }
     
 }
