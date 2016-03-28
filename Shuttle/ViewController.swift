@@ -160,10 +160,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         } else if (annotation is BusAnnotation) {
             view = MKPinAnnotationView(annotation: annotation as! BusAnnotation, reuseIdentifier: "bus")
             view.pinTintColor = MKPinAnnotationView.redPinColor()
-        } else if (annotation as! String == self.mapView.userLocation) {
-            return nil
         } else {
-            view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "pin")
+            return nil
         }
         view.canShowCallout = true
         //let ann = annotation as! StopPointAnnotation
