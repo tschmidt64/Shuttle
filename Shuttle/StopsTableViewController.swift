@@ -19,7 +19,10 @@ class StopsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         curStops = curRoute.stops
-        popRouteObj(curRoute.routeNum, direction: 0)
+        print("VDL Stops curRoute = \(curRoute)")
+        print("VDL Stops curStops = \(curStops)")
+        
+        //popRouteObj(curRoute.routeNum, direction: 0)
         //generateStops()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -42,6 +45,7 @@ class StopsTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        print("cell in tableview count = \(curStops.count)")
         return curStops.count
     }
 

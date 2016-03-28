@@ -153,8 +153,13 @@ class RoutesTableViewController: UITableViewController {
         //pass selected route into viewcontroller by sending the string for the route and the array for the route
         let stopsTableView:StopsTableViewController = segue.destinationViewController as! StopsTableViewController
         let selectedRoute:Route = routes[index!]
-        selectedRoute.routeCoords = getCoordsForRoute(selectedRoute.nameLong, direction: "0")
+        print("selectedRoute \(selectedRoute.nameLong)")
+        selectedRoute.routeCoords = getCoordsForRoute(String(selectedRoute.routeNum), direction: "0")
         stopsTableView.curRoute = selectedRoute
+
+        //TO-DO this is hard coded, figure out directional stuff
+        stopsTableView.popRouteObj(selectedRoute.routeNum, direction: 0)
+        print("these are the stops \(stopsTableView.curRoute.stops)")
     }
     
 }
