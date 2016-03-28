@@ -13,7 +13,7 @@ import SwiftyJSON
 class Route {
     var routeNum: Int
     var routeCoords: [CLLocationCoordinate2D] = []
-    var stopCoords: [CLLocationCoordinate2D] = []
+    var stops: [Stop] = []
     var busesOnRoute: [Bus] = []
     var nameLong: String
     var nameShort: String
