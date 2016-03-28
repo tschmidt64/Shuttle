@@ -14,13 +14,15 @@ class StopAnnotation : NSObject, MKAnnotation
     var title: String?
     var subtitle: String?
     var color: UIColor!
+    var img: String
 
     
-    init(coordinate: CLLocationCoordinate2D, title: String, subtitle: String)
+    init(coordinate: CLLocationCoordinate2D, title: String, subtitle: String, img: String)
     {
         self.coordinate = coordinate
         self.title = title
         self.subtitle = subtitle
+        self.img = img
     }
     
     func pinColor() -> UIColor

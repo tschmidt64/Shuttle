@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0DCBD4B41CA906F300727923 /* Bus.png in Resources */ = {isa = PBXBuildFile; fileRef = 0DCBD4B21CA906F300727923 /* Bus.png */; };
+		0DCBD4B51CA906F300727923 /* stop-circle.png in Resources */ = {isa = PBXBuildFile; fileRef = 0DCBD4B31CA906F300727923 /* stop-circle.png */; };
 		64265DE01C8CB3DC00876484 /* StopAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64265DDF1C8CB3DC00876484 /* StopAnnotation.swift */; };
 		64265DE21C8CC20200876484 /* StopPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64265DE11C8CC20200876484 /* StopPointAnnotation.swift */; };
 		6475B1841CA87DBF00B36F4C /* routes in Resources */ = {isa = PBXBuildFile; fileRef = 6475B1821CA87DBF00B36F4C /* routes */; };
@@ -27,6 +29,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0DCBD4B21CA906F300727923 /* Bus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bus.png; sourceTree = "<group>"; };
+		0DCBD4B31CA906F300727923 /* stop-circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stop-circle.png"; sourceTree = "<group>"; };
 		122EE3CAA9B83A380B3DCD07 /* Pods-Shuttle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shuttle.release.xcconfig"; path = "Pods/Target Support Files/Pods-Shuttle/Pods-Shuttle.release.xcconfig"; sourceTree = "<group>"; };
 		30DE629B51D9989E775AFE34 /* Pods_Shuttle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Shuttle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		64265DDF1C8CB3DC00876484 /* StopAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StopAnnotation.swift; sourceTree = "<group>"; };
@@ -100,6 +104,8 @@
 				825485831C7402BA0023E1A5 /* Info.plist */,
 				8254857B1C7402BA0023E1A5 /* Shuttle.xcdatamodeld */,
 				82FD72481CA88383002060F7 /* Route.swift */,
+				0DCBD4B21CA906F300727923 /* Bus.png */,
+				0DCBD4B31CA906F300727923 /* stop-circle.png */,
 			);
 			path = Shuttle;
 			sourceTree = "<group>";
@@ -183,11 +189,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0DCBD4B41CA906F300727923 /* Bus.png in Resources */,
 				6475B1841CA87DBF00B36F4C /* routes in Resources */,
 				825485821C7402BA0023E1A5 /* LaunchScreen.storyboard in Resources */,
 				8254857F1C7402BA0023E1A5 /* Assets.xcassets in Resources */,
 				6475B1851CA87DBF00B36F4C /* stops in Resources */,
 				8254857A1C7402BA0023E1A5 /* Main.storyboard in Resources */,
+				0DCBD4B51CA906F300727923 /* stop-circle.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

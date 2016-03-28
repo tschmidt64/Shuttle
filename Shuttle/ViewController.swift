@@ -26,7 +26,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     var stopLat:  Double = 0
     var stopLong: Double = 0 //longitude for selected stop
     var stopName: String = ""
-    var stopAnnotation: StopPointAnnotation!
+    var stopAnnotation: StopAnnotation!
     var routeNum: Int = 0
     
     var routePoints = [CLLocationCoordinate2D]()
@@ -96,7 +96,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         dispatch_async(dispatch_get_main_queue(), {
             let coord: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: self.stopLat, longitude: self.stopLong)
             //let annotation = StopAnnotation(coordinate: coord, title: "Stop " + self.stopName, subtitle: "")
-            self.stopAnnotation = StopPointAnnotation(coordinate: coord, title: "Stop at " + self.stopName, subtitle: "", img: "location-pin.png")
+            self.stopAnnotation = StopAnnotation(coordinate: coord, title: "Stop at " + self.stopName, subtitle: "", img: "stop-circle.png")
             //self.mapView.removeAnnotations(self.mapView.annotations)
             self.mapView.addAnnotation(self.stopAnnotation)
             print(self.stopLat, self.stopLong)
@@ -153,19 +153,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
 
     // Called by mapview when adding new annotation
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-        var view: MKPinAnnotationView
-        if(annotation is StopPointAnnotation) {
-            view = MKPinAnnotationView(annotation: annotation as! StopPointAnnotation, reuseIdentifier: "stop")
-            view.pinTintColor = MKPinAnnotationView.greenPinColor()
+        var view: MKAnnotationView
+        if(annotation is StopAnnotation) {
+            let ann = annotation as! StopAnnotation
+            view = MKAnnotationView(annotation: ann, reuseIdentifier: "stop")
+            //view.pinTintColor = MKPinAnnotationView.greenPinColor()
+            view.image = UIImage(named: ann.img)
         } else if (annotation is BusAnnotation) {
-            view = MKPinAnnotationView(annotation: annotation as! BusAnnotation, reuseIdentifier: "bus")
-            view.pinTintColor = MKPinAnnotationView.redPinColor()
+            let ann = annotation as! BusAnnotation
+            view = MKAnnotationView(annotation: ann, reuseIdentifier: "bus")
+            //view.pinTintColor = MKPinAnnotationView.redPinColor()
+            view.image = UIImage(named: ann.img)
         } else {
             return nil
         }
         view.canShowCallout = true
-        //let ann = annotation as! StopPointAnnotation
-        //view.image = UIImage(named:ann.img)
         
         return view
     }
