@@ -53,8 +53,9 @@ class Route {
                     let lon = busLoc["lon"]!.double!
                     let busOrient = subJson["status", "orientation"].double!
                     let busUpdateSecs = subJson["status", "lastUpdateTime"].double!
+                    let nextStopId = subJson["status", "nextStop"].string!
                     
-                    buses.append(Bus(longitude: lon, latitude: lat, orientation: busOrient, updateTime: busUpdateSecs))
+                    buses.append(Bus(longitude: lon, latitude: lat, orientation: busOrient, updateTime: busUpdateSecs, nextStopId: nextStopId))
                 }
             }
         }
@@ -76,4 +77,16 @@ class Route {
         // This is where Julio's code to fetch stops goes
     }
     
+    func busDistancesFromStop(stopId: String) {
+        var distances: [Double] = []
+        for bus in self.busesOnRoute {
+            var distance = 0.0
+            var currentStop = stopId
+            let goalStop = bus.nextStopId
+            
+            while(currentStop != goalStop) {
+                
+            }
+        }
+    }
 }
