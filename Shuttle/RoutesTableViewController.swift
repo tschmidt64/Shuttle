@@ -153,6 +153,7 @@ class RoutesTableViewController: UITableViewController {
         //pass selected route into viewcontroller by sending the string for the route and the array for the route
         let stopsTableView:StopsTableViewController = segue.destinationViewController as! StopsTableViewController
         let selectedRoute:Route = routes[index!]
+        selectedRoute.routeCoords = getCoordsForRoute(selectedRoute.nameLong, direction: "0")
         stopsTableView.curRoute = selectedRoute
     }
     
