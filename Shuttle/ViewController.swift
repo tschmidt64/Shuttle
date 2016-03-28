@@ -96,7 +96,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         dispatch_async(dispatch_get_main_queue(), {
             let coord: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: self.stopLat, longitude: self.stopLong)
             //let annotation = StopAnnotation(coordinate: coord, title: "Stop " + self.stopName, subtitle: "")
-            self.stopAnnotation = StopPointAnnotation(coordinate: coord, title: "Stop at " + self.stopName, subtitle: "", img: "location-pin.png")
+            self.stopAnnotation = StopPointAnnotation(coordinate: coord, title: "Stop at \(self.stopName)", subtitle: "", img: "location-pin.png")
             //self.mapView.removeAnnotations(self.mapView.annotations)
             self.mapView.addAnnotation(self.stopAnnotation)
             print(self.stopLat, self.stopLong)
