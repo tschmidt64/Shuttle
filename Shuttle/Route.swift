@@ -77,16 +77,41 @@ class Route {
         // This is where Julio's code to fetch stops goes
     }
     
-    func busDistancesFromStop(stopId: String) {
+    func busDistancesFromStop(stopId startStopId: String) -> [Double] {
         var distances: [Double] = []
         for bus in self.busesOnRoute {
-            var distance = 0.0
-            var currentStop = stopId
-            let goalStop = bus.nextStopId
-            
-            while(currentStop != goalStop) {
-                
+            var currentIndex = 0
+            var currentStop: String = self.stops[currentIndex].stopId
+            // get to the current bus stop first
+            while(currentStop != startStopId) {
+                currentIndex += 1
+                currentStop = self.stops[currentIndex].stopId
             }
+            // travel along stops summing the distances
+            var distance = 0.0
+            var prevIndex = (currentIndex == 0) ? self.stops.count-1 : currentIndex-1
+            let goalStopId = bus.nextStopId
+            while(currentStop != goalStopId) { // stop once we've reached the bus's next stop
+                // Create CLLocation objs for use by distanceFromLocation
+                let curStopCoord = self.stops[currentIndex].location
+                let prevStopCoord = self.stops[prevIndex].location
+                let curStopLoc = CLLocation(latitude: curStopCoord.latitude, longitude: curStopCoord.longitude)
+                let prevStopLoc = CLLocation(latitude: prevStopCoord.latitude, longitude: prevStopCoord.longitude)
+                // Calculate distance and add to total
+                distance += curStopLoc.distanceFromLocation(prevStopLoc)
+                // Get new indices and stops
+                currentIndex = (currentIndex == 0) ? self.stops.count-1 : currentIndex-1
+                prevIndex = (prevIndex == 0) ? self.stops.count-1 : prevIndex-1
+                currentStop = self.stops[currentIndex].stopId
+            }
+            // Calculate distance from the last stop we looked at to the bus itself
+            let curStopCoord = self.stops[currentIndex].location
+            let curStopLoc = CLLocation(latitude: curStopCoord.latitude, longitude: curStopCoord.longitude)
+            let busLoc = CLLocation(latitude: bus.location.latitude, longitude: bus.location.longitude)
+            distance += curStopLoc.distanceFromLocation(busLoc)
+            // Append to the return value
+            distances.append(distance)
         }
+        return distances
     }
 }
