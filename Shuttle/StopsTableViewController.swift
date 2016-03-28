@@ -18,7 +18,7 @@ class StopsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        curStops = curRoute.stops
+        self.curStops = self.curRoute.stops
         
         //popRouteObj(curRoute.routeNum, direction: 0)
         //generateStops()
@@ -43,7 +43,7 @@ class StopsTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return curStops.count
+        return self.curStops.count
     }
 
     
@@ -56,17 +56,18 @@ class StopsTableViewController: UITableViewController {
     }
     
     func popRouteObj(route:Int, direction:Int) {
-        let filePath:String = "stops/stops_" + String(route) + "_" + String(direction)
+        let filePath:String = "stops/stops_\(route)_\(direction)"
         if let path = NSBundle.mainBundle().pathForResource(filePath, ofType: "json") {
             if let data = NSData(contentsOfFile: path) {
                 let json = JSON(data: data, options: NSJSONReadingOptions.AllowFragments, error: nil)
+                self.curRoute.stops = []
                 for (_, stop) in json {
                     let lat = Double(stop["stop_lat"].stringValue)!
                     let long  = Double(stop["stop_lon"].stringValue)!
                     let name = stop["stop_desc"].stringValue
                     let stopID = stop["stop_id"].stringValue
                     let tempStop:Stop = Stop(location: CLLocationCoordinate2D(latitude: lat, longitude: long), name: name, stopID: stopID)
-                    curRoute.stops.append(tempStop)
+                    self.curRoute.stops.append(tempStop)
                     //coords.append(CLLocationCoordinate2D(latitude: lat, longitude: long)
                     //print("jsonData:\(json)")
                 }
@@ -127,8 +128,8 @@ class StopsTableViewController: UITableViewController {
         let vc:ViewController = segue.destinationViewController as! ViewController
         
         //let stopId:String = curStops[index!].stopId
-        vc.stop = curStops[index!]
-        vc.route = curRoute
+        vc.stop = self.curStops[index!]
+        vc.route = self.curRoute
     }
 
     

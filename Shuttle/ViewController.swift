@@ -27,7 +27,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     var stopLong: Double = 0 //longitude for selected stop
     var stopName: String = ""
     var stopAnnotation: StopPointAnnotation!
-    var routeNum: String = ""
+    var routeNum: Int = 0
     
     var routePoints = [CLLocationCoordinate2D]()
     
@@ -47,14 +47,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         _ = NSTimer.scheduledTimerWithTimeInterval(15, target: self, selector: #selector(ViewController.refresh), userInfo: nil, repeats: true)
         
         //add640Route()
-        //addRoutePolyline()
+        addRoutePolyline()
         //print(self.routeNum)
+    
+        self.stopLat = self.stop.location.latitude
+        self.stopLong = self.stop.location.longitude
+        self.stopName = self.stop.name
+        self.routeNum = self.route.routeNum
     }
     
     func refresh() {
         route.refreshBuses()
     }
-    
     func addRoutePolyline() {
         let polyline = MKPolyline(coordinates: &route.routeCoords, count: route.routeCoords.count)
         self.mapView.addOverlay(polyline)
@@ -95,6 +99,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             self.stopAnnotation = StopPointAnnotation(coordinate: coord, title: "Stop at " + self.stopName, subtitle: "", img: "location-pin.png")
             //self.mapView.removeAnnotations(self.mapView.annotations)
             self.mapView.addAnnotation(self.stopAnnotation)
+            print(self.stopLat, self.stopLong)
             self.centerMapOnLocation(CLLocation(latitude: self.stopLat, longitude: self.stopLong)) //consider centering on stop instead
         })
         
@@ -149,12 +154,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     // Called by mapview when adding new annotation
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         var view: MKPinAnnotationView
-        if(annotation is StopPointAnnotation){
+        if(annotation is StopPointAnnotation) {
             view = MKPinAnnotationView(annotation: annotation as! StopPointAnnotation, reuseIdentifier: "stop")
             view.pinTintColor = MKPinAnnotationView.greenPinColor()
-        } else {
+        } else if (annotation is BusAnnotation) {
             view = MKPinAnnotationView(annotation: annotation as! BusAnnotation, reuseIdentifier: "bus")
             view.pinTintColor = MKPinAnnotationView.redPinColor()
+        } else if (annotation as! String == self.mapView.userLocation) {
+            return nil
+        } else {
+            view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "pin")
         }
         view.canShowCallout = true
         //let ann = annotation as! StopPointAnnotation
@@ -199,9 +208,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
 
 
     func centerMapOnLocation(location: CLLocation) {
-        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate,
-            regionRadius * 2.0, regionRadius * 2.0)
-        mapView.setRegion(coordinateRegion, animated: true)
+        let polyline = MKPolyline(coordinates: &self.route.routeCoords, count: self.route.routeCoords.count)
+        let routeRegion = polyline.boundingMapRect
+        mapView.setVisibleMapRect(routeRegion, edgePadding: UIEdgeInsetsMake(20.0, 20.0, 20.0, 20.0), animated: true)
     }
 
     func checkLocationAuthorizationStatus() {

@@ -27,15 +27,15 @@ class Route {
     
     func refreshAll() {
         self.refreshBuses()
-        self.refreshRouteCoords()
-        self.refreshStopCoords()
+        self.generateRouteCoords()
+        self.generateStopCoords()
     }
     
     /*
      This refreshes the array self.busesOnRoute with the most recent data available
      */
     func refreshBuses() {
-        let newUrlString = "http://52.88.82.199:8080/onebusaway-api-webapp/api/where/trips-for-route/1_640.json?key=TEST&includeSchedules=true&includeStatus=true&_=50000"
+        let newUrlString = "http://52.88.82.199:8080/onebusaway-api-webapp/api/where/trips-for-route/1_\(routeNum).json?key=TEST&includeSchedules=true&includeStatus=true&_=50000"
         let newURL = NSURL(string: newUrlString)
         var buses: [Bus] = []
         
@@ -66,14 +66,14 @@ class Route {
     /*
      This refreshes the array self.routeCoords with the most recent data available
      */
-    func refreshRouteCoords() {
+    func generateRouteCoords() {
         // This is where Micah's code to fetch routes goes
     }
     
     /*
      This refreshes the array self.stopCoords with the most recent data available
      */
-    func refreshStopCoords() {
+    func generateStopCoords() {
         // This is where Julio's code to fetch stops goes
     }
     
