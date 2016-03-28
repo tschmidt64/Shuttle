@@ -15,8 +15,7 @@ class StopsTableViewController: UITableViewController {
     //tempStop holds the specific information for a stop
     
     
-    var curRoute = "" //this is where the route will be passed into that this view will show stops for
-    var curRouteStops = [String]() //this is the array that all the stops for curRoute will be displayed and used to reference the stops dictionary to display the stop names, etc.
+    var curRoute:Route //this is where the route will be passed into that this view will show stops for
     var stops = [String:AnyObject]()
     var tempStop = [String:AnyObject]()
     var routePoints = [CLLocationCoordinate2D]()

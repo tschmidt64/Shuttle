@@ -15,9 +15,13 @@ class Route {
     var routeCoords: [CLLocationCoordinate2D] = []
     var stopCoords: [CLLocationCoordinate2D] = []
     var busesOnRoute: [Bus] = []
+    var nameLong: String
+    var nameShort: String
 
-    init(routeNum rNum: Int) {
+    init(routeNum rNum: Int, nameShort: String, nameLong: String) {
         self.routeNum = rNum
+        self.nameLong = nameLong
+        self.nameShort = nameShort
         self.refreshAll()
     }
     

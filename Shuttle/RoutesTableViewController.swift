@@ -12,14 +12,10 @@ import SwiftyJSON
 
 class RoutesTableViewController: UITableViewController {
     //will be dictionary of arrays which comprise of a bus's stop ID's for use in acccesing the bus's stops.
-    var routes = [String:[String]]()
-    var routeList = [Int]()
-    var routeKeys = [String]()
+    var routes: [Route] = []
     override func viewDidLoad() {
         super.viewDidLoad()
-        //in prepare for segue, going to pass selected route's dictionary to the stops view controllers.
-        //this adds all the routes stop ID's
-        routes["640"] = ["4136", "3750", "2005", "4143", "5438", "3512", "1042", "2780", "5207"]
+        initRoutes()
         
 /*
  642 WC West Campus/UT
@@ -35,7 +31,6 @@ class RoutesTableViewController: UITableViewController {
  680 NR/LS North Riverside/Lakeshore
  681 IF/FW Intramural/Far West
 */
-        routeKeys = [String](routes.keys)
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -43,7 +38,23 @@ class RoutesTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
-
+    
+    
+    // set up all the route objects with their information using the stuff in comment above
+    func initRoutes() {
+            routes.append(Route(routeNum: 642, nameShort: "WC",  nameLong: "West Campus/UT"))
+            routes.append(Route(routeNum: 653, nameShort: "RR",  nameLong: "Red River/UT"))
+            routes.append(Route(routeNum: 656, nameShort: "IF", nameLong: "Intramural Fields/UT"))
+            routes.append(Route(routeNum: 661, nameShort: "FW",  nameLong: "Far West/UT"))
+            routes.append(Route(routeNum: 663, nameShort: "LA",  nameLong: "Lake Austin/UT"))
+            routes.append(Route(routeNum: 640, nameShort: "FA",  nameLong: "Forty Acres"))
+            routes.append(Route(routeNum: 641, nameShort: "EC",  nameLong: "East Campus"))
+            routes.append(Route(routeNum: 670, nameShort: "CP",  nameLong: "Crossing Place"))
+            routes.append(Route(routeNum: 671, nameShort: "NR",  nameLong: "North Riverside"))
+            routes.append(Route(routeNum: 672, nameShort: "LS",  nameLong: "Lakeshore"))
+            routes.append(Route(routeNum: 680, nameShort: "NR/LS", nameLong: "North Riverside/Lakeshore"))
+            routes.append(Route(routeNum: 681, nameShort: "IF/FW", nameLong: "Intramural/Far West"))
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -90,7 +101,7 @@ class RoutesTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
         let index = indexPath.row
         // Configure the cell...
-        cell.textLabel?.text = routeKeys[index]
+        cell.textLabel?.text = String(routes[index].routeNum)
         return cell
     }
 
@@ -141,10 +152,8 @@ class RoutesTableViewController: UITableViewController {
 
         //pass selected route into viewcontroller by sending the string for the route and the array for the route
         let stopsTableView:StopsTableViewController = segue.destinationViewController as! StopsTableViewController
-        let selectedRoute:String = routeKeys[index!]
-        stopsTableView.routePoints = getCoordsForRoute(selectedRoute, direction: "0")
+        let selectedRoute:Route = routes[index!]
         stopsTableView.curRoute = selectedRoute
-        stopsTableView.curRouteStops = routes[selectedRoute]!
     }
     
 }
