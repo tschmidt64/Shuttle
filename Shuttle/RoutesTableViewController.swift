@@ -159,7 +159,7 @@ class RoutesTableViewController: UITableViewController {
 
         //TO-DO this is hard coded, figure out directional stuff
         stopsTableView.popRouteObj(selectedRoute.routeNum, direction: 0)
-        print("these are the stops \(stopsTableView.curRoute.stops)")
+
     }
     
 }

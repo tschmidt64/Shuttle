@@ -19,8 +19,6 @@ class StopsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         curStops = curRoute.stops
-        print("VDL Stops curRoute = \(curRoute)")
-        print("VDL Stops curStops = \(curStops)")
         
         //popRouteObj(curRoute.routeNum, direction: 0)
         //generateStops()
@@ -45,16 +43,14 @@ class StopsTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        print("cell in tableview count = \(curStops.count)")
         return curStops.count
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
-
+        
         let name:String = curStops[indexPath.row].name
-
         cell.textLabel!.text = name
         return cell
     }
@@ -67,7 +63,7 @@ class StopsTableViewController: UITableViewController {
                 for (_, stop) in json {
                     let lat = Double(stop["stop_lat"].stringValue)!
                     let long  = Double(stop["stop_lon"].stringValue)!
-                    let name = stop["name"].stringValue
+                    let name = stop["stop_desc"].stringValue
                     let stopID = stop["stop_id"].stringValue
                     let tempStop:Stop = Stop(location: CLLocationCoordinate2D(latitude: lat, longitude: long), name: name, stopID: stopID)
                     curRoute.stops.append(tempStop)
