@@ -20,6 +20,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     var startTime = NSTimeInterval() //start stopwatch timer
     
     
+    @IBAction func zoomToUserLocation(sender: AnyObject) {
+        var mapRegion = MKCoordinateRegion()
+        mapRegion.center = self.mapView.userLocation.coordinate
+        mapRegion.span.latitudeDelta = 0.2
+        mapRegion.span.longitudeDelta = 0.2
+        self.mapView.setRegion(mapRegion, animated: true)
+    }
     
     var latitude:Double = 0
     var longitude:Double = 0
