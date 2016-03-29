@@ -175,7 +175,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             print(self.route.busesOnRoute)
             print("About to loop over all buses")
             for bus in self.route.busesOnRoute {
-                var annotation = BusAnnotation(coordinate: bus.location, title: "Bus \(self.route.routeNum)", subtitle: "Bus Id: \(bus.busId)", img: "Bus.png")
+                //TODO not sure if orientaiton passing is cool here
+                let annotation = BusAnnotation(coordinate: bus.location, title: "Bus \(self.route.routeNum)", subtitle: "Bus Id: \(bus.busId)", img: "Bus.png", orientation: bus.orientation)
                 print("bus  latitude: \(bus.location.latitude), bus longitude: \(bus.location.longitude)")
                 self.mapView.addAnnotation(annotation)
             }
@@ -202,7 +203,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             // READ EXTENSION DOWN BELOW, GOT FROM:
             // http://stackoverflow.com/questions/27092354/rotating-uiimage-in-swift
             let image = resizeImage( UIImage(named: ann.img)!, newWidth: 30.0).imageRotatedByDegrees(CGFloat(self.route.busesOnRoute[0].orientation + 225), flip: false)
-            //image.rotate
             view.image = image
         } else {
             return nil
