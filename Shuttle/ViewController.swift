@@ -49,6 +49,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         //add640Route()
         addRoutePolyline()
         //print(self.routeNum)
+        
+        self.navigationItem.title = "Buses for Route \(route.routeNum)" ;
     
         self.stopLat = self.stop.location.latitude
         self.stopLong = self.stop.location.longitude
@@ -190,13 +192,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             let ann = annotation as! StopAnnotation
             view = MKAnnotationView(annotation: ann, reuseIdentifier: "stop")
             //view.pinTintColor = MKPinAnnotationView.greenPinColor()
-            view.image = UIImage(named: ann.img)
+            let image = resizeImage( UIImage(named: ann.img)!, newWidth: 15.0)
+            view.image = image
         } else if (annotation is BusAnnotation) {
             let ann = annotation as! BusAnnotation
             view = MKAnnotationView(annotation: ann, reuseIdentifier: "bus")
             //view.pinTintColor = MKPinAnnotationView.redPinColor()
             // ROTATE IMAGE
-            view.image = UIImage(named: ann.img)
+            let image = resizeImage( UIImage(named: ann.img)!, newWidth: 50.0)
+            //image.rotate
+            view.image = image
         } else {
             return nil
         }
@@ -258,6 +263,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         super.viewDidAppear(animated)
         checkLocationAuthorizationStatus()
     }
+    
+    
+    func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage {
+        
+        let scale = newWidth / image.size.width
+        let newHeight = image.size.height * scale
+        UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight))
+        image.drawInRect(CGRectMake(0, 0, newWidth, newHeight))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
+    }
+
     
     
     /* func add640Route() {

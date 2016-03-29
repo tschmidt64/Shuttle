@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="UEu-QI-2b3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="UEu-QI-2b3">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
-        <!--Root View Controller-->
+        <!--Clutch-->
         <scene sceneID="Bcn-68-qDf">
             <objects>
-                <tableViewController id="mbg-tI-83c" customClass="RoutesTableViewController" customModule="Shuttle" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Clutch" id="mbg-tI-83c" customClass="RoutesTableViewController" customModule="Shuttle" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="fHT-vy-nHD" customClass="Routes">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -40,17 +40,17 @@
                             <outlet property="delegate" destination="mbg-tI-83c" id="Ozn-PR-dts"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="qet-jj-3Fp"/>
+                    <navigationItem key="navigationItem" title="Clutch" id="qet-jj-3Fp"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WNi-sq-VLd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-357" y="246"/>
         </scene>
-        <!--Stops Table View Controller-->
+        <!--Stops-->
         <scene sceneID="Trh-wJ-CVc">
             <objects>
-                <tableViewController id="3kz-W9-KXO" customClass="StopsTableViewController" customModule="Shuttle" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Stops" id="3kz-W9-KXO" customClass="StopsTableViewController" customModule="Shuttle" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="1kV-PT-x2e">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -105,10 +105,10 @@
             </objects>
             <point key="canvasLocation" x="-978.5" y="245.5"/>
         </scene>
-        <!--View Controller-->
+        <!--Buses-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Shuttle" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Buses" id="BYZ-38-t0r" customClass="ViewController" customModule="Shuttle" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>

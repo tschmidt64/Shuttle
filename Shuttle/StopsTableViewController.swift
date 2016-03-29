@@ -19,6 +19,7 @@ class StopsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.curStops = self.curRoute.stops
+        self.navigationItem.title = "Stops for Route \(curRoute.routeNum)"
         
         //popRouteObj(curRoute.routeNum, direction: 0)
         //generateStops()
@@ -130,6 +131,11 @@ class StopsTableViewController: UITableViewController {
         //let stopId:String = curStops[index!].stopId
         vc.stop = self.curStops[index!]
         vc.route = self.curRoute
+        
+        //set back button for next screen
+        let backItem = UIBarButtonItem()
+        backItem.title = "Stops"
+        navigationItem.backBarButtonItem = backItem
     }
 
     

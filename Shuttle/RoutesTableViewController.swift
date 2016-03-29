@@ -159,7 +159,11 @@ class RoutesTableViewController: UITableViewController {
 
         //TO-DO this is hard coded, figure out directional stuff
         stopsTableView.popRouteObj(selectedRoute.routeNum, direction: 0)
-
+        
+        //setting back button
+        let backItem = UIBarButtonItem()
+        backItem.title = "Routes"
+        navigationItem.backBarButtonItem = backItem
     }
     
 }
