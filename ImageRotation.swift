@@ -3,17 +3,14 @@
 //  Shuttle
 //
 //  Created by Julio Correa on 3/28/16.
-//  Copyright © 2016 Taylor Schmidt. All rights reserved.
-//
+// Got this code from StackOverflow
+// http://stackoverflow.com/questions/27092354/rotating-uiimage-in-swift
 
 import Foundation
 import UIKit
 
 extension UIImage {
     public func imageRotatedByDegrees(degrees: CGFloat, flip: Bool) -> UIImage {
-        let radiansToDegrees: (CGFloat) -> CGFloat = {
-            return $0 * (180.0 / CGFloat(M_PI))
-        }
         let degreesToRadians: (CGFloat) -> CGFloat = {
             return $0 / 180.0 * CGFloat(M_PI)
         }
