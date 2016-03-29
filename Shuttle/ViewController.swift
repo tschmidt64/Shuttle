@@ -209,7 +209,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             // ROTATE IMAGE
             // READ EXTENSION DOWN BELOW, GOT FROM:
             // http://stackoverflow.com/questions/27092354/rotating-uiimage-in-swift
-            let image = resizeImage( UIImage(named: ann.img)!, newWidth: 30.0).imageRotatedByDegrees(CGFloat(self.route.busesOnRoute[0].orientation + 225), flip: false)
+            let image = resizeImage( UIImage(named: ann.img)!, newWidth: 50.0).imageRotatedByDegrees(CGFloat(self.route.busesOnRoute[0].orientation + 225), flip: false)
             view.image = image
         } else {
             return nil
