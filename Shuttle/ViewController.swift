@@ -175,7 +175,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             print(self.route.busesOnRoute)
             print("About to loop over all buses")
             for bus in self.route.busesOnRoute {
-                var annotation = BusAnnotation(coordinate: bus.location, title: "Bus \(self.route.routeNum)", subtitle: "Bus Id: \(bus.busId)", img: "Bus.png")
+                //TODO not sure if orientaiton passing is cool here
+                let annotation = BusAnnotation(coordinate: bus.location, title: "Bus \(self.route.routeNum)", subtitle: "Bus Id: \(bus.busId)", img: "Bus.png", orientation: bus.orientation)
                 print("bus  latitude: \(bus.location.latitude), bus longitude: \(bus.location.longitude)")
                 self.mapView.addAnnotation(annotation)
             }
@@ -199,8 +200,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             view = MKAnnotationView(annotation: ann, reuseIdentifier: "bus")
             //view.pinTintColor = MKPinAnnotationView.redPinColor()
             // ROTATE IMAGE
-            let image = resizeImage( UIImage(named: ann.img)!, newWidth: 50.0)
-            //image.rotate
+            var image = resizeImage( UIImage(named: ann.img)!, newWidth: 50.0)
+            print("bus orientation is \(ann.orientation)")
+            //use this orientation to dictate what degree of rotation needs to occur, will have to do some mapping here
+            image = image.imageRotatedByDegrees(90, flip: false)
             view.image = image
         } else {
             return nil

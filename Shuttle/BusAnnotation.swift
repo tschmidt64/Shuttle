@@ -14,13 +14,15 @@ class BusAnnotation : NSObject, MKAnnotation
     var title: String?
     var subtitle: String?
     var img: String
+    var orientation: Double
 
-    init(coordinate: CLLocationCoordinate2D, title: String, subtitle: String, img: String)
+    init(coordinate: CLLocationCoordinate2D, title: String, subtitle: String, img: String, orientation: Double)
     {
         self.coordinate = coordinate
         self.title = title
         self.subtitle = subtitle
         self.img = img
+        self.orientation = orientation
     }
     
     func pinColor() -> UIColor
