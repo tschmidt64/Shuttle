@@ -17,7 +17,7 @@
                BlueprintIdentifier = "825485701C7402BA0023E1A5"
                BuildableName = "Shuttle.app"
                BlueprintName = "Shuttle"
-               ReferencedContainer = "container:Clutch.xcodeproj">
+               ReferencedContainer = "container:Shuttle.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,7 +35,7 @@
             BlueprintIdentifier = "825485701C7402BA0023E1A5"
             BuildableName = "Shuttle.app"
             BlueprintName = "Shuttle"
-            ReferencedContainer = "container:Clutch.xcodeproj">
+            ReferencedContainer = "container:Shuttle.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -58,7 +58,7 @@
             BlueprintIdentifier = "825485701C7402BA0023E1A5"
             BuildableName = "Shuttle.app"
             BlueprintName = "Shuttle"
-            ReferencedContainer = "container:Clutch.xcodeproj">
+            ReferencedContainer = "container:Shuttle.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -77,7 +77,7 @@
             BlueprintIdentifier = "825485701C7402BA0023E1A5"
             BuildableName = "Shuttle.app"
             BlueprintName = "Shuttle"
-            ReferencedContainer = "container:Clutch.xcodeproj">
+            ReferencedContainer = "container:Shuttle.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
