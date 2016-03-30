@@ -140,28 +140,30 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="sOf-7m-Hqe">
-                                <rect key="frame" x="0.0" y="-6" width="375" height="629"/>
+                                <rect key="frame" x="0.0" y="-6" width="375" height="673"/>
                             </mapView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="21c-aa-HLb">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <items>
+                                    <barButtonItem title="Current Location" id="VaS-aE-azm">
+                                        <connections>
+                                            <action selector="zoomToUserLocation:" destination="BYZ-38-t0r" id="eEa-B6-HIg"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="sOf-7m-Hqe" secondAttribute="bottom" id="PMa-Wu-rxt"/>
-                            <constraint firstItem="sOf-7m-Hqe" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="PUL-BU-FbG"/>
-                            <constraint firstItem="sOf-7m-Hqe" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="dr3-2D-5UB"/>
-                            <constraint firstItem="sOf-7m-Hqe" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="f4r-Xn-eNV"/>
-                            <constraint firstItem="sOf-7m-Hqe" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="-6" id="jb6-bk-tMq"/>
-                            <constraint firstAttribute="trailing" secondItem="sOf-7m-Hqe" secondAttribute="trailing" id="ne0-vV-B0T"/>
+                            <constraint firstItem="sOf-7m-Hqe" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="-6" id="2a2-39-OXT"/>
+                            <constraint firstItem="sOf-7m-Hqe" firstAttribute="leading" secondItem="21c-aa-HLb" secondAttribute="leading" id="G0R-fE-ANz"/>
+                            <constraint firstItem="21c-aa-HLb" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="boE-qk-cJw"/>
+                            <constraint firstAttribute="trailing" secondItem="21c-aa-HLb" secondAttribute="trailing" id="cbb-3N-I4F"/>
+                            <constraint firstItem="sOf-7m-Hqe" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="jy6-Ef-45g"/>
+                            <constraint firstItem="21c-aa-HLb" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="loV-cJ-nig"/>
+                            <constraint firstItem="sOf-7m-Hqe" firstAttribute="trailing" secondItem="21c-aa-HLb" secondAttribute="trailing" id="sEJ-cm-rYr"/>
                         </constraints>
                     </view>
-                    <toolbarItems>
-                        <barButtonItem title="Current Location" id="Z4a-RQ-LxN">
-                            <color key="tintColor" red="0.30562494649999999" green="0.72601010099999996" blue="0.48249560650000001" alpha="1" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <action selector="zoomToUserLocation:" destination="BYZ-38-t0r" id="fHz-rv-BKK"/>
-                            </connections>
-                        </barButtonItem>
-                    </toolbarItems>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="mapView" destination="sOf-7m-Hqe" id="xqx-fb-0Gb"/>
