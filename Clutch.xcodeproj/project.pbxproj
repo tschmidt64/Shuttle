@@ -44,7 +44,7 @@
 		649F7FBD1CAA3E5C00276CDD /* ImageRotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageRotation.swift; path = ../ImageRotation.swift; sourceTree = "<group>"; };
 		64BAAAC51C8747EB0056E2AF /* RoutesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoutesTableViewController.swift; sourceTree = "<group>"; };
 		64F3DBA41CAC32BB002F2541 /* RouteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteTableViewCell.swift; sourceTree = "<group>"; };
-		825485711C7402BA0023E1A5 /* Shuttle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shuttle.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		825485711C7402BA0023E1A5 /* Clutch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Clutch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		825485741C7402BA0023E1A5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		825485761C7402BA0023E1A5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		825485791C7402BA0023E1A5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -83,7 +83,7 @@
 		825485721C7402BA0023E1A5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				825485711C7402BA0023E1A5 /* Shuttle.app */,
+				825485711C7402BA0023E1A5 /* Clutch.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -136,9 +136,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		825485701C7402BA0023E1A5 /* Shuttle */ = {
+		825485701C7402BA0023E1A5 /* Clutch */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 825485861C7402BA0023E1A5 /* Build configuration list for PBXNativeTarget "Shuttle" */;
+			buildConfigurationList = 825485861C7402BA0023E1A5 /* Build configuration list for PBXNativeTarget "Clutch" */;
 			buildPhases = (
 				8A1175CDE9E621BAEE769464 /* Check Pods Manifest.lock */,
 				8254856D1C7402BA0023E1A5 /* Sources */,
@@ -151,9 +151,9 @@
 			);
 			dependencies = (
 			);
-			name = Shuttle;
+			name = Clutch;
 			productName = Shuttle;
-			productReference = 825485711C7402BA0023E1A5 /* Shuttle.app */;
+			productReference = 825485711C7402BA0023E1A5 /* Clutch.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -172,7 +172,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 8254856C1C7402BA0023E1A5 /* Build configuration list for PBXProject "Shuttle" */;
+			buildConfigurationList = 8254856C1C7402BA0023E1A5 /* Build configuration list for PBXProject "Clutch" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -185,7 +185,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				825485701C7402BA0023E1A5 /* Shuttle */,
+				825485701C7402BA0023E1A5 /* Clutch */,
 			);
 		};
 /* End PBXProject section */
@@ -390,7 +390,7 @@
 				INFOPLIST_FILE = Shuttle/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Shuttle;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Clutch;
 				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
@@ -406,7 +406,7 @@
 				INFOPLIST_FILE = Shuttle/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Shuttle;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Clutch;
 				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
@@ -414,7 +414,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8254856C1C7402BA0023E1A5 /* Build configuration list for PBXProject "Shuttle" */ = {
+		8254856C1C7402BA0023E1A5 /* Build configuration list for PBXProject "Clutch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				825485841C7402BA0023E1A5 /* Debug */,
@@ -423,7 +423,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		825485861C7402BA0023E1A5 /* Build configuration list for PBXNativeTarget "Shuttle" */ = {
+		825485861C7402BA0023E1A5 /* Build configuration list for PBXNativeTarget "Clutch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				825485871C7402BA0023E1A5 /* Debug */,

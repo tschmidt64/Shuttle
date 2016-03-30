@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "825485701C7402BA0023E1A5"
-               BuildableName = "Shuttle.app"
-               BlueprintName = "Shuttle"
-               ReferencedContainer = "container:Shuttle.xcodeproj">
+               BuildableName = "Clutch.app"
+               BlueprintName = "Clutch"
+               ReferencedContainer = "container:Clutch.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "825485701C7402BA0023E1A5"
-            BuildableName = "Shuttle.app"
-            BlueprintName = "Shuttle"
-            ReferencedContainer = "container:Shuttle.xcodeproj">
+            BuildableName = "Clutch.app"
+            BlueprintName = "Clutch"
+            ReferencedContainer = "container:Clutch.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -56,9 +56,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "825485701C7402BA0023E1A5"
-            BuildableName = "Shuttle.app"
-            BlueprintName = "Shuttle"
-            ReferencedContainer = "container:Shuttle.xcodeproj">
+            BuildableName = "Clutch.app"
+            BlueprintName = "Clutch"
+            ReferencedContainer = "container:Clutch.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -75,9 +75,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "825485701C7402BA0023E1A5"
-            BuildableName = "Shuttle.app"
-            BlueprintName = "Shuttle"
-            ReferencedContainer = "container:Shuttle.xcodeproj">
+            BuildableName = "Clutch.app"
+            BlueprintName = "Clutch"
+            ReferencedContainer = "container:Clutch.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
