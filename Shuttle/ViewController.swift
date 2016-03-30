@@ -14,7 +14,6 @@ import CoreLocation
 class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     var route:Route = Route(routeNum: 0, nameShort: "", nameLong: "")
     var stop:Stop = Stop(location: CLLocationCoordinate2D(latitude: 0, longitude: 0), name: "", stopID: "")
-    
     var locationManager: CLLocationManager!
     let regionRadius: CLLocationDistance = 1000
     var startTime = NSTimeInterval() //start stopwatch timer
@@ -45,6 +44,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         self.mapView.rotateEnabled = false
         self.mapView.pitchEnabled = false
         annotateStop()
+        UINavigationBar.appearance().tintColor = UIColor.whiteColor()
         // Do any additional setup after loading the view, typically from a nib.
         self.startTime = NSDate.timeIntervalSinceReferenceDate()
         //let initialLocation = CLLocation(latitude: 30.302135, longitude: -97.740153)
