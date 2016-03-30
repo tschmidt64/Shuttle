@@ -39,7 +39,9 @@ class RoutesTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
-    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
     // set up all the route objects with their information using the stuff in comment above
     func initRoutes() {
             routes.append(Route(routeNum: 642, nameShort: "WC",  nameLong: "West Campus/UT"))
