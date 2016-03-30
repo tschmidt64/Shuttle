@@ -98,10 +98,13 @@ class RoutesTableViewController: UITableViewController {
 
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as! RouteTableViewCell
         let index = indexPath.row
         // Configure the cell...
-        cell.textLabel?.text = String(routes[index].routeNum)
+        cell.lblNameShort.text = String(routes[index].nameShort)
+        cell.lblNameLong.text = String(routes[index].nameLong)
+        cell.lblRouteNum.text = String(routes[index].routeNum)
+        //cell.lbl.text = String(routes[index].routeNum)
         return cell
     }
 

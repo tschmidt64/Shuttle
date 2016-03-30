@@ -17,6 +17,7 @@
 		6485B59D1C77DBBA00AD7434 /* BusAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6485B59C1C77DBBA00AD7434 /* BusAnnotation.swift */; };
 		649F7FBE1CAA3E5C00276CDD /* ImageRotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649F7FBD1CAA3E5C00276CDD /* ImageRotation.swift */; };
 		64BAAAC61C8747EB0056E2AF /* RoutesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BAAAC51C8747EB0056E2AF /* RoutesTableViewController.swift */; };
+		64F3DBA51CAC32BB002F2541 /* RouteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F3DBA41CAC32BB002F2541 /* RouteTableViewCell.swift */; };
 		825485751C7402BA0023E1A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825485741C7402BA0023E1A5 /* AppDelegate.swift */; };
 		825485771C7402BA0023E1A5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825485761C7402BA0023E1A5 /* ViewController.swift */; };
 		8254857A1C7402BA0023E1A5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 825485781C7402BA0023E1A5 /* Main.storyboard */; };
@@ -42,6 +43,7 @@
 		6485B59C1C77DBBA00AD7434 /* BusAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusAnnotation.swift; sourceTree = "<group>"; };
 		649F7FBD1CAA3E5C00276CDD /* ImageRotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageRotation.swift; path = ../ImageRotation.swift; sourceTree = "<group>"; };
 		64BAAAC51C8747EB0056E2AF /* RoutesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoutesTableViewController.swift; sourceTree = "<group>"; };
+		64F3DBA41CAC32BB002F2541 /* RouteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteTableViewCell.swift; sourceTree = "<group>"; };
 		825485711C7402BA0023E1A5 /* Shuttle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shuttle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		825485741C7402BA0023E1A5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		825485761C7402BA0023E1A5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 				82FD724A1CA88507002060F7 /* Bus.swift */,
 				825485761C7402BA0023E1A5 /* ViewController.swift */,
 				64BAAAC51C8747EB0056E2AF /* RoutesTableViewController.swift */,
+				64F3DBA41CAC32BB002F2541 /* RouteTableViewCell.swift */,
 				6478531F1C88EC7E003B66C9 /* StopsTableViewController.swift */,
 				82FD724C1CA8AF2C002060F7 /* Stop.swift */,
 				825485781C7402BA0023E1A5 /* Main.storyboard */,
@@ -165,7 +168,7 @@
 				TargetAttributes = {
 					825485701C7402BA0023E1A5 = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = 647J3BCK2V;
+						DevelopmentTeam = 2N9WH3D3CV;
 					};
 				};
 			};
@@ -260,6 +263,7 @@
 				82FD72491CA88383002060F7 /* Route.swift in Sources */,
 				649F7FBE1CAA3E5C00276CDD /* ImageRotation.swift in Sources */,
 				6485B59D1C77DBBA00AD7434 /* BusAnnotation.swift in Sources */,
+				64F3DBA51CAC32BB002F2541 /* RouteTableViewCell.swift in Sources */,
 				64265DE01C8CB3DC00876484 /* StopAnnotation.swift in Sources */,
 				825485771C7402BA0023E1A5 /* ViewController.swift in Sources */,
 				82FD724B1CA88507002060F7 /* Bus.swift in Sources */,
@@ -381,11 +385,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Shuttle/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Shuttle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -395,11 +401,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Shuttle/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Shuttle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

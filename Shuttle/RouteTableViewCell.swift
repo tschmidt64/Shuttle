@@ -1,9 +1,27 @@
 //
-//  RouteTableViewCell.swift
-//  Shuttle
+//  FinalTableViewCell.swift
+//  pikkl
 //
-//  Created by Julio Correa on 3/30/16.
-//  Copyright © 2016 Taylor Schmidt. All rights reserved.
+//  Created by Julio Correa on 11/28/15.
+//  Copyright © 2015 CS378. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+class RouteTableViewCell: UITableViewCell {
+    
+    @IBOutlet weak var lblNameShort: UILabel!
+    @IBOutlet weak var lblNameLong: UILabel!
+    @IBOutlet weak var lblRouteNum: UILabel!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+    }
+    
+    override func setSelected(selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        
+        // Configure the view for the selected state
+    }
+}

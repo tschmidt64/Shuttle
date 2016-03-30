@@ -42,6 +42,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
+        self.mapView.rotateEnabled = false
+        self.mapView.pitchEnabled = false
         annotateStop()
         // Do any additional setup after loading the view, typically from a nib.
         self.startTime = NSDate.timeIntervalSinceReferenceDate()
