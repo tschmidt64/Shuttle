@@ -23,8 +23,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     @IBAction func zoomToUserLocation(sender: AnyObject) {
         var mapRegion = MKCoordinateRegion()
         mapRegion.center = self.mapView.userLocation.coordinate
-        mapRegion.span.latitudeDelta = 0.2
-        mapRegion.span.longitudeDelta = 0.2
+        mapRegion.span.latitudeDelta = 0.02 // this is measured in degrees
+        mapRegion.span.longitudeDelta = 0.02
         self.mapView.setRegion(mapRegion, animated: true)
     }
     
