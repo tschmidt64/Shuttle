@@ -44,7 +44,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         self.mapView.rotateEnabled = false
         self.mapView.pitchEnabled = false
         annotateStop()
+        
+        // Decorate the navigation bar
         UINavigationBar.appearance().tintColor = UIColor.whiteColor()
+        
+//        To set the navigation bar title to an image:
+//        let logo = UIImage(named: "logo.png")
+//        let imageView = UIImageView(image:logo)
+//        self.navigationItem.titleView = imageView
+        
         // Do any additional setup after loading the view, typically from a nib.
         self.startTime = NSDate.timeIntervalSinceReferenceDate()
         //let initialLocation = CLLocation(latitude: 30.302135, longitude: -97.740153)
