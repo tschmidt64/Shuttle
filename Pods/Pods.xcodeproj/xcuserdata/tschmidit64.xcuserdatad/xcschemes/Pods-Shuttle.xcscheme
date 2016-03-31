@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C3AF644696661809B7AA54408D542F63"
-               BuildableName = "Pods_Clutch.framework"
-               BlueprintName = "Pods-Clutch"
+               BlueprintIdentifier = "3845302953FCF5DF81232F5D332C81DD"
+               BuildableName = "Pods_Shuttle.framework"
+               BlueprintName = "Pods-Shuttle"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C3AF644696661809B7AA54408D542F63"
-            BuildableName = "Pods_Clutch.framework"
-            BlueprintName = "Pods-Clutch"
+            BlueprintIdentifier = "3845302953FCF5DF81232F5D332C81DD"
+            BuildableName = "Pods_Shuttle.framework"
+            BlueprintName = "Pods-Shuttle"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

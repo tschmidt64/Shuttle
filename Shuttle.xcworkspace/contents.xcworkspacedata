@@ -2,9 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/tschmidit64/Documents/Programming-Stuff/Shuttle/Clutch.xcodeproj">
+      location = "group:/Users/tschmidit64/Documents/Programming-Stuff/Shuttle/Shuttle.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Shuttle.xcodeproj">
    </FileRef>
 </Workspace>
