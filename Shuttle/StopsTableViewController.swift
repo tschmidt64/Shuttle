@@ -10,15 +10,34 @@ import UIKit
 import SwiftyJSON
 import CoreLocation
 
-class StopsTableViewController: UITableViewController {
+class StopsTableViewController: UITableViewController, CLLocationManagerDelegate {
 
     var curRoute:Route = Route(routeNum: 0, nameShort: "", nameLong: "")
     var curStops:[Stop] = []
+    var locationManager: CLLocationManager!
+    var userLocation: CLLocationCoordinate2D!
     //var routePoints = [CLLocationCoordinate2D]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.curStops = self.curRoute.stops
+        
+        // Set up user location
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startUpdatingLocation()
+        
+        // Sort stops by distance from user
+        self.curStops = self.curRoute.stops.sort() {
+            if let uCoord = self.locationManager.location?.coordinate {
+                let uLoc = CLLocation(latitude: uCoord.latitude, longitude: uCoord.longitude)
+                let stop0 = CLLocation(latitude: $0.location.latitude, longitude: $0.location.longitude)
+                let stop1 = CLLocation(latitude: $1.location.latitude, longitude: $1.location.longitude)
+                return stop0.distanceFromLocation(uLoc) < stop1.distanceFromLocation(uLoc)
+            }
+            return false
+        }
+        
         self.navigationItem.title = "Stops for Route \(curRoute.routeNum)"
         
         //popRouteObj(curRoute.routeNum, direction: 0)
@@ -51,6 +70,17 @@ class StopsTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
         
+        let curStopCoord = curStops[indexPath.row].location
+        let curStopLoc = CLLocation(latitude: curStopCoord.latitude, longitude: curStopCoord.longitude)
+        let userLoc: CLLocation?
+        if let userCoord = self.locationManager.location?.coordinate {
+            userLoc = CLLocation(latitude: userCoord.latitude, longitude: userCoord.longitude)
+            let distanceMeters = curStopLoc.distanceFromLocation(userLoc!)
+            let distanceMiles = distanceMeters * 0.000621371
+            cell.detailTextLabel!.text = String(format: "%.2f", distanceMiles) + " mi"
+        } else {
+            cell.detailTextLabel!.text = ""
+        }
         let name:String = curStops[indexPath.row].name
         cell.textLabel!.text = name
         return cell

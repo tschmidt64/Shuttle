@@ -16,7 +16,7 @@ class RoutesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initRoutes()
-        
+        self.routes.sortInPlace() { $0.routeNum < $1.routeNum } // sort the routes descending by route number
 /*
  642 WC West Campus/UT
  653 RR Red River/UT
