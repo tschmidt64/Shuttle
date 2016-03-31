@@ -267,7 +267,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     func centerMapOnLocation(location: CLLocation) {
         let polyline = MKPolyline(coordinates: &self.route.routeCoords, count: self.route.routeCoords.count)
         let routeRegion = polyline.boundingMapRect
-        mapView.setVisibleMapRect(routeRegion, edgePadding: UIEdgeInsetsMake(20.0, 20.0, 20.0, 20.0), animated: true)
+        mapView.setVisibleMapRect(routeRegion, edgePadding: UIEdgeInsetsMake(20.0, 20.0, 20.0, 20.0), animated: false)
     }
 
     func checkLocationAuthorizationStatus() {
