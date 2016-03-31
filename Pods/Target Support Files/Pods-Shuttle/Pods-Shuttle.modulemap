@@ -1,6 +1,0 @@
-framework module Pods_Shuttle {
-  umbrella header "Pods-Shuttle-umbrella.h"
-
-  export *
-  module * { export * }
-}
