@@ -17,7 +17,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     var locationManager: CLLocationManager!
     let regionRadius: CLLocationDistance = 1000
     var startTime = NSTimeInterval() //start stopwatch timer
-    
+    var curBusOrientation : Double = 0
     
     @IBAction func zoomToUserLocation(sender: AnyObject) {
         var mapRegion = MKCoordinateRegion()
@@ -195,6 +195,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                 //TODO not sure if orientaiton passing is cool here
                 let annotation = BusAnnotation(coordinate: bus.location, title: "Bus \(self.route.routeNum)", subtitle: "Bus Id: \(bus.busId)", img: "Bus.png", orientation: bus.orientation)
                 print("bus  latitude: \(bus.location.latitude), bus longitude: \(bus.location.longitude)")
+                print("bus orientation = \(bus.orientation)")
+                self.curBusOrientation = bus.orientation
                 self.mapView.addAnnotation(annotation)
             }
             self.mapView.addAnnotation(self.stopAnnotation)
@@ -219,7 +221,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             // ROTATE IMAGE
             // READ EXTENSION DOWN BELOW, GOT FROM:
             // http://stackoverflow.com/questions/27092354/rotating-uiimage-in-swift
-            let image = resizeImage( UIImage(named: ann.img)!, newWidth: 50.0).imageRotatedByDegrees(CGFloat(self.route.busesOnRoute[0].orientation + 225), flip: false)
+            
+            //TODO I think all the buses look like they are moving backward, so might need to adjust the orientation modifier (+10) more
+            let image = resizeImage( UIImage(named: ann.img)!, newWidth: 50.0).imageRotatedByDegrees(CGFloat(ann.orientation + 10), flip: true)
             view.image = image
         } else {
             return nil
