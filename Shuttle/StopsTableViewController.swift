@@ -27,6 +27,7 @@ class StopsTableViewController: UITableViewController, CLLocationManagerDelegate
         //I referenced capmetro pdf for this info
         //https://www.capmetro.org/uploadedFiles/Capmetroorg/Schedules_and_Maps/ut-shuttles.pdf
         if(curRoute.routeNum == 640 || curRoute.routeNum == 641 || curRoute.routeNum == 642 ) {
+            self.popRouteObj(curRoute.routeNum, direction: 0) //do this because these routes only have on direction, so need to be set on 0
             StopsSegmentedControl.hidden = true
         }
         
