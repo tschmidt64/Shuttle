@@ -196,6 +196,8 @@ class StopsTableViewController: UITableViewController, CLLocationManagerDelegate
         backItem.title = "Stops"
         navigationItem.backBarButtonItem = backItem
     }
+    
+    
 
     
     //this should be integrated with core data so not needed to repeat

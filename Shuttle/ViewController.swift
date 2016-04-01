@@ -17,7 +17,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     var locationManager: CLLocationManager!
     let regionRadius: CLLocationDistance = 1000
     var startTime = NSTimeInterval() //start stopwatch timer
-    var curBusOrientation : Double = 0
     
     @IBAction func zoomToUserLocation(sender: AnyObject) {
         var mapRegion = MKCoordinateRegion()
@@ -67,7 +66,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         addRoutePolyline()
         //print(self.routeNum)
         
-        self.navigationItem.title = "Buses for Route \(route.routeNum)" ;
+        //self.navigationItem.title = "Buses for Route \(route.routeNum)"
+        self.navigationItem.titleView = setTitle("Buses for Route \(route.routeNum)", subtitle: "updated ? mins ago")
+
     
         self.stopLat = self.stop.location.latitude
         self.stopLong = self.stop.location.longitude
@@ -195,8 +196,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                 //TODO not sure if orientaiton passing is cool here
                 let annotation = BusAnnotation(coordinate: bus.location, title: "Bus \(self.route.routeNum)", subtitle: "Bus Id: \(bus.busId)", img: "Bus.png", orientation: bus.orientation)
                 print("bus  latitude: \(bus.location.latitude), bus longitude: \(bus.location.longitude)")
-                print("bus orientation = \(bus.orientation)")
-                self.curBusOrientation = bus.orientation
                 self.mapView.addAnnotation(annotation)
             }
             self.mapView.addAnnotation(self.stopAnnotation)
@@ -221,7 +220,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             // ROTATE IMAGE
             // READ EXTENSION DOWN BELOW, GOT FROM:
             // http://stackoverflow.com/questions/27092354/rotating-uiimage-in-swift
-            
             //TODO I think all the buses look like they are moving backward, so might need to adjust the orientation modifier (+10) more
             let image = resizeImage( UIImage(named: ann.img)!, newWidth: 50.0).imageRotatedByDegrees(CGFloat(ann.orientation + 10), flip: true)
             view.image = image
@@ -229,7 +227,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             return nil
         }
         view.canShowCallout = true
-        
         return view
     }
 
@@ -299,8 +296,80 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         
         return newImage
     }
-
     
+   /* func setTitle(title:String, subtitle:String) -> UIView {
+        var titleLabel = UILabel(frame: CGRectMake(0, -5, 0, 0))
+        
+        titleLabel.backgroundColor = UIColor.clearColor()
+        titleLabel.textColor = UIColor.blackColor()()
+        titleLabel.font = UIFont.boldSystemFontOfSize(17)
+        titleLabel.text = title
+        titleLabel.sizeToFit()
+        
+        var subtitleLabel = UILabel(frame: CGRectMake(0, 18, 0, 0))
+        subtitleLabel.backgroundColor = UIColor.clearColor()
+        subtitleLabel.textColor = UIColor.blackColor()
+        subtitleLabel.font = UIFont.systemFontOfSize(12)
+        subtitleLabel.text = subtitle
+        subtitleLabel.sizeToFit()
+        
+        var titleView = UIView(frame: CGRectMake(0, 0, max(titleLabel.frame.size.width, subtitleLabel.frame.size.width), 30))
+        titleView.addSubview(titleLabel)
+        titleView.addSubview(subtitleLabel)
+        
+        var widthDiff = subtitleLabel.frame.size.width - titleLabel.frame.size.width
+        
+        if widthDiff > 0 {
+            var frame = titleLabel.frame
+            frame.origin.x = widthDiff / 2
+            titleLabel.frame = CGRectIntegral(frame)
+        } else {
+            var frame = subtitleLabel.frame
+            frame.origin.x = abs(widthDiff) / 2
+            titleLabel.frame = CGRectIntegral(frame)
+        }
+        
+        return titleView
+    } */
+    
+    
+    //method found on StackOverflow: http://stackoverflow.com/questions/12914004/uinavigationbar-titleview-with-subtitle
+    func setTitle(title:String, subtitle:String) -> UIView {
+        //Create a label programmatically and give it its property's
+        let titleLabel = UILabel(frame: CGRectMake(0, 0, 0, 0)) //x, y, width, height where y is to offset from the view center
+        titleLabel.backgroundColor = UIColor.clearColor()
+        titleLabel.textColor = UIColor.whiteColor()
+        titleLabel.font = UIFont(name: "Avenir-Medium", size: 17)
+        titleLabel.text = title
+        titleLabel.sizeToFit()
+        
+        //Create a label for the Subtitle
+        let subtitleLabel = UILabel(frame: CGRectMake(0, 18, 0, 0))
+        subtitleLabel.backgroundColor = UIColor.clearColor()
+        subtitleLabel.textColor = UIColor.lightGrayColor()
+        subtitleLabel.font = UIFont.systemFontOfSize(12)
+        subtitleLabel.text = subtitle
+        subtitleLabel.sizeToFit()
+        
+        // Create a view and add titleLabel and subtitleLabel as subviews setting
+        let titleView = UIView(frame: CGRectMake(0, 0, max(titleLabel.frame.size.width, subtitleLabel.frame.size.width), 30))
+        
+        // Center title or subtitle on screen (depending on which is larger)
+        if titleLabel.frame.width >= subtitleLabel.frame.width {
+            var adjustment = subtitleLabel.frame
+            adjustment.origin.x = titleView.frame.origin.x + (titleView.frame.width/2) - (subtitleLabel.frame.width/2)
+            subtitleLabel.frame = adjustment
+        } else {
+            var adjustment = titleLabel.frame
+            adjustment.origin.x = titleView.frame.origin.x + (titleView.frame.width/2) - (titleLabel.frame.width/2)
+            titleLabel.frame = adjustment
+        }
+        
+        titleView.addSubview(titleLabel)
+        titleView.addSubview(subtitleLabel)
+        
+        return titleView
+    }
     
     /* func add640Route() {
      var coords = [CLLocationCoordinate2D]()
