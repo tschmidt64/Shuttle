@@ -23,6 +23,13 @@ class StopsTableViewController: UITableViewController, CLLocationManagerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //these three busses are just circulators, 640 and 640 run clockwise, 642 runs counter clockwise
+        //I referenced capmetro pdf for this info
+        //https://www.capmetro.org/uploadedFiles/Capmetroorg/Schedules_and_Maps/ut-shuttles.pdf
+        if(curRoute.routeNum == 640 || curRoute.routeNum == 641 || curRoute.routeNum == 642 ) {
+            StopsSegmentedControl.hidden = true
+        }
+        
         // Set up user location
         locationManager = CLLocationManager()
         locationManager.delegate = self
