@@ -18,6 +18,8 @@ class StopsTableViewController: UITableViewController, CLLocationManagerDelegate
     var userLocation: CLLocationCoordinate2D!
     //var routePoints = [CLLocationCoordinate2D]()
 
+    @IBOutlet weak var StopsSegmentedControl: UISegmentedControl!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,16 +29,7 @@ class StopsTableViewController: UITableViewController, CLLocationManagerDelegate
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
         
-        // Sort stops by distance from user
-        self.curStops = self.curRoute.stops.sort() {
-            if let uCoord = self.locationManager.location?.coordinate {
-                let uLoc = CLLocation(latitude: uCoord.latitude, longitude: uCoord.longitude)
-                let stop0 = CLLocation(latitude: $0.location.latitude, longitude: $0.location.longitude)
-                let stop1 = CLLocation(latitude: $1.location.latitude, longitude: $1.location.longitude)
-                return stop0.distanceFromLocation(uLoc) < stop1.distanceFromLocation(uLoc)
-            }
-            return false
-        }
+        sortAndSetStops()
         
         self.navigationItem.title = "Stops for Route \(curRoute.routeNum)"
         
@@ -48,10 +41,38 @@ class StopsTableViewController: UITableViewController, CLLocationManagerDelegate
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
+    
+    
+    
+    func sortAndSetStops() {
+        // Sort stops by distance from user
+        self.curStops = self.curRoute.stops.sort() {
+            if let uCoord = self.locationManager.location?.coordinate {
+                let uLoc = CLLocation(latitude: uCoord.latitude, longitude: uCoord.longitude)
+                let stop0 = CLLocation(latitude: $0.location.latitude, longitude: $0.location.longitude)
+                let stop1 = CLLocation(latitude: $1.location.latitude, longitude: $1.location.longitude)
+                return stop0.distanceFromLocation(uLoc) < stop1.distanceFromLocation(uLoc)
+            }
+            return false
+        }
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    //method used to switch what direction routes we present in the 
+    @IBAction func StopsSegmentedControlChoose(sender: AnyObject) {
+        if StopsSegmentedControl.selectedSegmentIndex == 0 {
+            print("toward campus and \(curRoute.routeNum)")
+            self.popRouteObj(curRoute.routeNum, direction: 0)
+        } else {
+            print("away from campus and \(curRoute.routeNum)")
+            self.popRouteObj(curRoute.routeNum, direction: 1)
+        }
+        sortAndSetStops()
+        self.tableView.reloadData();
     }
 
     // MARK: - Table view data source
