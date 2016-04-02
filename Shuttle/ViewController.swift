@@ -67,7 +67,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         //print(self.routeNum)
         
         //self.navigationItem.title = "Buses for Route \(route.routeNum)"
-        self.navigationItem.titleView = setTitle("Buses for Route \(route.routeNum)", subtitle: "updated ? mins ago")
+        if let bus = route.busesOnRoute.first {
+            self.navigationItem.titleView = setTitle("Buses for Route \(route.routeNum)", subtitle: "Last Update: \(bus.lastUpdateTime)")
+        } else {
+            self.navigationItem.titleView = setTitle("No Buses on route \(route.routeNum)", subtitle: "")
+            
+        }
 
     
         self.stopLat = self.stop.location.latitude
