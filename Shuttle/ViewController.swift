@@ -58,11 +58,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         //print(self.routeNum)
         
         //self.navigationItem.title = "Buses for Route \(route.routeNum)"
-        if let bus = route.busesOnRoute.first {
-            self.navigationItem.titleView = setTitle("Buses for Route \(route.routeNum)", subtitle: "Last Update: \(bus.lastUpdateTime)")
-        } else {
-            self.navigationItem.titleView = setTitle("No Buses on route \(route.routeNum)", subtitle: "")
-        }
+        updateTitle()
         self.stopLat = self.stop.location.latitude
         self.stopLong = self.stop.location.longitude
         self.stopName = self.stop.name
@@ -71,10 +67,19 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     func refresh() {
         route.refreshBuses()
+        updateTitle()
     }
     func addRoutePolyline() {
         let polyline = MKPolyline(coordinates: &route.routeCoords, count: route.routeCoords.count)
         self.mapView.addOverlay(polyline)
+    }
+    
+    func updateTitle() {
+        if let bus = route.busesOnRoute.first {
+            self.navigationItem.titleView = setTitle("Buses for Route \(route.routeNum)", subtitle: "Last Update: \(bus.stringFromTimeInterval(bus.timeSinceUpdate))")
+        } else {
+            self.navigationItem.titleView = setTitle("No Buses on route \(route.routeNum)", subtitle: "")
+        }
     }
     
     func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
