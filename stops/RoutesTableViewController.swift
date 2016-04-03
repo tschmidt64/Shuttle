@@ -4,34 +4,33 @@
 //
 //  Created by Julio Correa on 3/2/16.
 //  Copyright © 2016 Taylor Schmidt. All rights reserved.
-    /*
-     642 WC West Campus/UT
-     653 RR Red River/UT
-     656 IF Intramural Fields/UT
-     661 FW Far West/UT
-     663 LA Lake Austin/UT
-     640 FA Forty Acres
-     641 EC East Campus
-     670 CP Crossing Place
-     671 NR North Riverside
-     672 LS Lakeshore
-     680 NR/LS North Riverside/Lakeshore
-     681 IF/FW Intramural/Far West
-     */
+//
 
 import UIKit
 import CoreLocation
 import SwiftyJSON
 
 class RoutesTableViewController: UITableViewController {
-    
+    //will be dictionary of arrays which comprise of a bus's stop ID's for use in acccesing the bus's stops.
     var routes: [Route] = []
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         initRoutes()
         self.routes.sortInPlace() { $0.routeNum < $1.routeNum } // sort the routes descending by route number
-        
+/*
+ 642 WC West Campus/UT
+ 653 RR Red River/UT
+ 656 IF Intramural Fields/UT
+ 661 FW Far West/UT
+ 663 LA Lake Austin/UT
+ 640 FA Forty Acres
+ 641 EC East Campus
+ 670 CP Crossing Place
+ 671 NR North Riverside
+ 672 LS Lakeshore
+ 680 NR/LS North Riverside/Lakeshore
+ 681 IF/FW Intramural/Far West
+*/
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -42,6 +41,21 @@ class RoutesTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+    // set up all the route objects with their information using the stuff in comment above
+    func initRoutes() {
+            routes.append(Route(routeNum: 642, nameShort: "WC",  nameLong: "West Campus/UT"))
+            routes.append(Route(routeNum: 653, nameShort: "RR",  nameLong: "Red River/UT"))
+            routes.append(Route(routeNum: 656, nameShort: "IF", nameLong: "Intramural Fields/UT"))
+            routes.append(Route(routeNum: 661, nameShort: "FW",  nameLong: "Far West/UT"))
+            routes.append(Route(routeNum: 663, nameShort: "LA",  nameLong: "Lake Austin/UT"))
+            routes.append(Route(routeNum: 640, nameShort: "FA",  nameLong: "Forty Acres"))
+            routes.append(Route(routeNum: 641, nameShort: "EC",  nameLong: "East Campus"))
+            routes.append(Route(routeNum: 670, nameShort: "CP",  nameLong: "Crossing Place"))
+            routes.append(Route(routeNum: 671, nameShort: "NR",  nameLong: "North Riverside"))
+            routes.append(Route(routeNum: 672, nameShort: "LS",  nameLong: "Lakeshore"))
+            routes.append(Route(routeNum: 680, nameShort: "NR/LS", nameLong: "North Riverside/Lakeshore"))
+            routes.append(Route(routeNum: 681, nameShort: "IF/FW", nameLong: "Intramural/Far West"))
     }
     
     override func didReceiveMemoryWarning() {
@@ -64,16 +78,23 @@ class RoutesTableViewController: UITableViewController {
                     coords.append(CLLocationCoordinate2D(latitude: lat, longitude: long))
 
                 }
+
+                //print(coords)
             }
         }
         return coords;
     }
     
+
+    // MARK: - Table view data source
+
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // #warning Incomplete implementation, return the number of rows
         return routes.count
     }
 
@@ -81,10 +102,11 @@ class RoutesTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as! RouteTableViewCell
         let index = indexPath.row
-        // Configure the cell
+        // Configure the cell...
         cell.lblNameShort.text = String(routes[index].nameShort)
         cell.lblNameLong.text = String(routes[index].nameLong)
         cell.lblRouteNum.text = String(routes[index].routeNum)
+        //cell.lbl.text = String(routes[index].routeNum)
         return cell
     }
 
@@ -122,22 +144,9 @@ class RoutesTableViewController: UITableViewController {
         return true
     }
     */
+
     
-    // set up all the route objects with their information using the stuff in comment above
-    func initRoutes() {
-        routes.append(Route(routeNum: 642, nameShort: "WC",  nameLong: "West Campus/UT"))
-        routes.append(Route(routeNum: 653, nameShort: "RR",  nameLong: "Red River/UT"))
-        routes.append(Route(routeNum: 656, nameShort: "IF", nameLong: "Intramural Fields/UT"))
-        routes.append(Route(routeNum: 661, nameShort: "FW",  nameLong: "Far West/UT"))
-        routes.append(Route(routeNum: 663, nameShort: "LA",  nameLong: "Lake Austin/UT"))
-        routes.append(Route(routeNum: 640, nameShort: "FA",  nameLong: "Forty Acres"))
-        routes.append(Route(routeNum: 641, nameShort: "EC",  nameLong: "East Campus"))
-        routes.append(Route(routeNum: 670, nameShort: "CP",  nameLong: "Crossing Place"))
-        routes.append(Route(routeNum: 671, nameShort: "NR",  nameLong: "North Riverside"))
-        routes.append(Route(routeNum: 672, nameShort: "LS",  nameLong: "Lakeshore"))
-        routes.append(Route(routeNum: 680, nameShort: "NR/LS", nameLong: "North Riverside/Lakeshore"))
-        routes.append(Route(routeNum: 681, nameShort: "IF/FW", nameLong: "Intramural/Far West"))
-    }
+    // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

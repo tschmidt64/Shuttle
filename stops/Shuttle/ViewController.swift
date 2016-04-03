@@ -17,6 +17,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     var locationManager: CLLocationManager!
     let regionRadius: CLLocationDistance = 1000
     var startTime = NSTimeInterval() //start stopwatch timer
+    
+    @IBAction func zoomToUserLocation(sender: AnyObject) {
+        var mapRegion = MKCoordinateRegion()
+        mapRegion.center = self.mapView.userLocation.coordinate
+        mapRegion.span.latitudeDelta = 0.02 // this is measured in degrees
+        mapRegion.span.longitudeDelta = 0.02
+        self.mapView.setRegion(mapRegion, animated: true)
+    }
+    
     var latitude:Double = 0
     var longitude:Double = 0
     var stopLat:  Double = 0
@@ -62,7 +71,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             self.navigationItem.titleView = setTitle("Buses for Route \(route.routeNum)", subtitle: "Last Update: \(bus.lastUpdateTime)")
         } else {
             self.navigationItem.titleView = setTitle("No Buses on route \(route.routeNum)", subtitle: "")
+            
         }
+
+    
         self.stopLat = self.stop.location.latitude
         self.stopLong = self.stop.location.longitude
         self.stopName = self.stop.name
@@ -87,13 +99,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         return nil
     }
     
-    @IBAction func zoomToUserLocation(sender: AnyObject) {
-        var mapRegion = MKCoordinateRegion()
-        mapRegion.center = self.mapView.userLocation.coordinate
-        mapRegion.span.latitudeDelta = 0.02 // this is measured in degrees
-        mapRegion.span.longitudeDelta = 0.02
-        self.mapView.setRegion(mapRegion, animated: true)
+    func getCoordsFromStr() -> [CLLocationCoordinate2D] {
+        var coords = [CLLocationCoordinate2D]()
+        if let dataFromStr = routeData640.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+            let json = JSON(data: dataFromStr)
+            for (_, val):(String, JSON) in json {
+                let points = val["geometry"]["coordinates"].arrayObject as! [Double]
+                let coord = CLLocationCoordinate2D(latitude: points[0], longitude: points[1])
+                coords.append(coord)
+            }
+            print(coords)
+        }
+        return coords
     }
+    
+    
     
     func annotateStop() {
         // Create annotation from lattitude and longitude
@@ -116,6 +136,48 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         // Dispose of any resources that can be recreated.
     }
 
+    /*func getData() {
+        
+        let newUrlString = "http://52.88.82.199:8080/onebusaway-api-webapp/api/where/trips-for-route/1_640.json?key=TEST&includeSchedules=true&includeStatus=true&_=50000"
+        
+        let newURL = NSURL(string: newUrlString)
+        var busLocations = [CLLocationCoordinate2D]()
+        let newSession = NSURLSession.sharedSession()
+        let newTask = newSession.dataTaskWithURL(newURL!) { (data, response, error) -> Void in
+            if error != nil {
+                print("ERROR FOUND")
+            } else {
+                let json = JSON(data: data!)
+                let newData = json["data", "list"]
+                for (_, subJson):(String, JSON) in newData {
+                    let bus = subJson["status", "lastKnownLocation"].dictionaryValue
+                    let lat = bus["lat"]!.double!
+                    let lon = bus["lon"]!.double!
+                    busLocations.append(CLLocationCoordinate2D(latitude: lat, longitude: lon))
+                }
+                self.buses = busLocations
+                
+                self.updateStopwatch()
+                self.startTime = NSDate.timeIntervalSinceReferenceDate()
+                
+                // Have thread updating UI in foreground
+                dispatch_async(dispatch_get_main_queue(), {
+                    
+                    // Create annotation from lattitude and longitude
+                    self.mapView.removeAnnotations(self.mapView.annotations)
+                    for (index, busCoord) in self.buses.enumerate() {
+                        let annotation = BusAnnotation(coordinate: busCoord, title: "Bus 640", subtitle: "\(index)")
+                        self.mapView.addAnnotation(annotation)
+                    }
+                    self.mapView.addAnnotation(self.stopAnnotation)
+                })
+            }
+            
+        }
+        newTask.resume()
+    }*/
+    
+    
     // get ahold of current Route object
     // Set up timer to periodically run refresh on this object
     // use the object's list of buses to populate map with annotations
@@ -126,6 +188,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         
         self.updateStopwatch()
         self.startTime = NSDate.timeIntervalSinceReferenceDate()
+        
         
         // Have thread updating UI in foreground
         dispatch_async(dispatch_get_main_queue(), {
@@ -142,6 +205,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             }
             self.mapView.addAnnotation(self.stopAnnotation)
         })
+
+        
     }
 
     // Called by mapview when adding new annotation
@@ -170,6 +235,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         return view
     }
 
+    
+    
+    
+    
     func updateStopwatch() {
         let currentTime = NSDate.timeIntervalSinceReferenceDate()
         
@@ -200,6 +269,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         */
     }
 
+
     func centerMapOnLocation(location: CLLocation) {
         let polyline = MKPolyline(coordinates: &self.route.routeCoords, count: self.route.routeCoords.count)
         let routeRegion = polyline.boundingMapRect
@@ -219,7 +289,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         checkLocationAuthorizationStatus()
     }
     
+    
     func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage {
+        
         let scale = newWidth / image.size.width
         let newHeight = image.size.height * scale
         UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight))
@@ -229,7 +301,43 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         
         return newImage
     }
-
+    
+   /* func setTitle(title:String, subtitle:String) -> UIView {
+        var titleLabel = UILabel(frame: CGRectMake(0, -5, 0, 0))
+        
+        titleLabel.backgroundColor = UIColor.clearColor()
+        titleLabel.textColor = UIColor.blackColor()()
+        titleLabel.font = UIFont.boldSystemFontOfSize(17)
+        titleLabel.text = title
+        titleLabel.sizeToFit()
+        
+        var subtitleLabel = UILabel(frame: CGRectMake(0, 18, 0, 0))
+        subtitleLabel.backgroundColor = UIColor.clearColor()
+        subtitleLabel.textColor = UIColor.blackColor()
+        subtitleLabel.font = UIFont.systemFontOfSize(12)
+        subtitleLabel.text = subtitle
+        subtitleLabel.sizeToFit()
+        
+        var titleView = UIView(frame: CGRectMake(0, 0, max(titleLabel.frame.size.width, subtitleLabel.frame.size.width), 30))
+        titleView.addSubview(titleLabel)
+        titleView.addSubview(subtitleLabel)
+        
+        var widthDiff = subtitleLabel.frame.size.width - titleLabel.frame.size.width
+        
+        if widthDiff > 0 {
+            var frame = titleLabel.frame
+            frame.origin.x = widthDiff / 2
+            titleLabel.frame = CGRectIntegral(frame)
+        } else {
+            var frame = subtitleLabel.frame
+            frame.origin.x = abs(widthDiff) / 2
+            titleLabel.frame = CGRectIntegral(frame)
+        }
+        
+        return titleView
+    } */
+    
+    
     //method found on StackOverflow: http://stackoverflow.com/questions/12914004/uinavigationbar-titleview-with-subtitle
     func setTitle(title:String, subtitle:String) -> UIView {
         //Create a label programmatically and give it its property's
@@ -267,4 +375,30 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         
         return titleView
     }
+    
+    /* func add640Route() {
+     var coords = [CLLocationCoordinate2D]()
+     coords.append(CLLocationCoordinate2D(latitude: 30.283836, longitude: -97.741878))
+     coords.append(CLLocationCoordinate2D(latitude: 30.289812, longitude: -97.741363))
+     coords.append(CLLocationCoordinate2D(latitude: 30.289414, longitude: -97.736031))
+     coords.append(CLLocationCoordinate2D(latitude: 30.289210, longitude: -97.732727))
+     coords.append(CLLocationCoordinate2D(latitude: 30.289312, longitude: -97.731407))
+     coords.append(CLLocationCoordinate2D(latitude: 30.289321, longitude: -97.731016))
+     coords.append(CLLocationCoordinate2D(latitude: 30.289173, longitude: -97.730305))
+     coords.append(CLLocationCoordinate2D(latitude: 30.288930, longitude: -97.729726))
+     coords.append(CLLocationCoordinate2D(latitude: 30.288687, longitude: -97.729388))
+     coords.append(CLLocationCoordinate2D(latitude: 30.288338, longitude: -97.729157))
+     coords.append(CLLocationCoordinate2D(latitude: 30.287856, longitude: -97.729629))
+     coords.append(CLLocationCoordinate2D(latitude: 30.287532, longitude: -97.729886))
+     coords.append(CLLocationCoordinate2D(latitude: 30.285077, longitude: -97.730658))
+     coords.append(CLLocationCoordinate2D(latitude: 30.285318, longitude: -97.733705))
+     coords.append(CLLocationCoordinate2D(latitude: 30.283502, longitude: -97.734064))
+     coords.append(CLLocationCoordinate2D(latitude: 30.283233, longitude: -97.734032))
+     coords.append(CLLocationCoordinate2D(latitude: 30.283813, longitude: -97.741895))
+     print(coords)
+     let polyline = MKPolyline(coordinates: &coords, count: coords.count)
+     self.mapView.addOverlay(polyline)
+     } */
+
+    var routeData640 = "[{ \"type\": \"Feature\", \"properties\": { \"ID\": 4136, \"STOPNAME\": \"300 21ST SAN JACINTO\", \"ONSTREET\": \"21ST\", \"ATSTREET\": \"SAN JACINTO\" }, \"geometry\": { \"type\": \"Point\", \"coordinates\": [ 3116788.6417877, 10076357.069287 ] } }, { \"type\": \"Feature\", \"properties\": { \"ID\": 3750, \"STOPNAME\": \"400 23RD SAN JACINTO\", \"ONSTREET\": \"23RD\", \"ATSTREET\": \"SAN JACINTO\" }, \"geometry\": { \"type\": \"Point\", \"coordinates\": [ 3117101.130664, 10077110.572374 ] } }, { \"type\": \"Feature\", \"properties\": { \"ID\": 4143, \"STOPNAME\": \"ROBERT DEDMAN TRINITY\", \"ONSTREET\": \"ROBERT DEDMAN\", \"ATSTREET\": \"TRINITY\" }, \"geometry\": { \"type\": \"Point\", \"coordinates\": [ 3118165.3047168, 10077858.024947 ] } }, { \"type\": \"Feature\", \"properties\": { \"ID\": 2005, \"STOPNAME\": \"701 DEAN KEETON SAN JACINTO\", \"ONSTREET\": \"DEAN KEETON\", \"ATSTREET\": \"SAN JACINTO\" }, \"geometry\": { \"type\": \"Point\", \"coordinates\": [ 3117688.2784399, 10078481.421666 ] } }, { \"type\": \"Feature\", \"properties\": { \"ID\": 5438, \"STOPNAME\": \"305 DEAN KEETON SAN JACINTO\", \"ONSTREET\": \"DEAN KEETON\", \"ATSTREET\": \"SAN JACINTO\" }, \"geometry\": { \"type\": \"Point\", \"coordinates\": [ 3116537.8693234, 10078500.28613 ] } }, { \"type\": \"Feature\", \"properties\": { \"ID\": 3512, \"STOPNAME\": \"201 DEAN KEETON UNIVERSITY\", \"ONSTREET\": \"DEAN KEETON\", \"ATSTREET\": \"UNIVERSITY\" }, \"geometry\": { \"type\": \"Point\", \"coordinates\": [ 3115235.3735688, 10078584.577628 ] } }, { \"type\": \"Feature\", \"properties\": { \"ID\": 1042, \"STOPNAME\": \"2231 GUADALUPE WEST MALL UT\", \"ONSTREET\": \"GUADALUPE\", \"ATSTREET\": \"WEST MALL UT\" }, \"geometry\": { \"type\": \"Point\", \"coordinates\": [ 3114542.7552034, 10077186.693284 ] } }, { \"type\": \"Feature\", \"properties\": { \"ID\": 2780, \"STOPNAME\": \"21ST WHITIS MID-BLOCK\", \"ONSTREET\": \"21ST\", \"ATSTREET\": \"WHITIS\" }, \"geometry\": { \"type\": \"Point\", \"coordinates\": [ 3114708.615764, 10076501.782909 ] } }, { \"type\": \"Feature\", \"properties\": { \"ID\": 5207, \"STOPNAME\": \"21ST SPEEDWAY\", \"ONSTREET\": \"21ST\", \"ATSTREET\": \"SPEEDWAY\" }, \"geometry\": { \"type\": \"Point\", \"coordinates\": [ 3115964.0200774, 10076403.71552 ] } }]"
 }

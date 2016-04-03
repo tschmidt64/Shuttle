@@ -71,6 +71,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		64A51EF71CB1CA2200827578 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				0DCBD4B21CA906F300727923 /* Bus.png */,
+				0DCBD4B31CA906F300727923 /* stop-circle.png */,
+			);
+			name = Assets;
+			sourceTree = "<group>";
+		};
+		64A51EFA1CB1CB5B00827578 /* Objects etc. */ = {
+			isa = PBXGroup;
+			children = (
+				649F7FBD1CAA3E5C00276CDD /* ImageRotation.swift */,
+				64265DE11C8CC20200876484 /* StopPointAnnotation.swift */,
+				825485741C7402BA0023E1A5 /* AppDelegate.swift */,
+				6485B59C1C77DBBA00AD7434 /* BusAnnotation.swift */,
+				64265DDF1C8CB3DC00876484 /* StopAnnotation.swift */,
+				82FD724A1CA88507002060F7 /* Bus.swift */,
+				64F3DBA41CAC32BB002F2541 /* RouteTableViewCell.swift */,
+				82FD724C1CA8AF2C002060F7 /* Stop.swift */,
+				82FD72481CA88383002060F7 /* Route.swift */,
+			);
+			name = "Objects etc.";
+			sourceTree = "<group>";
+		};
 		825485681C7402BA0023E1A5 = {
 			isa = PBXGroup;
 			children = (
@@ -92,27 +117,18 @@
 		825485731C7402BA0023E1A5 /* Shuttle */ = {
 			isa = PBXGroup;
 			children = (
+				64A51EF71CB1CA2200827578 /* Assets */,
 				6475B1821CA87DBF00B36F4C /* routes */,
 				6475B1831CA87DBF00B36F4C /* stops */,
-				649F7FBD1CAA3E5C00276CDD /* ImageRotation.swift */,
-				64265DE11C8CC20200876484 /* StopPointAnnotation.swift */,
-				825485741C7402BA0023E1A5 /* AppDelegate.swift */,
-				6485B59C1C77DBBA00AD7434 /* BusAnnotation.swift */,
-				64265DDF1C8CB3DC00876484 /* StopAnnotation.swift */,
-				82FD724A1CA88507002060F7 /* Bus.swift */,
-				825485761C7402BA0023E1A5 /* ViewController.swift */,
+				64A51EFA1CB1CB5B00827578 /* Objects etc. */,
 				64BAAAC51C8747EB0056E2AF /* RoutesTableViewController.swift */,
-				64F3DBA41CAC32BB002F2541 /* RouteTableViewCell.swift */,
 				64EAC3AF1CAE3A7A00ABE648 /* StopsTableViewController.swift */,
-				82FD724C1CA8AF2C002060F7 /* Stop.swift */,
+				825485761C7402BA0023E1A5 /* ViewController.swift */,
 				825485781C7402BA0023E1A5 /* Main.storyboard */,
 				8254857E1C7402BA0023E1A5 /* Assets.xcassets */,
 				825485801C7402BA0023E1A5 /* LaunchScreen.storyboard */,
 				825485831C7402BA0023E1A5 /* Info.plist */,
 				8254857B1C7402BA0023E1A5 /* Shuttle.xcdatamodeld */,
-				82FD72481CA88383002060F7 /* Route.swift */,
-				0DCBD4B21CA906F300727923 /* Bus.png */,
-				0DCBD4B31CA906F300727923 /* stop-circle.png */,
 			);
 			path = Shuttle;
 			sourceTree = "<group>";
@@ -170,7 +186,7 @@
 				TargetAttributes = {
 					825485701C7402BA0023E1A5 = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = 4G9Y57SZLT;
+						DevelopmentTeam = 2N9WH3D3CV;
 					};
 				};
 			};

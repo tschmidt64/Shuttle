@@ -70,7 +70,7 @@ class StopsTableViewController: UITableViewController, CLLocationManagerDelegate
         // Dispose of any resources that can be recreated.
     }
     
-    //method used to switch what direction routes we present in the tableview
+    //method used to switch what direction routes we present in the 
     @IBAction func StopsSegmentedControlChoose(sender: AnyObject) {
         if StopsSegmentedControl.selectedSegmentIndex == 0 {
             print("toward campus and \(curRoute.routeNum)")
@@ -187,6 +187,7 @@ class StopsTableViewController: UITableViewController, CLLocationManagerDelegate
         //pass selected route into viewcontroller by sending the string for the route and the array for the route
         let vc:ViewController = segue.destinationViewController as! ViewController
         
+        //let stopId:String = curStops[index!].stopId
         vc.stop = self.curStops[index!]
         vc.route = self.curRoute
         
@@ -195,4 +196,57 @@ class StopsTableViewController: UITableViewController, CLLocationManagerDelegate
         backItem.title = "Stops"
         navigationItem.backBarButtonItem = backItem
     }
+    
+    
+
+    
+    //this should be integrated with core data so not needed to repeat
+    /* func generateStops() {
+        tempStop["name"] = "300 21ST & SAN JACINTO"
+        tempStop["lat"]  = 3116788.6417877
+        tempStop["long"] = 10076357.069287
+        stops["4136"] = tempStop
+        
+        tempStop["name"] = "400 23RD & SAN JACINTO"
+        tempStop["lat"]  = 3117101.130664
+        tempStop["long"] = 10077110.572374
+        stops["3750"] = tempStop
+        
+        tempStop["name"] = "ROBERT DEDMAN & TRINITY"
+        tempStop["lat"]  = 3118165.3047168
+        tempStop["long"] = 10077858.024947
+        stops["4143"] = tempStop
+        
+        tempStop["name"] = "701 DEAN KEETON & SAN JACINTO"
+        tempStop["lat"]  = 3117688.2784399
+        tempStop["long"] = 10078481.421666
+        stops["2005"] = tempStop
+        
+        tempStop["name"] = "305 DEAN KEETON & SAN JACINTO"
+        tempStop["lat"]  = 3116537.8693234
+        tempStop["long"] = 10078500.28613
+        stops["5438"] = tempStop
+        
+        tempStop["name"] = "201 DEAN KEETON & UNIVERSITY"
+        tempStop["lat"]  = 3115235.3735688
+        tempStop["long"] = 10078584.577628
+        stops["3512"] = tempStop
+        
+        tempStop["name"] = "2231 GUADALUPE & WEST MALL UT"
+        tempStop["lat"]  = 3114542.7552034
+        tempStop["long"] = 10077186.693284
+        stops["1042"] = tempStop
+        
+        tempStop["name"] = "21ST & WHITIS MID-BLOCK"
+        tempStop["lat"]  = 3114708.615764
+        tempStop["long"] = 10076501.782909
+        stops["2780"] = tempStop
+        
+        tempStop["name"] = "21ST & SPEEDWAY"
+        tempStop["lat"]  = 30.283479
+        tempStop["long"] = -97.737158
+        stops["5207"] = tempStop
+        
+    } */
+
 }
