@@ -64,7 +64,7 @@ class RoutesTableViewController: UITableViewController {
     }
     
     func getCoordsForRoute(routeNum: String, direction: String) -> [CLLocationCoordinate2D] {
-        print(routeNum)
+//        print(routeNum)
         var coords = [CLLocationCoordinate2D]()
         
         if let path = NSBundle.mainBundle().pathForResource("routes/shapes_" + routeNum + "_" + direction, ofType: "json") {
@@ -158,7 +158,7 @@ class RoutesTableViewController: UITableViewController {
         //pass selected route into viewcontroller by sending the string for the route and the array for the route
         let stopsTableView:StopsTableViewController = segue.destinationViewController as! StopsTableViewController
         let selectedRoute:Route = routes[index!]
-        print("selectedRoute \(selectedRoute.nameLong)")
+//        print("selectedRoute \(selectedRoute.nameLong)")
         selectedRoute.routeCoords = getCoordsForRoute(String(selectedRoute.routeNum), direction: "0")
         stopsTableView.curRoute = selectedRoute
 

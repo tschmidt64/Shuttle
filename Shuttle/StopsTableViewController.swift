@@ -87,10 +87,10 @@ class StopsTableViewController: UITableViewController, CLLocationManagerDelegate
     //method used to switch what direction routes we present in the tableview
     @IBAction func StopsSegmentedControlChoose(sender: AnyObject) {
         if StopsSegmentedControl.selectedSegmentIndex == 0 {
-            print("toward campus and \(curRoute.routeNum)")
+//            print("toward campus and \(curRoute.routeNum)")
             self.popRouteObj(curRoute.routeNum, direction: 1)
         } else {
-            print("away from campus and \(curRoute.routeNum)")
+//            print("away from campus and \(curRoute.routeNum)")
             self.popRouteObj(curRoute.routeNum, direction: 0)
         }
         sortAndSetStops()

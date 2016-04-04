@@ -77,7 +77,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
     
     func updateTitle() {
-        print("LAST UPDATE RUNNING")
+//        print("LAST UPDATE RUNNING")
         if let bus = route.busesOnRoute.last {
             let timeSinceUpdate = Int(NSDate().timeIntervalSinceDate(bus.lastUpdateTime))
             let seconds = timeSinceUpdate % 60
@@ -119,7 +119,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             self.stopAnnotation = StopAnnotation(coordinate: coord, title: "Stop at " + self.stopName, subtitle: "", img: "stop-circle.png")
             //self.mapView.removeAnnotations(self.mapView.annotations)
             self.mapView.addAnnotation(self.stopAnnotation)
-            print(self.stopLat, self.stopLong)
+//            print(self.stopLat, self.stopLong)
             self.centerMapOnLocation(CLLocation(latitude: self.stopLat, longitude: self.stopLong)) //consider centering on stop instead
         })
         
@@ -135,7 +135,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     // Set up timer to periodically run refresh on this object
     // use the object's list of buses to populate map with annotations
     func getDataFromBuses() {
-        print("in get get data from buses   ")
+//        print("in get get data from buses   ")
         
         self.route.refreshBuses()
         
@@ -171,7 +171,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                         orientation: 0)
                 }
                 
-                print("bus  latitude: \(bus.location.latitude), bus longitude: \(bus.location.longitude)")
+//                print("bus  latitude: \(bus.location.latitude), bus longitude: \(bus.location.longitude)")
                 self.mapView.addAnnotation(annotation)
             }
             self.mapView.addAnnotation(self.stopAnnotation)
@@ -210,7 +210,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         //Find the difference between current time and start time.
         
         var elapsedTime: NSTimeInterval = currentTime - startTime
-        print(elapsedTime)
+//        print(elapsedTime)
         
         //calculate the minutes in elapsed time.
         
