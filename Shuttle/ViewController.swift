@@ -25,6 +25,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     var stopAnnotation: StopAnnotation!
     var routeNum: Int = 0
     
+    @IBOutlet weak var zoomToLoc: UIButton!
     var routePoints = [CLLocationCoordinate2D]()
     
     @IBOutlet weak var mapView: MKMapView!
@@ -56,6 +57,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         //add640Route()
         addRoutePolyline()
         //print(self.routeNum)
+        
+        //set arrow image in button
+        let scaledArrow = resizeImage(UIImage(named: "Direction.png")!, newWidth: 30.0)
+        zoomToLoc.setImage(scaledArrow, forState: UIControlState.Normal)
         
         //self.navigationItem.title = "Buses for Route \(route.routeNum)"
         updateTitle()
