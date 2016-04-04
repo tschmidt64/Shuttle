@@ -29,7 +29,9 @@ class StopsTableViewController: UITableViewController, CLLocationManagerDelegate
         //I referenced capmetro pdf for this info
         //https://www.capmetro.org/uploadedFiles/Capmetroorg/Schedules_and_Maps/ut-shuttles.pdf
         if(curRoute.routeNum == 640 || curRoute.routeNum == 641 || curRoute.routeNum == 642 ) {
-            self.popRouteObj(curRoute.routeNum, direction: 0) //do this because these routes only have on direction, so need to be set on 0                           
+            self.curRoute.generateStopCoords(0)
+            self.curRoute.generateRouteCoords(0)
+            //do this because these routes only have on direction, so need to be set on 0
             StopsSegmentedControl.hidden = true
             self.navBar.removeFromSuperview()
             self.tableView.contentInset = UIEdgeInsets(top: -44.0, left: 0.0, bottom: 0.0, right: 0.0)
@@ -87,11 +89,11 @@ class StopsTableViewController: UITableViewController, CLLocationManagerDelegate
     //method used to switch what direction routes we present in the tableview
     @IBAction func StopsSegmentedControlChoose(sender: AnyObject) {
         if StopsSegmentedControl.selectedSegmentIndex == 0 {
-//            print("toward campus and \(curRoute.routeNum)")
-            self.popRouteObj(curRoute.routeNum, direction: 1)
+            self.curRoute.generateStopCoords(1)
+            self.curRoute.generateRouteCoords(1)
         } else {
-//            print("away from campus and \(curRoute.routeNum)")
-            self.popRouteObj(curRoute.routeNum, direction: 0)
+            self.curRoute.generateStopCoords(0)
+            self.curRoute.generateRouteCoords(0)
         }
         sortAndSetStops()
         self.tableView.reloadData();
@@ -129,7 +131,7 @@ class StopsTableViewController: UITableViewController, CLLocationManagerDelegate
         return cell
     }
     
-    func popRouteObj(route:Int, direction:Int) {
+    /* func popRouteObj(route:Int, direction:Int) {
         let filePath:String = "stops/stops_\(route)_\(direction)"
         if let path = NSBundle.mainBundle().pathForResource(filePath, ofType: "json") {
             if let data = NSData(contentsOfFile: path) {
@@ -148,7 +150,7 @@ class StopsTableViewController: UITableViewController, CLLocationManagerDelegate
                 }
             }
         }
-    }
+    } */
     
 
     /*
@@ -204,7 +206,7 @@ class StopsTableViewController: UITableViewController, CLLocationManagerDelegate
         
         vc.stop = self.curStops[index!]
         vc.route = self.curRoute
-        
+                
         //set back button for next screen
         let backItem = UIBarButtonItem()
         backItem.title = "Stops"

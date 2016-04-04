@@ -27,8 +27,8 @@ class Route {
     
     func refreshAll() {
         self.refreshBuses()
-        self.generateRouteCoords()
-        self.generateStopCoords()
+        self.generateRouteCoords(1)
+        self.generateStopCoords(1)
     }
     
     /*
@@ -82,12 +82,13 @@ class Route {
     
     /*
      This refreshes the array self.routeCoords with the most recent data available
+     This method needs to be updated to take in an integer that represents whether the route is inbound or outbound
      */
-    func generateRouteCoords() {
+    func generateRouteCoords(direction: Int) {
         // This is where Micah's code to fetch routes goes
         var coords = [CLLocationCoordinate2D]()
         
-        if let path = NSBundle.mainBundle().pathForResource("routes/shapes_\(self.routeNum)_0", ofType: "json") {
+        if let path = NSBundle.mainBundle().pathForResource("routes/shapes_\(self.routeNum)_\(direction)", ofType: "json") {
             if let data = NSData(contentsOfFile: path) {
                 let json = JSON(data: data, options: NSJSONReadingOptions.AllowFragments, error: nil)
                 for (_, point) in json {
@@ -105,9 +106,25 @@ class Route {
     /*
      This refreshes the array self.stopCoords with the most recent data available
      */
-    func generateStopCoords() {
-        // This is where Julio's code to fetch stops goes
-    }
+    func generateStopCoords(direction: Int) {
+        let filePath:String = "stops/stops_\(self.routeNum)_\(direction)"
+        if let path = NSBundle.mainBundle().pathForResource(filePath, ofType: "json") {
+            if let data = NSData(contentsOfFile: path) {
+                let json = JSON(data: data, options: NSJSONReadingOptions.AllowFragments, error: nil)
+                self.stops = []
+                for (_, stop) in json {
+                    let lat = Double(stop["stop_lat"].stringValue)!
+                    let long  = Double(stop["stop_lon"].stringValue)!
+                    let name = stop["stop_desc"].stringValue
+                    let stopID = stop["stop_id"].stringValue
+                    let stopSeq = stop["stop_sequence"].intValue
+                    let tempStop:Stop = Stop(location: CLLocationCoordinate2D(latitude: lat, longitude: long), name: name, stopID: stopID, index: stopSeq)
+                    self.stops.append(tempStop)
+                }
+            }
+        }
+
+    } 
     
     
     func busDistancesFromStop(stopId: Stop) -> [String:Double] {
