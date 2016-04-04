@@ -110,7 +110,7 @@ class Route {
     }
     
     
-    func busDistancesFromStopUsingRoute(stopId: Stop) -> [String:Double] {
+    func busDistancesFromStop(stopId: Stop) -> [String:Double] {
         var distances: [String:Double] = [:]
         for bus in self.busesOnRoute {
             let busLoc = CLLocation(latitude: bus.location.latitude, longitude: bus.location.longitude)
@@ -125,48 +125,90 @@ class Route {
                 let secondLoc = CLLocation(latitude: second.latitude, longitude: second.longitude)
                 return firstLoc.distanceFromLocation(stopLoc) < secondLoc.distanceFromLocation(stopLoc)
             })
-        }
-        return [:]
-    }
-    
-    
-    func busDistancesFromStop(stopId startStopId: String) -> [String:Double] {
-        var distances: [String:Double] = [:]
-        let stops = self.stops.sort { $0.index < $1.index }
-        for bus in self.busesOnRoute {
-            // get to the current bus stop first
-            if var currentIndex = (stops.map {$0.stopId }).indexOf(startStopId) {
-                var currentStop: String = stops[currentIndex].stopId
-                // travel along stops summing the distances
+            
+            // TODO: Excuse this disgusting if-let here, will fix later
+            if  var iCur = self.routeCoords.indexOf({ (coord) -> Bool in // use bus for curLoc
+                return closestCoordToBus?.latitude == coord.latitude
+                    && closestCoordToBus?.longitude == coord.longitude
+            }), let iStop =  self.routeCoords.indexOf({ (coord) -> Bool in // use stop for stopLoc
+                return closestCoordToStop?.latitude == coord.latitude
+                    && closestCoordToStop?.longitude == coord.longitude
+            }) {
+                var iNext = (iCur == self.routeCoords.count - 1) ? 0 : iCur + 1
                 var distance = 0.0
-                var prevIndex = (currentIndex == 0) ? stops.count-1 : currentIndex-1
-                let goalStopId = bus.nextStopId
-                if (stops.map{$0.stopId}).contains({ (s) -> Bool in s == goalStopId }) {
-                    while(currentStop != goalStopId) { // stop once we've reached the bus's next stop
-                        print("CURRENT: \(currentStop) | GOAL \(goalStopId)")
-                        // Create CLLocation objs for use by distanceFromLocation
-                        let curStopCoord = stops[currentIndex].location
-                        let prevStopCoord = stops[prevIndex].location
-                        let curStopLoc = CLLocation(latitude: curStopCoord.latitude, longitude: curStopCoord.longitude)
-                        let prevStopLoc = CLLocation(latitude: prevStopCoord.latitude, longitude: prevStopCoord.longitude)
-                        // Calculate distance and add to total
-                        distance += curStopLoc.distanceFromLocation(prevStopLoc)
-                        // Get new indices and stops
-                        currentIndex = (currentIndex == 0) ? stops.count-1 : currentIndex-1
-                        prevIndex = (prevIndex == 0) ? stops.count-1 : prevIndex-1
-                        currentStop = stops[currentIndex].stopId
-                    }
-                    // Calculate distance from the last stop we looked at to the bus itself
-                    let curStopCoord = stops[currentIndex].location
-                    let curStopLoc = CLLocation(latitude: curStopCoord.latitude, longitude: curStopCoord.longitude)
-                    let busLoc = CLLocation(latitude: bus.location.latitude, longitude: bus.location.longitude)
-                    distance += curStopLoc.distanceFromLocation(busLoc)
-                    // Append to the return value
-                    distances[bus.busId] = distance
-                }
+                // current and next CLLocationCoordinate2D
+                var curCoord = self.routeCoords[iCur]
+                var nextCoord = self.routeCoords[iNext]
+                // current and next CLlocation
+                var curLoc = CLLocation(latitude: curCoord.latitude, longitude: curCoord.longitude)
+                var nextLoc = CLLocation(latitude: nextCoord.latitude, longitude: nextCoord.longitude)
                 
+                while iCur != iStop{
+                    let curLen = nextLoc.distanceFromLocation(curLoc)
+                    distance += curLen
+                    // Loop the indices
+                    iCur = (iCur == self.routeCoords.count - 1) ? 0 : iCur + 1
+                    iNext = (iNext == self.routeCoords.count - 1) ? 0 : iNext + 1
+                    
+                    print("CURRENT: \(iCur)")
+                    // update CLLocationCoordinate2Ds
+                    curCoord = self.routeCoords[iCur]
+                    nextCoord = self.routeCoords[iNext]
+                    // Update CLLocations
+                    curLoc = CLLocation(latitude: curCoord.latitude, longitude: curCoord.longitude)
+                    nextLoc = CLLocation(latitude: nextCoord.latitude, longitude: nextCoord.longitude)
+                }
+                distance += nextLoc.distanceFromLocation(curLoc)
+                distances[bus.busId] = distance
             }
+            
         }
         return distances
     }
+    
+    /*
+     This function is like the one above, except takes a startStopId as
+     a string and it uses the stops for measuring distances instead of the actual routes themselves
+     
+     In other words, this one is worse in every way
+     */
+//    func busDistancesFromStop(stopId startStopId: String) -> [String:Double] {
+//        var distances: [String:Double] = [:]
+//        let stops = self.stops.sort { $0.index < $1.index }
+//        for bus in self.busesOnRoute {
+//            // get to the current bus stop first
+//            if var currentIndex = (stops.map {$0.stopId }).indexOf(startStopId) {
+//                var currentStop: String = stops[currentIndex].stopId
+//                // travel along stops summing the distances
+//                var distance = 0.0
+//                var prevIndex = (currentIndex == 0) ? stops.count-1 : currentIndex-1
+//                let goalStopId = bus.nextStopId
+//                if (stops.map{$0.stopId}).contains({ (s) -> Bool in s == goalStopId }) {
+//                    while(currentStop != goalStopId) { // stop once we've reached the bus's next stop
+//                        print("CURRENT: \(currentStop) | GOAL \(goalStopId)")
+//                        // Create CLLocation objs for use by distanceFromLocation
+//                        let curStopCoord = stops[currentIndex].location
+//                        let prevStopCoord = stops[prevIndex].location
+//                        let curStopLoc = CLLocation(latitude: curStopCoord.latitude, longitude: curStopCoord.longitude)
+//                        let prevStopLoc = CLLocation(latitude: prevStopCoord.latitude, longitude: prevStopCoord.longitude)
+//                        // Calculate distance and add to total
+//                        distance += curStopLoc.distanceFromLocation(prevStopLoc)
+//                        // Get new indices and stops
+//                        currentIndex = (currentIndex == 0) ? stops.count-1 : currentIndex-1
+//                        prevIndex = (prevIndex == 0) ? stops.count-1 : prevIndex-1
+//                        currentStop = stops[currentIndex].stopId
+//                    }
+//                    // Calculate distance from the last stop we looked at to the bus itself
+//                    let curStopCoord = stops[currentIndex].location
+//                    let curStopLoc = CLLocation(latitude: curStopCoord.latitude, longitude: curStopCoord.longitude)
+//                    let busLoc = CLLocation(latitude: bus.location.latitude, longitude: bus.location.longitude)
+//                    distance += curStopLoc.distanceFromLocation(busLoc)
+//                    // Append to the return value
+//                    distances[bus.busId] = distance
+//                }
+//                
+//            }
+//        }
+//        return distances
+//    }
 }

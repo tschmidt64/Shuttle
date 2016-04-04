@@ -140,7 +140,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             self.mapView.removeAnnotations(self.mapView.annotations)
             
             
-            let distances = self.route.busDistancesFromStop(stopId: self.stop.stopId)
+            let distances = self.route.busDistancesFromStop(self.stop)
             for bus in self.route.busesOnRoute {
                 //TODO not sure if orientaiton passing is cool here
                 var distanceMiles: Double? = nil
