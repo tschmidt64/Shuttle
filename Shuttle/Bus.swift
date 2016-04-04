@@ -20,7 +20,7 @@ class Bus {
         self.orientation = orientation
         self.nextStopId = nextStopId
         self.busId = busId
-        let temp = NSDate(timeIntervalSince1970:  ( (updateTime/1000) - (5*3600) )  )
+        let temp = NSDate(timeIntervalSince1970: (updateTime/1000))
         //used to convert time to seconds
         self.timeSinceUpdate = NSDate().timeIntervalSinceDate(temp) / 1000
         print("lastUpdateTime = \(self.timeSinceUpdate)")
