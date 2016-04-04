@@ -50,6 +50,11 @@ class StopsTableViewController: UITableViewController, CLLocationManagerDelegate
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        if let selected = self.tableView.indexPathForSelectedRow {
+            self.tableView.deselectRowAtIndexPath(selected, animated: true)
+        }
+    }
     
     
     func sortAndSetStops() {
