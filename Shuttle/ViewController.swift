@@ -75,7 +75,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
     
     func updateTitle() {
-        if let bus = route.busesOnRoute.first {
+        print("LAST UPDATE RUNNING")
+        if let bus = route.busesOnRoute.last {
             self.navigationItem.titleView = setTitle("Buses for Route \(route.routeNum)", subtitle: "Last Update: \(bus.stringFromTimeInterval(bus.timeSinceUpdate))")
         } else {
             self.navigationItem.titleView = setTitle("No Buses on route \(route.routeNum)", subtitle: "")
@@ -137,11 +138,23 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         
             // Create annotation from lattitude and longitude
             self.mapView.removeAnnotations(self.mapView.annotations)
-            print(self.route.busesOnRoute)
-            print("About to loop over all buses")
+            
+            
+            let distances = self.route.busDistancesFromStop(stopId: self.stop.stopId)
             for bus in self.route.busesOnRoute {
                 //TODO not sure if orientaiton passing is cool here
-                let annotation = BusAnnotation(coordinate: bus.location, title: "Bus \(self.route.routeNum)", subtitle: "Bus Id: \(bus.busId)", img: "Bus-Circle.png", orientation: bus.orientation)
+                let distance: Double
+                if let temp = distances[bus.busId] {
+                    distance = temp
+                } else {
+                    distance = 0.0
+                }
+                let annotation = BusAnnotation(coordinate: bus.location,
+                    title: "Bus \(self.route.routeNum)",
+                    subtitle: "Distance: \(String(format: "%.2f", distance))m",
+                    img: "Bus-Circle.png",
+                    orientation: bus.orientation)
+                
                 print("bus  latitude: \(bus.location.latitude), bus longitude: \(bus.location.longitude)")
                 self.mapView.addAnnotation(annotation)
             }

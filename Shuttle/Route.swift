@@ -35,6 +35,8 @@ class Route {
      This refreshes the array self.busesOnRoute with the most recent data available
      */
     func refreshBuses() {
+        print("REFRESH BUSES ROUTE: \(self.routeNum)")
+        print("")
         let newUrlString = "http://52.88.82.199:8080/onebusaway-api-webapp/api/where/trips-for-route/1_\(routeNum).json?key=TEST&includeSchedules=true&includeStatus=true&_=50000"
         
         let newURL = NSURL(string: newUrlString)
