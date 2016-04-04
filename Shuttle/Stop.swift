@@ -13,11 +13,12 @@ class Stop {
     var location: CLLocationCoordinate2D
     var name: String
     var stopId: String
-    
-    init(location loc: CLLocationCoordinate2D, name: String, stopID id: String) {
+    var index: Int
+    init(location loc: CLLocationCoordinate2D, name: String, stopID id: String, index: Int) {
         self.location = loc
         self.name = name.toUpperCaseFirstLetters
         self.stopId = id
+        self.index = index
     }
 }
 

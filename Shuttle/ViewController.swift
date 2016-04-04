@@ -13,7 +13,7 @@ import CoreLocation
 
 class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     var route:Route = Route(routeNum: 0, nameShort: "", nameLong: "")
-    var stop:Stop = Stop(location: CLLocationCoordinate2D(latitude: 0, longitude: 0), name: "", stopID: "")
+    var stop:Stop = Stop(location: CLLocationCoordinate2D(latitude: 0, longitude: 0), name: "", stopID: "", index: 0)
     var locationManager: CLLocationManager!
     let regionRadius: CLLocationDistance = 1000
     var startTime = NSTimeInterval() //start stopwatch timer
@@ -135,7 +135,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         
         // Have thread updating UI in foreground
         dispatch_async(dispatch_get_main_queue(), {
-        
+
             // Create annotation from lattitude and longitude
             self.mapView.removeAnnotations(self.mapView.annotations)
             
@@ -143,17 +143,24 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             let distances = self.route.busDistancesFromStop(stopId: self.stop.stopId)
             for bus in self.route.busesOnRoute {
                 //TODO not sure if orientaiton passing is cool here
-                let distance: Double
-                if let temp = distances[bus.busId] {
-                    distance = temp
-                } else {
-                    distance = 0.0
+                var distanceMiles: Double? = nil
+                if let distanceMeters = distances[bus.busId] {
+                    distanceMiles = distanceMeters * 0.000621371
                 }
-                let annotation = BusAnnotation(coordinate: bus.location,
-                    title: "Bus \(self.route.routeNum)",
-                    subtitle: "Distance: \(String(format: "%.2f", distance))m",
-                    img: "Bus-Circle.png",
-                    orientation: bus.orientation)
+                let annotation: BusAnnotation
+                if distanceMiles != nil {
+                    annotation = BusAnnotation(coordinate: bus.location,
+                        title: "Bus \(self.route.routeNum)",
+                        subtitle: "Distance: \(String(format: "%.2f", distanceMiles!)) mi",
+                        img: "Bus-Circle.png",
+                        orientation: 0)
+                } else {
+                    annotation = BusAnnotation(coordinate: bus.location,
+                        title: "Bus \(self.route.routeNum)",
+                        subtitle: "Distance Unkown",
+                        img: "Bus-Circle.png",
+                        orientation: 0)
+                }
                 
                 print("bus  latitude: \(bus.location.latitude), bus longitude: \(bus.location.longitude)")
                 self.mapView.addAnnotation(annotation)
@@ -179,7 +186,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             // READ EXTENSION DOWN BELOW, GOT FROM:
             // http://stackoverflow.com/questions/27092354/rotating-uiimage-in-swift
             //TODO I think all the buses look like they are moving backward, so might need to adjust the orientation modifier (+10) more
-            let image = resizeImage( UIImage(named: ann.img)!, newWidth: 50.0).imageRotatedByDegrees(CGFloat(ann.orientation + 10), flip: true)
+            let image = resizeImage( UIImage(named: ann.img)!, newWidth: 30.0)
             view.image = image
         } else {
             return nil

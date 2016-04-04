@@ -52,25 +52,6 @@ class RoutesTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func getCoordsForRoute(routeNum: String, direction: String) -> [CLLocationCoordinate2D] {
-        print(routeNum)
-        var coords = [CLLocationCoordinate2D]()
-        
-        if let path = NSBundle.mainBundle().pathForResource("routes/shapes_" + routeNum + "_" + direction, ofType: "json") {
-            if let data = NSData(contentsOfFile: path) {
-                let json = JSON(data: data, options: NSJSONReadingOptions.AllowFragments, error: nil)
-                //coords.append(CLLocationCoordinate2D(latitude: <#T##CLLocationDegrees#>, longitude: <#T##CLLocationDegrees#>)
-                for (_, point) in json {
-                    
-                    let lat = Double(point["shape_pt_lat"].stringValue)!
-                    let long  = Double(point["shape_pt_lon"].stringValue)!
-                    coords.append(CLLocationCoordinate2D(latitude: lat, longitude: long))
-
-                }
-            }
-        }
-        return coords;
-    }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -153,7 +134,6 @@ class RoutesTableViewController: UITableViewController {
         let stopsTableView:StopsTableViewController = segue.destinationViewController as! StopsTableViewController
         let selectedRoute:Route = routes[index!]
         print("selectedRoute \(selectedRoute.nameLong)")
-        selectedRoute.routeCoords = getCoordsForRoute(String(selectedRoute.routeNum), direction: "0")
         stopsTableView.curRoute = selectedRoute
 
         //TO-DO this is hard coded, figure out directional stuff

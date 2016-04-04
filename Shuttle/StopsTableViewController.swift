@@ -68,7 +68,7 @@ class StopsTableViewController: UITableViewController, CLLocationManagerDelegate
     
     func sortAndSetStops() {
         // Sort stops by distance from user
-        self.curStops = self.curRoute.stops.sort() {
+        self.curStops = self.curRoute.stops.sort {
             if let uCoord = self.locationManager.location?.coordinate {
                 let uLoc = CLLocation(latitude: uCoord.latitude, longitude: uCoord.longitude)
                 let stop0 = CLLocation(latitude: $0.location.latitude, longitude: $0.location.longitude)
@@ -140,7 +140,8 @@ class StopsTableViewController: UITableViewController, CLLocationManagerDelegate
                     let long  = Double(stop["stop_lon"].stringValue)!
                     let name = stop["stop_desc"].stringValue
                     let stopID = stop["stop_id"].stringValue
-                    let tempStop:Stop = Stop(location: CLLocationCoordinate2D(latitude: lat, longitude: long), name: name, stopID: stopID)
+                    let stopSeq = stop["stop_sequence"].intValue
+                    let tempStop:Stop = Stop(location: CLLocationCoordinate2D(latitude: lat, longitude: long), name: name, stopID: stopID, index: stopSeq)
                     self.curRoute.stops.append(tempStop)
                     //coords.append(CLLocationCoordinate2D(latitude: lat, longitude: long)
                     //print("jsonData:\(json)")
