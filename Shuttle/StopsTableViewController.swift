@@ -19,6 +19,8 @@ class StopsTableViewController: UITableViewController, CLLocationManagerDelegate
     //var routePoints = [CLLocationCoordinate2D]()
 
     @IBOutlet weak var StopsSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var navItem: UINavigationItem!
+    @IBOutlet weak var navBar: UINavigationBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +31,13 @@ class StopsTableViewController: UITableViewController, CLLocationManagerDelegate
         if(curRoute.routeNum == 640 || curRoute.routeNum == 641 || curRoute.routeNum == 642 ) {
             self.popRouteObj(curRoute.routeNum, direction: 0) //do this because these routes only have on direction, so need to be set on 0                           
             StopsSegmentedControl.hidden = true
+            self.navBar.removeFromSuperview()
+            self.tableView.contentInset = UIEdgeInsets(top: -44.0, left: 0.0, bottom: 0.0, right: 0.0)
+        } else {
+            let item = UINavigationItem()
+            item.titleView = self.StopsSegmentedControl
+            self.navBar.barTintColor = UIColor.whiteColor()
+            self.navBar.items = [item]
         }
         
         // Set up user location
