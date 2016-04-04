@@ -16,7 +16,7 @@ class Stop {
     
     init(location loc: CLLocationCoordinate2D, name: String, stopID id: String) {
         self.location = loc
-        self.name = name.lowercaseString.toUpperCaseFirstLetters
+        self.name = name.toUpperCaseFirstLetters
         self.stopId = id
     }
 }
@@ -31,7 +31,7 @@ extension String {
     var toUpperCaseFirstLetters: String {
         get {
             var newCharArr: [String] = []
-            let wordsArr = self.componentsSeparatedByString(" ")
+            let wordsArr = self.lowercaseString.componentsSeparatedByString(" ")
             for word in wordsArr {
                 var wordCharArr = word.characters.map() { String($0) }
                 // If empty this will crash
