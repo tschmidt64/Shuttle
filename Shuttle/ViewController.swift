@@ -128,7 +128,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     func getDataFromBuses() {
         print("in get get data from buses   ")
         
-        self.route.refreshBuses()
+        self.refresh()
         
         self.updateStopwatch()
         self.startTime = NSDate.timeIntervalSinceReferenceDate()

@@ -22,7 +22,7 @@ class Bus {
         self.busId = busId
         let temp = NSDate(timeIntervalSince1970: (updateTime/1000))
         //used to convert time to seconds
-        self.timeSinceUpdate = NSDate().timeIntervalSinceDate(temp) / 1000
+        self.timeSinceUpdate = NSDate().timeIntervalSinceDate(temp)
         print("lastUpdateTime = \(self.timeSinceUpdate)")
     }
     
