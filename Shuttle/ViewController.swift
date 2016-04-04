@@ -141,7 +141,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             print("About to loop over all buses")
             for bus in self.route.busesOnRoute {
                 //TODO not sure if orientaiton passing is cool here
-                let annotation = BusAnnotation(coordinate: bus.location, title: "Bus \(self.route.routeNum)", subtitle: "Bus Id: \(bus.busId)", img: "Bus.png", orientation: bus.orientation)
+                let annotation = BusAnnotation(coordinate: bus.location, title: "Bus \(self.route.routeNum)", subtitle: "Bus Id: \(bus.busId)", img: "Bus-Circle.png", orientation: bus.orientation)
                 print("bus  latitude: \(bus.location.latitude), bus longitude: \(bus.location.longitude)")
                 self.mapView.addAnnotation(annotation)
             }
