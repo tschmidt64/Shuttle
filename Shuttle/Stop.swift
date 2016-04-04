@@ -22,6 +22,12 @@ class Stop {
 }
 
 extension String {
+    /*
+     Better for our needs than String.capitalizedString because that find the first *alpha*
+     character of each word, not just the first character of each word
+     "14th street".capitalizedString == "14Th Street" // the 'Th' looks weird
+     "14th street".toUpperCaseFirstLetters == "14th Street" // this 'th' looks better
+     */
     var toUpperCaseFirstLetters: String {
         get {
             var newCharArr: [String] = []
