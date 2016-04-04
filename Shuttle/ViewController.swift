@@ -52,7 +52,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         locationManager.delegate = self
         locationManager.startUpdatingLocation()
         getDataFromBuses()
+        updateTitle()
         _ = NSTimer.scheduledTimerWithTimeInterval(15, target: self, selector: #selector(ViewController.getDataFromBuses), userInfo: nil, repeats: true)
+        _ = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(ViewController.updateTitle), userInfo: nil, repeats: true)
         
         //add640Route()
         addRoutePolyline()
@@ -63,17 +65,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         zoomToLoc.setImage(scaledArrow, forState: UIControlState.Normal)
         
         //self.navigationItem.title = "Buses for Route \(route.routeNum)"
-        updateTitle()
         self.stopLat = self.stop.location.latitude
         self.stopLong = self.stop.location.longitude
         self.stopName = self.stop.name
         self.routeNum = self.route.routeNum
     }
     
-    func refresh() {
-        route.refreshBuses()
-        updateTitle()
-    }
     func addRoutePolyline() {
         let polyline = MKPolyline(coordinates: &route.routeCoords, count: route.routeCoords.count)
         self.mapView.addOverlay(polyline)
@@ -82,7 +79,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     func updateTitle() {
         print("LAST UPDATE RUNNING")
         if let bus = route.busesOnRoute.last {
-            self.navigationItem.titleView = setTitle("Buses for Route \(route.routeNum)", subtitle: "Last Update: \(bus.stringFromTimeInterval(bus.timeSinceUpdate))")
+            let timeSinceUpdate = Int(NSDate().timeIntervalSinceDate(bus.lastUpdateTime))
+            let seconds = timeSinceUpdate % 60
+        //let hours = interval / 3600
+            let secondsStr = String(format: "%02d secs", seconds)
+        //used to convert time to seconds
+//        self.timeSinceUpdate = NSDate().timeIntervalSinceDate(temp)
+ 
+            self.navigationItem.titleView = setTitle("Buses for Route \(route.routeNum)", subtitle: "Last Update: \(secondsStr)")
         } else {
             self.navigationItem.titleView = setTitle("No Buses on route \(route.routeNum)", subtitle: "")
         }
@@ -133,7 +137,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     func getDataFromBuses() {
         print("in get get data from buses   ")
         
-        self.refresh()
+        self.route.refreshBuses()
         
         self.updateStopwatch()
         self.startTime = NSDate.timeIntervalSinceReferenceDate()
