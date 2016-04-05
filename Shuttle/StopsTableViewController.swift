@@ -28,7 +28,7 @@ class StopsTableViewController: UITableViewController, CLLocationManagerDelegate
         //these three busses are just circulators, 640 and 640 run clockwise, 642 runs counter clockwise
         //I referenced capmetro pdf for this info
         //https://www.capmetro.org/uploadedFiles/Capmetroorg/Schedules_and_Maps/ut-shuttles.pdf
-        if(curRoute.routeNum == 640 || curRoute.routeNum == 641 || curRoute.routeNum == 642 ) {
+        if(curRoute.routeNum == 640 || curRoute.routeNum == 642 ) {
             self.curRoute.generateStopCoords(0)
             self.curRoute.generateRouteCoords(0)
             //do this because these routes only have on direction, so need to be set on 0

@@ -192,7 +192,7 @@
 				TargetAttributes = {
 					825485701C7402BA0023E1A5 = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = 2N9WH3D3CV;
+						DevelopmentTeam = 4G9Y57SZLT;
 					};
 				};
 			};
@@ -412,6 +412,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Shuttle/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;

@@ -159,7 +159,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                 let annotation: BusAnnotation
                 if distanceMiles != nil {
                     annotation = BusAnnotation(coordinate: bus.location,
-                        title: "\(String(format: "%.2f", distanceMiles!)) mi from stop",
+                        title: "\(String(format: "%.2f", distanceMiles!)) miles to stop",
                         subtitle: "",
                         img: "Bus-Circle.png",
                         orientation: 0)
