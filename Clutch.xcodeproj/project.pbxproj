@@ -414,8 +414,9 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Shuttle/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Clutch;
+				PRODUCT_BUNDLE_IDENTIFIER = clutchbusapp;
 				PRODUCT_NAME = Clutch;
 				PROVISIONING_PROFILE = "";
 			};
@@ -430,8 +431,9 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Shuttle/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Clutch;
+				PRODUCT_BUNDLE_IDENTIFIER = clutchbusapp;
 				PRODUCT_NAME = Clutch;
 				PROVISIONING_PROFILE = "";
 			};
