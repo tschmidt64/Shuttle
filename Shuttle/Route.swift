@@ -53,8 +53,8 @@ class Route {
                 for (_, subJson):(String, JSON) in newData {
 //                    print("newUrlString: \(newUrlString)")
 //                    print("JSON: \(subJson)")
-                    let busLoc = subJson["status", "lastKnownLocation"].dictionaryValue
-
+                    var busLoc = subJson["status", "lastKnownLocation"].dictionaryValue
+                    if busLoc.isEmpty { busLoc = subJson["status", "position"].dictionaryValue } // sometimes lastKnownLocation is empty, use this instead
                     var lon: Double = 0.0
                     var lat: Double = 0.0
                     if let temp = busLoc["lat"] {
