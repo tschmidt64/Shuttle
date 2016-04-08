@@ -409,7 +409,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 13FE1A817B820D45B89C0950 /* Pods-Clutch.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -419,7 +419,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = clutchbusapp;
 				PRODUCT_NAME = Clutch;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "76a06574-894b-4750-a3a9-7823619bd9e5";
 			};
 			name = Debug;
 		};
@@ -427,7 +427,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7892EF1B1DF84265FB7E0BC6 /* Pods-Clutch.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
@@ -436,7 +436,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = clutchbusapp;
 				PRODUCT_NAME = Clutch;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "76a06574-894b-4750-a3a9-7823619bd9e5";
 			};
 			name = Release;
 		};
