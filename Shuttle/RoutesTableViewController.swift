@@ -37,7 +37,7 @@ class RoutesTableViewController: UITableViewController, UISearchResultsUpdating 
         self.searchController.searchResultsUpdater = self
         self.searchController.dimsBackgroundDuringPresentation = false
         definesPresentationContext = true
-        searchController.searchBar.barTintColor = UIColor(red: 0.546875, green: 0.890625, blue: 0.64453125, alpha: 1.0)
+        self.searchController.searchBar.barTintColor = UIColor(red: 0.546875, green: 0.890625, blue: 0.64453125, alpha: 1.0)
         tableView.tableHeaderView = searchController.searchBar
         // if there are not enough rows, it will not hide the search bar by default, so set an offset
         self.tableView.contentOffset = CGPointMake(0, self.searchController.searchBar.frame.size.height);
@@ -168,13 +168,17 @@ class RoutesTableViewController: UITableViewController, UISearchResultsUpdating 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        let indexPath:NSIndexPath? = self.tableView!.indexPathForSelectedRow
-        let index = indexPath?.row
-
+        let indexPath = self.tableView!.indexPathForSelectedRow
+        
+        
         //pass selected route into viewcontroller by sending the string for the route and the array for the route
-        let stopsTableView:StopsTableViewController = segue.destinationViewController as! StopsTableViewController
-        let selectedRoute:Route = routes[index!]
-//        print("selectedRoute \(selectedRoute.nameLong)")
+        let stopsTableView = segue.destinationViewController as! StopsTableViewController
+        let selectedRoute: Route
+        if self.searchController.active && self.searchController.searchBar.text != "" {
+            selectedRoute = filteredRoutes[(indexPath?.row)!]
+        } else {
+            selectedRoute = routes[(indexPath?.row)!]
+        }
         stopsTableView.curRoute = selectedRoute
 
         //TO-DO this is hard coded, figure out directional stuff
