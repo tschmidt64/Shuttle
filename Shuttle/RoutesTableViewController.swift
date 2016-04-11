@@ -34,14 +34,9 @@ class RoutesTableViewController: UITableViewController, UISearchResultsUpdating 
         initRoutes()
         self.routes.sortInPlace() { $0.routeNum < $1.routeNum } // sort the routes descending by route number
         
-        self.searchController.searchResultsUpdater = self
-        self.searchController.dimsBackgroundDuringPresentation = false
-        definesPresentationContext = true
-        self.searchController.searchBar.barTintColor = UIColor(red: 0.546875, green: 0.890625, blue: 0.64453125, alpha: 1.0)
-        tableView.tableHeaderView = searchController.searchBar
-        // if there are not enough rows, it will not hide the search bar by default, so set an offset
-        self.tableView.contentOffset = CGPointMake(0, self.searchController.searchBar.frame.size.height);
-        self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: false)
+        addSearchBar()
+        
+//        self.searchController.searchBar.barTintColor =
         
 
         
@@ -52,6 +47,26 @@ class RoutesTableViewController: UITableViewController, UISearchResultsUpdating 
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
+    func addSearchBar() {
+        // Set textfield bg color to light gray
+        UITextField.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self]).backgroundColor = UIColor(white: 0.9, alpha: 1.0)
+        // Set the outside of the search bar to white
+        self.searchController.searchBar.placeholder = "Search routes"
+        self.searchController.searchBar.barTintColor = UIColor.whiteColor()
+        self.searchController.searchBar.tintColor = UIColor.darkGrayColor()
+        // Make the 1px border go away. This was the best soln I found
+        self.searchController.searchBar.layer.borderWidth = 1.0
+        self.searchController.searchBar.layer.borderColor = UIColor.whiteColor().CGColor
+        // Makes search bar functional
+        self.searchController.searchResultsUpdater = self
+        self.searchController.dimsBackgroundDuringPresentation = false
+        definesPresentationContext = true
+        tableView.tableHeaderView = searchController.searchBar
+        // if there are not enough rows, it will not hide the search bar by default, so set an offset
+        self.tableView.contentOffset = CGPointMake(0, self.searchController.searchBar.frame.size.height);
+        self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: false)
+        
+    }
     override func viewWillAppear(animated: Bool) {
         if let selected = self.tableView.indexPathForSelectedRow {
             self.tableView.deselectRowAtIndexPath(selected, animated: true)
