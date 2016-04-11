@@ -34,7 +34,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         mapView.delegate = self
         self.mapView.rotateEnabled = false
         self.mapView.pitchEnabled = false
-        annotateStop()
+        initBusAnnotations()
         
         // Decorate the navigation bar
         UINavigationBar.appearance().tintColor = UIColor.whiteColor()
@@ -71,21 +71,57 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         self.routeNum = self.route.routeNum
     }
     
+    // Initialize stop and bus annotations
+    func initBusAnnotations() {
+        dispatch_async(dispatch_get_main_queue(), {
+            let coord: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: self.stopLat, longitude: self.stopLong)
+            self.stopAnnotation = StopAnnotation(coordinate: coord, title: "Stop at " + self.stopName, subtitle: "", img: "stop-circle.png")
+            self.mapView.addAnnotation(self.stopAnnotation)
+            
+            let distances = self.route.busDistancesFromStop(self.stop)
+            for (_, bus) in self.route.busesOnRoute {
+                //TODO not sure if orientaiton passing is cool here
+                var distanceMiles: Double? = nil
+                if let distanceMeters = distances[bus.busId] {
+                    distanceMiles = distanceMeters * 0.000621371
+                }
+                let annotation: BusAnnotation
+                if distanceMiles != nil {
+                    annotation = BusAnnotation(coordinate: bus.location,
+                        title: "\(String(format: "%.2f", distanceMiles!)) miles to stop",
+                        subtitle: "",
+                        img: "Bus-Circle.png",
+                        orientation: 0,
+                        busId: bus.busId)
+                } else {
+                    annotation = BusAnnotation(coordinate: bus.location,
+                        title: "Bus \(self.route.routeNum)",
+                        subtitle: "Distance Unkown",
+                        img: "Bus-Circle.png",
+                        orientation: 0,
+                        busId: bus.busId)
+                }
+                
+                //                print("bus  latitude: \(bus.location.latitude), bus longitude: \(bus.location.longitude)")
+                print("ADDING ANNOTATION")
+                self.mapView.addAnnotation(annotation)
+            }
+            self.centerMapOnLocation(CLLocation(latitude: self.stopLat, longitude: self.stopLong)) //consider centering on stop instead
+        })
+    }
+    
+    // Add the polyline overlay for the route path to the mapview
     func addRoutePolyline() {
         let polyline = MKPolyline(coordinates: &route.routeCoords, count: route.routeCoords.count)
         self.mapView.addOverlay(polyline)
     }
     
+    // Update the title at the top of the mapview to show the route num and update time
     func updateTitle() {
-//        print("LAST UPDATE RUNNING")
-        if let bus = route.busesOnRoute.last {
+        if let (_, bus) = route.busesOnRoute.first {
             let timeSinceUpdate = Int(NSDate().timeIntervalSinceDate(bus.lastUpdateTime))
             let seconds = timeSinceUpdate % 60
-        //let hours = interval / 3600
             let secondsStr = String(format: "%02d secs", seconds)
-        //used to convert time to seconds
-//        self.timeSinceUpdate = NSDate().timeIntervalSinceDate(temp)
- 
             self.navigationItem.titleView = setTitle("Buses for Route \(route.routeNum)", subtitle: "Last Update: \(secondsStr)")
         } else {
             self.navigationItem.titleView = setTitle("No Buses on route \(route.routeNum)", subtitle: "")
@@ -102,6 +138,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         return nil
     }
     
+    // When user presses current location button, the map should zoom to their location
     @IBAction func zoomToUserLocation(sender: AnyObject) {
         var mapRegion = MKCoordinateRegion()
         mapRegion.center = self.mapView.userLocation.coordinate
@@ -110,74 +147,46 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         self.mapView.setRegion(mapRegion, animated: true)
     }
     
-    func annotateStop() {
-        // Create annotation from lattitude and longitude
-        // Have thread updating UI in foreground
-        dispatch_async(dispatch_get_main_queue(), {
-            let coord: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: self.stopLat, longitude: self.stopLong)
-            //let annotation = StopAnnotation(coordinate: coord, title: "Stop " + self.stopName, subtitle: "")
-            self.stopAnnotation = StopAnnotation(coordinate: coord, title: "Stop at " + self.stopName, subtitle: "", img: "stop-circle.png")
-            //self.mapView.removeAnnotations(self.mapView.annotations)
-            self.mapView.addAnnotation(self.stopAnnotation)
-//            print(self.stopLat, self.stopLong)
-            self.centerMapOnLocation(CLLocation(latitude: self.stopLat, longitude: self.stopLong)) //consider centering on stop instead
-        })
-        
-        
-    }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
-    // get ahold of current Route object
-    // Set up timer to periodically run refresh on this object
-    // use the object's list of buses to populate map with annotations
+    // - Update the bus data from OneBusAway API
+    // - Check the bus annotations and re-add ones with new locations
     func getDataFromBuses() {
-//        print("in get get data from buses   ")
-        
         self.route.refreshBuses()
         
         self.updateStopwatch()
         self.startTime = NSDate.timeIntervalSinceReferenceDate()
         
-        // Have thread updating UI in foreground
         dispatch_async(dispatch_get_main_queue(), {
-
-            // Create annotation from lattitude and longitude
-            self.mapView.removeAnnotations(self.mapView.annotations)
-            
-            
             let distances = self.route.busDistancesFromStop(self.stop)
-            for bus in self.route.busesOnRoute {
-                //TODO not sure if orientaiton passing is cool here
-                var distanceMiles: Double? = nil
-                if let distanceMeters = distances[bus.busId] {
-                    distanceMiles = distanceMeters * 0.000621371
-                }
-                let annotation: BusAnnotation
-                if distanceMiles != nil {
-                    annotation = BusAnnotation(coordinate: bus.location,
-                        title: "\(String(format: "%.2f", distanceMiles!)) miles to stop",
-                        subtitle: "",
-                        img: "Bus-Circle.png",
-                        orientation: 0)
+            for annotation in ((self.mapView.annotations.filter() { $0 is BusAnnotation }) as! [BusAnnotation]) {
+                let id = annotation.busId
+                if let bus = self.route.busesOnRoute[id] {
+                    var distanceMiles: Double? = nil
+                    if let distanceMeters = distances[id] {
+                        distanceMiles = distanceMeters * 0.000621371
+                        annotation.title = "\(String(format: "%.2f", distanceMiles!)) miles to stop"
+                    } else {
+                        annotation.title = "Distance unknown"
+                    }
+                    if annotation.coordinate.latitude != bus.location.latitude
+                    || annotation.coordinate.longitude != bus.location.longitude {
+                        print("OLD COORDINATE:\n \(annotation.coordinate)")
+                        annotation.coordinate = bus.location
+                        print("ADDING OLD ANNOTATION")
+                        self.mapView.addAnnotation(annotation)
+                        print("NEW COORDINATE:\n \(annotation.coordinate)")
+                    }
                 } else {
-                    annotation = BusAnnotation(coordinate: bus.location,
-                        title: "Bus \(self.route.routeNum)",
-                        subtitle: "Distance Unkown",
-                        img: "Bus-Circle.png",
-                        orientation: 0)
+                    print("ERROR: no bus found for id = \(id)")
                 }
-                
-//                print("bus  latitude: \(bus.location.latitude), bus longitude: \(bus.location.longitude)")
-                self.mapView.addAnnotation(annotation)
             }
-            self.mapView.addAnnotation(self.stopAnnotation)
         })
     }
-
+    
     // Called by mapview when adding new annotation
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         var view: MKAnnotationView

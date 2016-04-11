@@ -56,6 +56,7 @@ class RoutesTableViewController: UITableViewController {
             routes.append(Route(routeNum: 672, nameShort: "LS",  nameLong: "Lakeshore"))
             routes.append(Route(routeNum: 680, nameShort: "NR/LS", nameLong: "North Riverside/Lakeshore"))
             routes.append(Route(routeNum: 681, nameShort: "IF/FW", nameLong: "Intramural/Far West"))
+            routes.append(Route(routeNum: 801, nameShort: "NL/SC", nameLong: "North Lamar/South Congress"))
     }
     
     override func didReceiveMemoryWarning() {
@@ -67,10 +68,10 @@ class RoutesTableViewController: UITableViewController {
 //        print(routeNum)
         var coords = [CLLocationCoordinate2D]()
         
-        if let path = NSBundle.mainBundle().pathForResource("routes/shapes_" + routeNum + "_" + direction, ofType: "json") {
+        let filename = "routes/shapes_\(routeNum)_\(direction)"
+        if let path = NSBundle.mainBundle().pathForResource(filename, ofType: "json") {
             if let data = NSData(contentsOfFile: path) {
                 let json = JSON(data: data, options: NSJSONReadingOptions.AllowFragments, error: nil)
-                //coords.append(CLLocationCoordinate2D(latitude: <#T##CLLocationDegrees#>, longitude: <#T##CLLocationDegrees#>)
                 for (_, point) in json {
                     
                     let lat = Double(point["shape_pt_lat"].stringValue)!
@@ -78,10 +79,8 @@ class RoutesTableViewController: UITableViewController {
                     coords.append(CLLocationCoordinate2D(latitude: lat, longitude: long))
 
                 }
-
-                //print(coords)
-            }
-        }
+            } else { print("ERROR: Couldn't convert file \(filename) to data") }
+        } else { print("ERROR: File not found: '\(filename)'") }
         return coords;
     }
     

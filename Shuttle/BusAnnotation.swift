@@ -10,19 +10,22 @@ import MapKit
 
 class BusAnnotation : NSObject, MKAnnotation
 {
-    var coordinate: CLLocationCoordinate2D
+    dynamic var coordinate: CLLocationCoordinate2D
+    var busId: String
     var title: String?
     var subtitle: String?
     var img: String
     var orientation: Double
 
-    init(coordinate: CLLocationCoordinate2D, title: String, subtitle: String, img: String, orientation: Double)
+    init(coordinate: CLLocationCoordinate2D, title: String, subtitle: String, img: String, orientation: Double, busId: String)
     {
-        self.coordinate = coordinate
-        self.title = title
-        self.subtitle = subtitle
         self.img = img
         self.orientation = orientation
+        self.coordinate = coordinate
+        self.busId = busId
+        super.init()
+        self.title = title
+        self.subtitle = subtitle
     }
     
     func pinColor() -> UIColor

@@ -14,7 +14,7 @@ class Route {
     var routeNum: Int
     var routeCoords: [CLLocationCoordinate2D] = []
     var stops: [Stop] = []
-    var busesOnRoute: [Bus] = []
+    var busesOnRoute: [String:Bus] = [:]
     var nameLong: String
     var nameShort: String
 
@@ -40,7 +40,6 @@ class Route {
         let newUrlString = "http://52.88.82.199:8080/onebusaway-api-webapp/api/where/trips-for-route/1_\(routeNum).json?key=TEST&includeSchedules=true&includeStatus=true&_=50000"
         
         let newURL = NSURL(string: newUrlString)
-        var buses: [Bus] = []
         
         let newSession = NSURLSession.sharedSession()
         let newTask = newSession.dataTaskWithURL(newURL!) { (data, response, error) -> Void in
@@ -53,25 +52,24 @@ class Route {
                 for (_, subJson):(String, JSON) in newData {
 //                    print("newUrlString: \(newUrlString)")
 //                    print("JSON: \(subJson)")
-                    var busLoc = subJson["status", "lastKnownLocation"].dictionaryValue
-                    if busLoc.isEmpty { busLoc = subJson["status", "position"].dictionaryValue } // sometimes lastKnownLocation is empty, use this instead
-                    var lon: Double = 0.0
-                    var lat: Double = 0.0
-                    if let temp = busLoc["lat"] {
-                         lon = busLoc["lon"]!.double!
-                         lat = temp.double!
-                    }
-//                    let lat = busLoc["lat"]!.double!
-//                    let lon = busLoc["lon"]!.double!
-                    //print("Bus location \(lat), \(lon)")
                     let busId = subJson["status", "vehicleId"].string!
                     let busOrient = subJson["status", "orientation"].double!
                     let busUpdateSecs = subJson["status", "lastUpdateTime"].double!
                     let nextStopId = subJson["status", "nextStop"].string!
                     let formattedNextStopId = nextStopId.substringFromIndex(nextStopId.startIndex.successor().successor())
-                    buses.append(Bus(longitude: lon, latitude: lat, orientation: busOrient, updateTime: busUpdateSecs, nextStopId: formattedNextStopId, busId: busId))
+                    var busLoc = subJson["status", "lastKnownLocation"].dictionaryValue
+                    // sometimes lastKnownLocation is empty, use this instead
+                    if busLoc.isEmpty { busLoc = subJson["status", "position"].dictionaryValue }
+                    guard let lat = busLoc["lat"]?.double, lon = busLoc["lon"]?.double else {
+                        print("ERROR: NO BUS LOCATION. (Route: \(self.routeNum), Bus id: \(busId))")
+                        break // ignore this bus entry because no coordinates for it
+                    }
+//                    let lat = busLoc["lat"]!.double!
+//                    let lon = busLoc["lon"]!.double!
+                    //print("Bus location \(lat), \(lon)")
+                    let newBus = Bus(longitude: lon, latitude: lat, orientation: busOrient, updateTime: busUpdateSecs, nextStopId: formattedNextStopId, busId: busId)
+                    self.busesOnRoute[busId] = newBus
                 }
-                self.busesOnRoute = buses // Update the object's bus array
             }
         }
 //        print("in refresh buses")
@@ -129,7 +127,7 @@ class Route {
     
     func busDistancesFromStop(stopId: Stop) -> [String:Double] {
         var distances: [String:Double] = [:]
-        for bus in self.busesOnRoute {
+        for (_, bus) in self.busesOnRoute {
             let busLoc = CLLocation(latitude: bus.location.latitude, longitude: bus.location.longitude)
             let stopLoc = CLLocation(latitude: stopId.location.latitude, longitude: stopId.location.longitude)
             let closestCoordToBus = self.routeCoords.minElement({ (first, second) -> Bool in
