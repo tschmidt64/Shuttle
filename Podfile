@@ -5,5 +5,7 @@ use_frameworks!
 
 target 'Clutch' do
     pod 'SwiftyJSON', :git => 'https://github.com/SwiftyJSON/SwiftyJSON.git'
+    pod 'Fabric'
+    pod 'Crashlytics'
 end
 
