@@ -23,15 +23,21 @@ import UIKit
 import CoreLocation
 import SwiftyJSON
 
-class RoutesTableViewController: UITableViewController {
+class RoutesTableViewController: UITableViewController, UISearchResultsUpdating {
     
     var routes: [Route] = []
+    var filteredRoutes: [Route] = []
+    let searchController = UISearchController(searchResultsController: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initRoutes()
         self.routes.sortInPlace() { $0.routeNum < $1.routeNum } // sort the routes descending by route number
         
+        self.searchController.searchResultsUpdater = self
+        self.searchController.dimsBackgroundDuringPresentation = false
+        definesPresentationContext = true
+        tableView.tableHeaderView = searchController.searchBar
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -58,18 +64,28 @@ class RoutesTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return routes.count
+        if self.searchController.active && searchController.searchBar.text != "" {
+            return self.filteredRoutes.count
+        }
+        return self.routes.count
     }
 
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as! RouteTableViewCell
-        let index = indexPath.row
-        // Configure the cell
-        cell.lblNameShort.text = String(routes[index].nameShort)
-        cell.lblNameLong.text = String(routes[index].nameLong)
-        cell.lblRouteNum.text = String(routes[index].routeNum)
+        let route: Route
+        if self.searchController.active && self.searchController.searchBar.text != "" {
+            route = filteredRoutes[indexPath.row]
+        } else {
+            route = routes[indexPath.row]
+        }
+        cell.lblNameShort.text = String(route.nameShort)
+        cell.lblNameLong.text = String(route.nameLong)
+        cell.lblRouteNum.text = String(route.routeNum)
         return cell
+        
+        
+        
     }
 
     /*
@@ -107,8 +123,25 @@ class RoutesTableViewController: UITableViewController {
     }
     */
     
+    func filterContentForSearchText(searchText: String, scope: String = "All") {
+        filteredRoutes = routes.filter { route in
+            let lowerSearch = searchText.lowercaseString
+            let result = (route.nameLong.lowercaseString.containsString(lowerSearch)
+                || route.nameShort.lowercaseString.containsString(lowerSearch)
+                || String(route.routeNum).containsString(lowerSearch))
+            return result
+        }
+        
+        self.tableView.reloadData()
+    }
+    
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
+ 
     // set up all the route objects with their information using the stuff in comment above
     func initRoutes() {
+        routes.append(Route(routeNum: 10, nameShort: "SF/RR",  nameLong: "South First/Red River"))
         routes.append(Route(routeNum: 642, nameShort: "WC",  nameLong: "West Campus/UT"))
         routes.append(Route(routeNum: 653, nameShort: "RR",  nameLong: "Red River/UT"))
         routes.append(Route(routeNum: 656, nameShort: "IF", nameLong: "Intramural Fields/UT"))
