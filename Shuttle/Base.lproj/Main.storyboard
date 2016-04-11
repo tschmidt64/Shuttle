@@ -189,30 +189,15 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="sOf-7m-Hqe">
                                 <rect key="frame" x="0.0" y="-6" width="375" height="673"/>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GTS-bx-FeR">
-                                <rect key="frame" x="308" y="600" width="47" height="47"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="47" id="FOQ-pg-zZg"/>
-                                    <constraint firstAttribute="width" constant="47" id="YMZ-JQ-Wy6"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="5"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="zoomToUserLocation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="sLd-ra-mTA"/>
-                                </connections>
-                            </button>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XRQ-Vc-mWi">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <items/>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="GTS-bx-FeR" firstAttribute="top" secondItem="sOf-7m-Hqe" secondAttribute="bottom" constant="-67" id="Ha1-iC-j8h"/>
                             <constraint firstItem="sOf-7m-Hqe" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Ppi-ON-bN1"/>
                             <constraint firstAttribute="trailing" secondItem="sOf-7m-Hqe" secondAttribute="trailing" id="QPY-vz-eml"/>
-                            <constraint firstItem="GTS-bx-FeR" firstAttribute="leading" secondItem="sOf-7m-Hqe" secondAttribute="trailing" constant="-67" id="TCZ-5b-Pgk"/>
                             <constraint firstItem="sOf-7m-Hqe" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="-6" id="kV4-n0-XlE"/>
                             <constraint firstItem="sOf-7m-Hqe" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="ldo-Gu-I0p"/>
                         </constraints>
@@ -220,7 +205,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="mapView" destination="sOf-7m-Hqe" id="xqx-fb-0Gb"/>
-                        <outlet property="zoomToLoc" destination="GTS-bx-FeR" id="O9q-2t-frp"/>
+                        <outlet property="toolbar" destination="XRQ-Vc-mWi" id="5h3-qp-f6U"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

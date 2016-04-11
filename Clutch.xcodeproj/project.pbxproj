@@ -21,6 +21,7 @@
 		64BAAAC61C8747EB0056E2AF /* RoutesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BAAAC51C8747EB0056E2AF /* RoutesTableViewController.swift */; };
 		64EAC3B01CAE3A7A00ABE648 /* StopsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EAC3AF1CAE3A7A00ABE648 /* StopsTableViewController.swift */; };
 		64F3DBA51CAC32BB002F2541 /* RouteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F3DBA41CAC32BB002F2541 /* RouteTableViewCell.swift */; };
+		821F31BA1CBB32BA00BD8752 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 821F31B91CBB32BA00BD8752 /* MapKit.framework */; };
 		825485751C7402BA0023E1A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825485741C7402BA0023E1A5 /* AppDelegate.swift */; };
 		825485771C7402BA0023E1A5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825485761C7402BA0023E1A5 /* ViewController.swift */; };
 		8254857A1C7402BA0023E1A5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 825485781C7402BA0023E1A5 /* Main.storyboard */; };
@@ -50,6 +51,7 @@
 		64EAC3AF1CAE3A7A00ABE648 /* StopsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StopsTableViewController.swift; sourceTree = "<group>"; };
 		64F3DBA41CAC32BB002F2541 /* RouteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteTableViewCell.swift; sourceTree = "<group>"; };
 		7892EF1B1DF84265FB7E0BC6 /* Pods-Clutch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Clutch.release.xcconfig"; path = "Pods/Target Support Files/Pods-Clutch/Pods-Clutch.release.xcconfig"; sourceTree = "<group>"; };
+		821F31B91CBB32BA00BD8752 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		825485711C7402BA0023E1A5 /* Clutch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Clutch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		825485741C7402BA0023E1A5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		825485761C7402BA0023E1A5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				821F31BA1CBB32BA00BD8752 /* MapKit.framework in Frameworks */,
 				007093EE49A89A65D623176B /* Pods_Clutch.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -142,6 +145,7 @@
 		BB9D8FC6DE53DC4203BA41E7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				821F31B91CBB32BA00BD8752 /* MapKit.framework */,
 				30DE629B51D9989E775AFE34 /* Pods_Shuttle.framework */,
 				3F46E34D0EDD4399558A8CEA /* Pods_Clutch.framework */,
 			);
@@ -192,7 +196,11 @@
 				TargetAttributes = {
 					825485701C7402BA0023E1A5 = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = 4G9Y57SZLT;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -419,7 +427,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = clutchbusapp;
 				PRODUCT_NAME = Clutch;
-				PROVISIONING_PROFILE = "76a06574-894b-4750-a3a9-7823619bd9e5";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -436,7 +444,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = clutchbusapp;
 				PRODUCT_NAME = Clutch;
-				PROVISIONING_PROFILE = "76a06574-894b-4750-a3a9-7823619bd9e5";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

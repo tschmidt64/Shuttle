@@ -122,6 +122,7 @@ class RoutesTableViewController: UITableViewController {
         routes.append(Route(routeNum: 680, nameShort: "NR/LS", nameLong: "North Riverside/Lakeshore"))
         routes.append(Route(routeNum: 681, nameShort: "IF/FW", nameLong: "Intramural/Far West"))
         routes.append(Route(routeNum: 801, nameShort: "NL/SC", nameLong: "North Lamar/South Congress"))
+        routes.append(Route(routeNum: 803, nameShort: "B/SL", nameLong: "Burnet/South Lamar"))
     }
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation

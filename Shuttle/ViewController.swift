@@ -25,15 +25,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     var stopAnnotation: StopAnnotation!
     var routeNum: Int = 0
     
-    @IBOutlet weak var zoomToLoc: UIButton!
     var routePoints = [CLLocationCoordinate2D]()
     
+    @IBOutlet weak var toolbar: UIToolbar!
     @IBOutlet weak var mapView: MKMapView!
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
-        self.mapView.rotateEnabled = false
-        self.mapView.pitchEnabled = false
+        self.toolbar.setItems([MKUserTrackingBarButtonItem(mapView: self.mapView)], animated: false)
         initBusAnnotations()
         
         // Decorate the navigation bar
@@ -61,8 +60,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         //print(self.routeNum)
         
         //set arrow image in button
-        let scaledArrow = resizeImage(UIImage(named: "Direction.png")!, newWidth: 30.0)
-        zoomToLoc.setImage(scaledArrow, forState: UIControlState.Normal)
         
         //self.navigationItem.title = "Buses for Route \(route.routeNum)"
         self.stopLat = self.stop.location.latitude
@@ -136,15 +133,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             return polyRenderer
         }
         return nil
-    }
-    
-    // When user presses current location button, the map should zoom to their location
-    @IBAction func zoomToUserLocation(sender: AnyObject) {
-        var mapRegion = MKCoordinateRegion()
-        mapRegion.center = self.mapView.userLocation.coordinate
-        mapRegion.span.latitudeDelta = 0.02 // this is measured in degrees
-        mapRegion.span.longitudeDelta = 0.02
-        self.mapView.setRegion(mapRegion, animated: true)
     }
     
     override func didReceiveMemoryWarning() {
