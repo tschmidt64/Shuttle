@@ -32,6 +32,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
+        self.mapView.showsPointsOfInterest = false
         self.toolbar.setItems([MKUserTrackingBarButtonItem(mapView: self.mapView)], animated: false)
         initBusAnnotations()
         
