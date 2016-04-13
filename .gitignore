@@ -1,3 +1,7 @@
 Pods/ArcGIS-Runtime-SDK-iOS*
 Pods/Firebase*
 Pods/SwiftyJSON*
+Pods/Crashlytics*
+Pods/Fabric*
+Pods/Headers*
+

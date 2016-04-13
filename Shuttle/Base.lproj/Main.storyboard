@@ -189,17 +189,20 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="sOf-7m-Hqe">
                                 <rect key="frame" x="0.0" y="-6" width="375" height="673"/>
                             </mapView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XRQ-Vc-mWi">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XRQ-Vc-mWi">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                                 <items/>
                             </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="sOf-7m-Hqe" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Ppi-ON-bN1"/>
-                            <constraint firstAttribute="trailing" secondItem="sOf-7m-Hqe" secondAttribute="trailing" id="QPY-vz-eml"/>
-                            <constraint firstItem="sOf-7m-Hqe" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="-6" id="kV4-n0-XlE"/>
-                            <constraint firstItem="sOf-7m-Hqe" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="ldo-Gu-I0p"/>
+                            <constraint firstAttribute="trailing" secondItem="XRQ-Vc-mWi" secondAttribute="trailing" id="8Jk-M3-HUs"/>
+                            <constraint firstItem="sOf-7m-Hqe" firstAttribute="leading" secondItem="XRQ-Vc-mWi" secondAttribute="leading" id="Cth-Sp-UF1"/>
+                            <constraint firstItem="sOf-7m-Hqe" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="-6" id="f7i-8v-pNA"/>
+                            <constraint firstItem="sOf-7m-Hqe" firstAttribute="trailing" secondItem="XRQ-Vc-mWi" secondAttribute="trailing" id="lZZ-tw-k7B"/>
+                            <constraint firstItem="XRQ-Vc-mWi" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="mHu-H5-EMH"/>
+                            <constraint firstItem="XRQ-Vc-mWi" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="xcM-3i-WuT"/>
+                            <constraint firstItem="sOf-7m-Hqe" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="z99-eU-AMw"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>

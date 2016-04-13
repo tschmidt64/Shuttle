@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		007093EE49A89A65D623176B /* Pods_Clutch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F46E34D0EDD4399558A8CEA /* Pods_Clutch.framework */; };
 		0DCBD4B41CA906F300727923 /* Bus.png in Resources */ = {isa = PBXBuildFile; fileRef = 0DCBD4B21CA906F300727923 /* Bus.png */; };
 		0DCBD4B51CA906F300727923 /* stop-circle.png in Resources */ = {isa = PBXBuildFile; fileRef = 0DCBD4B31CA906F300727923 /* stop-circle.png */; };
 		64265DE01C8CB3DC00876484 /* StopAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64265DDF1C8CB3DC00876484 /* StopAnnotation.swift */; };
@@ -31,14 +30,12 @@
 		82FD72491CA88383002060F7 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FD72481CA88383002060F7 /* Route.swift */; };
 		82FD724B1CA88507002060F7 /* Bus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FD724A1CA88507002060F7 /* Bus.swift */; };
 		82FD724D1CA8AF2C002060F7 /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FD724C1CA8AF2C002060F7 /* Stop.swift */; };
+		DB83BEB2B33FCEED3493737A /* Pods_Clutch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE55E62D745429C29D0FABDC /* Pods_Clutch.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0DCBD4B21CA906F300727923 /* Bus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bus.png; sourceTree = "<group>"; };
 		0DCBD4B31CA906F300727923 /* stop-circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stop-circle.png"; sourceTree = "<group>"; };
-		13FE1A817B820D45B89C0950 /* Pods-Clutch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Clutch.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Clutch/Pods-Clutch.debug.xcconfig"; sourceTree = "<group>"; };
-		30DE629B51D9989E775AFE34 /* Pods_Shuttle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Shuttle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		3F46E34D0EDD4399558A8CEA /* Pods_Clutch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Clutch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		64265DDF1C8CB3DC00876484 /* StopAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StopAnnotation.swift; sourceTree = "<group>"; };
 		64265DE11C8CC20200876484 /* StopPointAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StopPointAnnotation.swift; sourceTree = "<group>"; };
 		6475B1821CA87DBF00B36F4C /* routes */ = {isa = PBXFileReference; lastKnownFileType = folder; name = routes; path = ../routes; sourceTree = "<group>"; };
@@ -50,7 +47,6 @@
 		64BAAAC51C8747EB0056E2AF /* RoutesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoutesTableViewController.swift; sourceTree = "<group>"; };
 		64EAC3AF1CAE3A7A00ABE648 /* StopsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StopsTableViewController.swift; sourceTree = "<group>"; };
 		64F3DBA41CAC32BB002F2541 /* RouteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteTableViewCell.swift; sourceTree = "<group>"; };
-		7892EF1B1DF84265FB7E0BC6 /* Pods-Clutch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Clutch.release.xcconfig"; path = "Pods/Target Support Files/Pods-Clutch/Pods-Clutch.release.xcconfig"; sourceTree = "<group>"; };
 		821F31B91CBB32BA00BD8752 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		825485711C7402BA0023E1A5 /* Clutch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Clutch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		825485741C7402BA0023E1A5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -63,6 +59,9 @@
 		82FD72481CA88383002060F7 /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		82FD724A1CA88507002060F7 /* Bus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bus.swift; sourceTree = "<group>"; };
 		82FD724C1CA8AF2C002060F7 /* Stop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stop.swift; sourceTree = "<group>"; };
+		AAB447F552D74FAC445E1A6B /* Pods-Clutch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Clutch.release.xcconfig"; path = "Pods/Target Support Files/Pods-Clutch/Pods-Clutch.release.xcconfig"; sourceTree = "<group>"; };
+		E768025F4598634A1128205B /* Pods-Clutch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Clutch.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Clutch/Pods-Clutch.debug.xcconfig"; sourceTree = "<group>"; };
+		FE55E62D745429C29D0FABDC /* Pods_Clutch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Clutch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,7 +70,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				821F31BA1CBB32BA00BD8752 /* MapKit.framework in Frameworks */,
-				007093EE49A89A65D623176B /* Pods_Clutch.framework in Frameworks */,
+				DB83BEB2B33FCEED3493737A /* Pods_Clutch.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,8 +109,8 @@
 			children = (
 				825485731C7402BA0023E1A5 /* Shuttle */,
 				825485721C7402BA0023E1A5 /* Products */,
-				CC6956C30AD29FACAFE2DBBE /* Pods */,
 				BB9D8FC6DE53DC4203BA41E7 /* Frameworks */,
+				EA46E9F09E6C006B0BF98A25 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -146,17 +145,16 @@
 			isa = PBXGroup;
 			children = (
 				821F31B91CBB32BA00BD8752 /* MapKit.framework */,
-				30DE629B51D9989E775AFE34 /* Pods_Shuttle.framework */,
-				3F46E34D0EDD4399558A8CEA /* Pods_Clutch.framework */,
+				FE55E62D745429C29D0FABDC /* Pods_Clutch.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		CC6956C30AD29FACAFE2DBBE /* Pods */ = {
+		EA46E9F09E6C006B0BF98A25 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				13FE1A817B820D45B89C0950 /* Pods-Clutch.debug.xcconfig */,
-				7892EF1B1DF84265FB7E0BC6 /* Pods-Clutch.release.xcconfig */,
+				E768025F4598634A1128205B /* Pods-Clutch.debug.xcconfig */,
+				AAB447F552D74FAC445E1A6B /* Pods-Clutch.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -168,13 +166,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 825485861C7402BA0023E1A5 /* Build configuration list for PBXNativeTarget "Clutch" */;
 			buildPhases = (
-				8A1175CDE9E621BAEE769464 /* Check Pods Manifest.lock */,
+				C868F4FF962EB043ED8A3F78 /* Check Pods Manifest.lock */,
 				8254856D1C7402BA0023E1A5 /* Sources */,
 				8254856E1C7402BA0023E1A5 /* Frameworks */,
 				8254856F1C7402BA0023E1A5 /* Resources */,
-				35B5352D9389F7426E553D2D /* Embed Pods Frameworks */,
-				104E80256CF880D1473E5195 /* Copy Pods Resources */,
 				0D2A2D181CBBF94C003BD270 /* ShellScript */,
+				896253093C4CC2D1A2F17C08 /* Embed Pods Frameworks */,
+				8ADD70AAD4A24EC51B7A7DAC /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -257,22 +255,7 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" b5b29aa2445d6d8df24a99437e7fa59bf64a3e85 f5557a5385be5d2f90a148c5bea0be3337c28a1e1a460a8e005f160286acfef4";
 		};
-		104E80256CF880D1473E5195 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Clutch/Pods-Clutch-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		35B5352D9389F7426E553D2D /* Embed Pods Frameworks */ = {
+		896253093C4CC2D1A2F17C08 /* Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -287,7 +270,22 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Clutch/Pods-Clutch-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		8A1175CDE9E621BAEE769464 /* Check Pods Manifest.lock */ = {
+		8ADD70AAD4A24EC51B7A7DAC /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Clutch/Pods-Clutch-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C868F4FF962EB043ED8A3F78 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -430,7 +428,7 @@
 		};
 		825485871C7402BA0023E1A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 13FE1A817B820D45B89C0950 /* Pods-Clutch.debug.xcconfig */;
+			baseConfigurationReference = E768025F4598634A1128205B /* Pods-Clutch.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -448,7 +446,7 @@
 		};
 		825485881C7402BA0023E1A5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7892EF1B1DF84265FB7E0BC6 /* Pods-Clutch.release.xcconfig */;
+			baseConfigurationReference = AAB447F552D74FAC445E1A6B /* Pods-Clutch.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_IDENTITY = "iPhone Developer";

@@ -162,11 +162,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                     }
                     if annotation.coordinate.latitude != bus.location.latitude
                     || annotation.coordinate.longitude != bus.location.longitude {
-                        print("OLD COORDINATE:\n \(annotation.coordinate)")
                         annotation.coordinate = bus.location
-                        print("ADDING OLD ANNOTATION")
                         self.mapView.addAnnotation(annotation)
-                        print("NEW COORDINATE:\n \(annotation.coordinate)")
                     }
                 } else {
                     print("ERROR: no bus found for id = \(id)")
