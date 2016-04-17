@@ -144,7 +144,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     // - Update the bus data from OneBusAway API
     // - Check the bus annotations and re-add ones with new locations
     func getDataFromBuses() {
-        self.route.refreshBuses()
+        self.route.refreshBusesCapMetro()
         
         self.updateStopwatch()
         self.startTime = NSDate.timeIntervalSinceReferenceDate()
