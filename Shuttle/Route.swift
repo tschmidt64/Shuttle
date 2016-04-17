@@ -78,6 +78,53 @@ class Route {
         newTask.resume()
     }
     
+    /* same function as refresh buses, uses capmetro data instead, in progress */
+    /* https://github.com/tschmidt64/Shuttle/blob/c78794dbf0c3c9fd34c5ee7a99bfbbaa82e1adaf/Shuttle/ViewController.swift */
+    /* should be similar to getData method */
+    func refreshBusesCap() {
+        let newUrlString = "https://data.texas.gov/download/cuc7-ywmd/text/plain"
+        
+        let newURL = NSURL(string: newUrlString)
+        
+        let newSession = NSURLSession.sharedSession()
+        let newTask = newSession.dataTaskWithURL(newURL!) { (data, response, error) -> Void in
+            if error != nil {
+                print("ERROR FOUND")
+            } else {
+                let json = JSON(data: data!)
+                let newData = json["data", "list"]
+                // Get the pieces data from the JSON
+                for (_, subJson):(String, JSON) in newData {
+                    //print("newUrlString: \(newUrlString)")
+                    //print("JSON: \(subJson)")
+                    let busId = subJson["status", "vehicleId"].string!
+                    let busOrient = subJson["status", "orientation"].double!
+                    let busUpdateSecs = subJson["status", "lastUpdateTime"].double!
+                    let nextStopId = subJson["status", "nextStop"].string!
+                    let formattedNextStopId = nextStopId.substringFromIndex(nextStopId.startIndex.successor().successor())
+                    var busLoc = subJson["status", "lastKnownLocation"].dictionaryValue
+                    // sometimes lastKnownLocation is empty, use this instead
+                    if busLoc.isEmpty { busLoc = subJson["status", "position"].dictionaryValue }
+                    guard let lat = busLoc["lat"]?.double, lon = busLoc["lon"]?.double else {
+                        print("ERROR: NO BUS LOCATION. (Route: \(self.routeNum), Bus id: \(busId))")
+                        break // ignore this bus entry because no coordinates for it
+                    }
+                    //                    let lat = busLoc["lat"]!.double!
+                    //                    let lon = busLoc["lon"]!.double!
+                    //print("Bus location \(lat), \(lon)")
+                    let newBus = Bus(longitude: lon, latitude: lat, orientation: busOrient, updateTime: busUpdateSecs, nextStopId: formattedNextStopId, busId: busId)
+                    self.busesOnRoute[busId] = newBus
+                }
+            }
+        }
+        //        print("in refresh buses")
+        //        print(busesOnRoute)
+        
+        newTask.resume()
+        
+    }
+
+    
     /*
      This refreshes the array self.routeCoords with the most recent data available
      This method needs to be updated to take in an integer that represents whether the route is inbound or outbound
