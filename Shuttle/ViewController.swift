@@ -14,6 +14,7 @@ import CoreLocation
 class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     var route:Route = Route(routeNum: 0, nameShort: "", nameLong: "")
     var stop:Stop = Stop(location: CLLocationCoordinate2D(latitude: 0, longitude: 0), name: "", stopID: "", index: 0)
+    var curStops:[Stop] = []
     var locationManager: CLLocationManager!
     let regionRadius: CLLocationDistance = 1000
     var startTime = NSTimeInterval() //start stopwatch timer
@@ -35,7 +36,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         self.mapView.showsPointsOfInterest = false
         self.toolbar.setItems([MKUserTrackingBarButtonItem(mapView: self.mapView)], animated: false)
         initBusAnnotations()
-        
+        curStops = route.stops
         // Decorate the navigation bar
         UINavigationBar.appearance().tintColor = UIColor.whiteColor()
         
@@ -69,6 +70,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         self.routeNum = self.route.routeNum
     }
     
+    func containsNextStop(nextStop:String) -> Bool {
+        for stop in curStops {
+            if(nextStop == stop.stopId) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     // Initialize stop and bus annotations
     func initBusAnnotations() {
         dispatch_async(dispatch_get_main_queue(), {
@@ -78,31 +88,34 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             
             let distances = self.route.busDistancesFromStop(self.stop)
             for (_, bus) in self.route.busesOnRoute {
-                //TODO not sure if orientaiton passing is cool here
-                var distanceMiles: Double? = nil
-                if let distanceMeters = distances[bus.busId] {
-                    distanceMiles = distanceMeters * 0.000621371
-                }
-                let annotation: BusAnnotation
-                if distanceMiles != nil {
-                    annotation = BusAnnotation(coordinate: bus.location,
-                        title: "\(String(format: "%.2f", distanceMiles!)) miles to stop",
-                        subtitle: "",
-                        img: "Bus-Circle.png",
-                        orientation: 0,
-                        busId: bus.busId)
-                } else {
-                    annotation = BusAnnotation(coordinate: bus.location,
-                        title: "Bus \(self.route.routeNum)",
-                        subtitle: "Distance Unkown",
-                        img: "Bus-Circle.png",
-                        orientation: 0,
-                        busId: bus.busId)
-                }
+                if(self.containsNextStop(bus.nextStopId)) {
+                    //TODO not sure if orientaiton passing is cool here
+                    var distanceMiles: Double? = nil
+                    if let distanceMeters = distances[bus.busId] {
+                        distanceMiles = distanceMeters * 0.000621371
+                    }
+                    let annotation: BusAnnotation
+                    if distanceMiles != nil {
+                        annotation = BusAnnotation(coordinate: bus.location,
+                            title: "\(String(format: "%.2f", distanceMiles!)) miles to stop",
+                            subtitle: "",
+                            img: "Bus-Circle.png",
+                            orientation: 0,
+                            busId: bus.busId)
+                    } else {
+                        annotation = BusAnnotation(coordinate: bus.location,
+                            title: "Bus \(self.route.routeNum)",
+                            subtitle: "Distance Unkown",
+                            img: "Bus-Circle.png",
+                            orientation: 0,
+                            busId: bus.busId)
+                    }
+                    
+                    //                print("bus  latitude: \(bus.location.latitude), bus longitude: \(bus.location.longitude)")
                 
-                //                print("bus  latitude: \(bus.location.latitude), bus longitude: \(bus.location.longitude)")
-                print("ADDING ANNOTATION")
-                self.mapView.addAnnotation(annotation)
+                    print("ADDING ANNOTATION")
+                    self.mapView.addAnnotation(annotation)
+                }
             }
             self.centerMapOnLocation(CLLocation(latitude: self.stopLat, longitude: self.stopLong)) //consider centering on stop instead
         })

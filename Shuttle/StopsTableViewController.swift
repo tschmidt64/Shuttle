@@ -206,7 +206,7 @@ class StopsTableViewController: UITableViewController, CLLocationManagerDelegate
         
         vc.stop = self.curStops[index!]
         vc.route = self.curRoute
-                
+        
         //set back button for next screen
         let backItem = UIBarButtonItem()
         backItem.title = "Stops"
