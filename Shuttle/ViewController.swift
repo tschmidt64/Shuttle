@@ -71,6 +71,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
     
     func containsNextStop(nextStop:String) -> Bool {
+        if(nextStop == "") {
+            return true;
+        }
+        
         for stop in curStops {
             if(nextStop == stop.stopId) {
                 return true;
@@ -111,7 +115,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                             busId: bus.busId)
                     }
                     
-                    //                print("bus  latitude: \(bus.location.latitude), bus longitude: \(bus.location.longitude)")
+                    //print("bus  latitude: \(bus.location.latitude), bus longitude: \(bus.location.longitude)")
                 
                     print("ADDING ANNOTATION")
                     self.mapView.addAnnotation(annotation)
