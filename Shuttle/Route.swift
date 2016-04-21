@@ -123,7 +123,6 @@ class Route {
                                     temp["timestamp"] = vehicleSub["timestamp"]
      
                                     let tripSub:NSDictionary = vehicleSub["trip"] as! NSDictionary
-                                    let route:String = tripSub["route_id"] as! String
      
                                     temp["route_id"]                    = tripSub["route_id"]
                                     temp["trip_schedule_relationship"]  = tripSub["schedule_relationship"]

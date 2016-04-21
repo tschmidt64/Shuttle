@@ -27,6 +27,8 @@
 		8254857D1C7402BA0023E1A5 /* Shuttle.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8254857B1C7402BA0023E1A5 /* Shuttle.xcdatamodeld */; };
 		8254857F1C7402BA0023E1A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8254857E1C7402BA0023E1A5 /* Assets.xcassets */; };
 		825485821C7402BA0023E1A5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 825485801C7402BA0023E1A5 /* LaunchScreen.storyboard */; };
+		82F8118F1CC89D7500655F3E /* NewStopsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8118E1CC89D7500655F3E /* NewStopsViewController.swift */; };
+		82F811911CC8A23800655F3E /* SplitViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F811901CC8A23800655F3E /* SplitViewTableViewCell.swift */; };
 		82FD72491CA88383002060F7 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FD72481CA88383002060F7 /* Route.swift */; };
 		82FD724B1CA88507002060F7 /* Bus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FD724A1CA88507002060F7 /* Bus.swift */; };
 		82FD724D1CA8AF2C002060F7 /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FD724C1CA8AF2C002060F7 /* Stop.swift */; };
@@ -56,6 +58,8 @@
 		8254857E1C7402BA0023E1A5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		825485811C7402BA0023E1A5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		825485831C7402BA0023E1A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		82F8118E1CC89D7500655F3E /* NewStopsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewStopsViewController.swift; sourceTree = "<group>"; };
+		82F811901CC8A23800655F3E /* SplitViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplitViewTableViewCell.swift; sourceTree = "<group>"; };
 		82FD72481CA88383002060F7 /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		82FD724A1CA88507002060F7 /* Bus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bus.swift; sourceTree = "<group>"; };
 		82FD724C1CA8AF2C002060F7 /* Stop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stop.swift; sourceTree = "<group>"; };
@@ -98,6 +102,7 @@
 				64265DDF1C8CB3DC00876484 /* StopAnnotation.swift */,
 				82FD724A1CA88507002060F7 /* Bus.swift */,
 				64F3DBA41CAC32BB002F2541 /* RouteTableViewCell.swift */,
+				82F811901CC8A23800655F3E /* SplitViewTableViewCell.swift */,
 				82FD724C1CA8AF2C002060F7 /* Stop.swift */,
 				82FD72481CA88383002060F7 /* Route.swift */,
 			);
@@ -133,6 +138,7 @@
 				64EAC3AF1CAE3A7A00ABE648 /* StopsTableViewController.swift */,
 				825485761C7402BA0023E1A5 /* ViewController.swift */,
 				825485781C7402BA0023E1A5 /* Main.storyboard */,
+				82F8118E1CC89D7500655F3E /* NewStopsViewController.swift */,
 				8254857E1C7402BA0023E1A5 /* Assets.xcassets */,
 				825485801C7402BA0023E1A5 /* LaunchScreen.storyboard */,
 				825485831C7402BA0023E1A5 /* Info.plist */,
@@ -314,9 +320,11 @@
 				64F3DBA51CAC32BB002F2541 /* RouteTableViewCell.swift in Sources */,
 				64265DE01C8CB3DC00876484 /* StopAnnotation.swift in Sources */,
 				825485771C7402BA0023E1A5 /* ViewController.swift in Sources */,
+				82F8118F1CC89D7500655F3E /* NewStopsViewController.swift in Sources */,
 				82FD724B1CA88507002060F7 /* Bus.swift in Sources */,
 				825485751C7402BA0023E1A5 /* AppDelegate.swift in Sources */,
 				82FD724D1CA8AF2C002060F7 /* Stop.swift in Sources */,
+				82F811911CC8A23800655F3E /* SplitViewTableViewCell.swift in Sources */,
 				8254857D1C7402BA0023E1A5 /* Shuttle.xcdatamodeld in Sources */,
 				64BAAAC61C8747EB0056E2AF /* RoutesTableViewController.swift in Sources */,
 				64265DE21C8CC20200876484 /* StopPointAnnotation.swift in Sources */,
