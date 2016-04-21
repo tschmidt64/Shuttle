@@ -13,7 +13,7 @@ import CoreLocation
 
 class NewStopsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, MKMapViewDelegate {
     
-    @IBOutlet weak var tableViewScrolling: UITableView!
+    @IBOutlet weak var tableViewScrolling: SplitTableView!
     @IBOutlet weak var mapViewBackground: MKMapView!
     override func viewDidLoad() {
         super.viewDidLoad()

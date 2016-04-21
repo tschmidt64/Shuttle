@@ -21,6 +21,7 @@
 		64EAC3B01CAE3A7A00ABE648 /* StopsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EAC3AF1CAE3A7A00ABE648 /* StopsTableViewController.swift */; };
 		64F3DBA51CAC32BB002F2541 /* RouteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F3DBA41CAC32BB002F2541 /* RouteTableViewCell.swift */; };
 		821F31BA1CBB32BA00BD8752 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 821F31B91CBB32BA00BD8752 /* MapKit.framework */; };
+		82263FAC1CC8AA440016B815 /* SplitTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82263FAB1CC8AA440016B815 /* SplitTableView.swift */; };
 		825485751C7402BA0023E1A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825485741C7402BA0023E1A5 /* AppDelegate.swift */; };
 		825485771C7402BA0023E1A5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825485761C7402BA0023E1A5 /* ViewController.swift */; };
 		8254857A1C7402BA0023E1A5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 825485781C7402BA0023E1A5 /* Main.storyboard */; };
@@ -50,6 +51,7 @@
 		64EAC3AF1CAE3A7A00ABE648 /* StopsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StopsTableViewController.swift; sourceTree = "<group>"; };
 		64F3DBA41CAC32BB002F2541 /* RouteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteTableViewCell.swift; sourceTree = "<group>"; };
 		821F31B91CBB32BA00BD8752 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		82263FAB1CC8AA440016B815 /* SplitTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplitTableView.swift; sourceTree = "<group>"; };
 		825485711C7402BA0023E1A5 /* Clutch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Clutch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		825485741C7402BA0023E1A5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		825485761C7402BA0023E1A5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				64EAC3AF1CAE3A7A00ABE648 /* StopsTableViewController.swift */,
 				825485761C7402BA0023E1A5 /* ViewController.swift */,
 				825485781C7402BA0023E1A5 /* Main.storyboard */,
+				82263FAB1CC8AA440016B815 /* SplitTableView.swift */,
 				82F8118E1CC89D7500655F3E /* NewStopsViewController.swift */,
 				8254857E1C7402BA0023E1A5 /* Assets.xcassets */,
 				825485801C7402BA0023E1A5 /* LaunchScreen.storyboard */,
@@ -327,6 +330,7 @@
 				82F811911CC8A23800655F3E /* SplitViewTableViewCell.swift in Sources */,
 				8254857D1C7402BA0023E1A5 /* Shuttle.xcdatamodeld in Sources */,
 				64BAAAC61C8747EB0056E2AF /* RoutesTableViewController.swift in Sources */,
+				82263FAC1CC8AA440016B815 /* SplitTableView.swift in Sources */,
 				64265DE21C8CC20200876484 /* StopPointAnnotation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

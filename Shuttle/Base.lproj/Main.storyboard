@@ -171,7 +171,7 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="C0W-HS-fYQ">
                                 <rect key="frame" x="0.0" y="64" width="375" height="369"/>
                             </mapView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Sjf-6o-wG7">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Sjf-6o-wG7" customClass="SplitTableView" customModule="Clutch" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -211,7 +211,7 @@
                         <color key="barTintColor" red="0.54901960780000003" green="0.89411764709999997" blue="0.64705882349999999" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="mbg-tI-83c" kind="relationship" relationship="rootViewController" id="DXd-3M-dK6"/>
+                        <segue destination="mbg-tI-83c" kind="relationship" relationship="rootViewController" id="UdD-Xj-VWc"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dm4-Pp-nFE" userLabel="First Responder" sceneMemberID="firstResponder"/>
