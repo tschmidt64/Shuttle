@@ -23,7 +23,7 @@ class NewStopsViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.tableViewScrolling.contentInset = UIEdgeInsetsMake(self.mapViewBackground.frame.size.height - 40.0, 0, 0, 0)
+        self.tableViewScrolling.contentInset = UIEdgeInsetsMake(self.mapViewBackground.frame.size.height, 0, 0, 0)
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {

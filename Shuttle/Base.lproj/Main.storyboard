@@ -211,7 +211,7 @@
                         <color key="barTintColor" red="0.54901960780000003" green="0.89411764709999997" blue="0.64705882349999999" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="mbg-tI-83c" kind="relationship" relationship="rootViewController" id="UdD-Xj-VWc"/>
+                        <segue destination="mbg-tI-83c" kind="relationship" relationship="rootViewController" id="jiG-aj-VSA"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dm4-Pp-nFE" userLabel="First Responder" sceneMemberID="firstResponder"/>
