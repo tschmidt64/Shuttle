@@ -2,11 +2,13 @@ PODS:
   - Crashlytics (3.7.0):
     - Fabric (~> 1.6.3)
   - Fabric (1.6.7)
+  - MXParallaxHeader (0.5.0)
   - SwiftyJSON (2.3.2)
 
 DEPENDENCIES:
   - Crashlytics
   - Fabric
+  - MXParallaxHeader
   - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON.git`)
 
 EXTERNAL SOURCES:
@@ -21,8 +23,9 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
+  MXParallaxHeader: c7dfdf8d769a8eb868a431ec3aeaf994a147b8bc
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
-PODFILE CHECKSUM: 1784c1d96ecea46c9f7d171ed4fc68ee9bc2a787
+PODFILE CHECKSUM: 43f2cdb9bd4df9cfaff1db05e5c7f2ccd98c9f2c
 
 COCOAPODS: 1.0.0.beta.3

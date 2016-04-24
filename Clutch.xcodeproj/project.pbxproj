@@ -20,6 +20,8 @@
 		64BAAAC61C8747EB0056E2AF /* RoutesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BAAAC51C8747EB0056E2AF /* RoutesTableViewController.swift */; };
 		64EAC3B01CAE3A7A00ABE648 /* StopsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EAC3AF1CAE3A7A00ABE648 /* StopsTableViewController.swift */; };
 		64F3DBA51CAC32BB002F2541 /* RouteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F3DBA41CAC32BB002F2541 /* RouteTableViewCell.swift */; };
+		820280851CCC473800C80B26 /* MXScrollViewExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820280841CCC473800C80B26 /* MXScrollViewExample.swift */; };
+		8202808B1CCC493000C80B26 /* MXParallaxHeader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8202808A1CCC493000C80B26 /* MXParallaxHeader.framework */; };
 		820E01A91CCBFA8200BE2F0E /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820E01A81CCBFA8200BE2F0E /* SplitViewController.swift */; };
 		820E01AB1CCBFAB500BE2F0E /* HeaderMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820E01AA1CCBFAB500BE2F0E /* HeaderMapView.swift */; };
 		821F31BA1CBB32BA00BD8752 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 821F31B91CBB32BA00BD8752 /* MapKit.framework */; };
@@ -50,6 +52,8 @@
 		64BAAAC51C8747EB0056E2AF /* RoutesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoutesTableViewController.swift; sourceTree = "<group>"; };
 		64EAC3AF1CAE3A7A00ABE648 /* StopsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StopsTableViewController.swift; sourceTree = "<group>"; };
 		64F3DBA41CAC32BB002F2541 /* RouteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteTableViewCell.swift; sourceTree = "<group>"; };
+		820280841CCC473800C80B26 /* MXScrollViewExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MXScrollViewExample.swift; sourceTree = "<group>"; };
+		8202808A1CCC493000C80B26 /* MXParallaxHeader.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MXParallaxHeader.framework; path = "../../../Library/Developer/Xcode/DerivedData/Clutch-brluuoddtxdpojgijdmulslxtgex/Build/Products/Debug-iphoneos/MXParallaxHeader.framework"; sourceTree = "<group>"; };
 		820E01A81CCBFA8200BE2F0E /* SplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
 		820E01AA1CCBFAB500BE2F0E /* HeaderMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderMapView.swift; sourceTree = "<group>"; };
 		821F31B91CBB32BA00BD8752 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -75,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8202808B1CCC493000C80B26 /* MXParallaxHeader.framework in Frameworks */,
 				821F31BA1CBB32BA00BD8752 /* MapKit.framework in Frameworks */,
 				DB83BEB2B33FCEED3493737A /* Pods_Clutch.framework in Frameworks */,
 			);
@@ -140,6 +145,7 @@
 				64EAC3AF1CAE3A7A00ABE648 /* StopsTableViewController.swift */,
 				825485761C7402BA0023E1A5 /* ViewController.swift */,
 				825485781C7402BA0023E1A5 /* Main.storyboard */,
+				820280841CCC473800C80B26 /* MXScrollViewExample.swift */,
 				820E01A81CCBFA8200BE2F0E /* SplitViewController.swift */,
 				820E01AA1CCBFAB500BE2F0E /* HeaderMapView.swift */,
 				8254857E1C7402BA0023E1A5 /* Assets.xcassets */,
@@ -153,6 +159,7 @@
 		BB9D8FC6DE53DC4203BA41E7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8202808A1CCC493000C80B26 /* MXParallaxHeader.framework */,
 				821F31B91CBB32BA00BD8752 /* MapKit.framework */,
 				FE55E62D745429C29D0FABDC /* Pods_Clutch.framework */,
 			);
@@ -322,6 +329,7 @@
 				6485B59D1C77DBBA00AD7434 /* BusAnnotation.swift in Sources */,
 				64F3DBA51CAC32BB002F2541 /* RouteTableViewCell.swift in Sources */,
 				64265DE01C8CB3DC00876484 /* StopAnnotation.swift in Sources */,
+				820280851CCC473800C80B26 /* MXScrollViewExample.swift in Sources */,
 				825485771C7402BA0023E1A5 /* ViewController.swift in Sources */,
 				82FD724B1CA88507002060F7 /* Bus.swift in Sources */,
 				825485751C7402BA0023E1A5 /* AppDelegate.swift in Sources */,
@@ -447,6 +455,10 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				INFOPLIST_FILE = Shuttle/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -464,6 +476,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				INFOPLIST_FILE = Shuttle/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

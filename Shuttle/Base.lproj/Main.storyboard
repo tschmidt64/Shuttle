@@ -68,7 +68,7 @@
                                     <outlet property="lblNameLong" destination="6AV-Wp-LVl" id="S9K-rc-JJu"/>
                                     <outlet property="lblNameShort" destination="beU-F0-lfz" id="p9g-jI-gKO"/>
                                     <outlet property="lblRouteNum" destination="zOp-Ki-aPS" id="S2w-aG-yig"/>
-                                    <segue destination="3kz-W9-KXO" kind="show" id="HcA-G6-2cB"/>
+                                    <segue destination="3kz-W9-KXO" kind="show" id="jh0-Bm-Gz3"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -154,39 +154,7 @@
                     </connections>
                 </segmentedControl>
             </objects>
-            <point key="canvasLocation" x="229.5" y="245.5"/>
-        </scene>
-        <!--Split Table View-->
-        <scene sceneID="jYd-v6-3ng">
-            <objects>
-                <tableViewController id="GHB-AR-pP5" customClass="SplitViewController" customModule="Clutch" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="g0L-SM-Huz">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="vt7-ot-kfb" customClass="SplitViewTableViewCell" customModule="Clutch" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vt7-ot-kfb" id="HSm-ff-kmg">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="GHB-AR-pP5" id="zby-Jo-IbM"/>
-                            <outlet property="delegate" destination="GHB-AR-pP5" id="c07-Jq-fHh"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Split Table View" id="jCg-kc-O3L"/>
-                    <connections>
-                        <outlet property="tableView" destination="g0L-SM-Huz" id="9VY-2L-biD"/>
-                    </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="fAb-8c-bpo" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-117.5" y="1202.5"/>
+            <point key="canvasLocation" x="193.5" y="245.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="4UP-dt-AFf">
