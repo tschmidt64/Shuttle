@@ -135,7 +135,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     func updateTitle() {
         if let (_, bus) = route.busesOnRoute.first {
             let timeSinceUpdate = Int(NSDate().timeIntervalSinceDate(bus.lastUpdateTime))
-            let seconds = timeSinceUpdate % 60
+            let seconds = timeSinceUpdate
             let secondsStr = String(format: "%02d secs", seconds)
             self.navigationItem.titleView = setTitle("Buses for Route \(route.routeNum)", subtitle: "Last Update: \(secondsStr)")
         } else {
