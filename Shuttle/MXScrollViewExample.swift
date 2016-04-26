@@ -125,10 +125,32 @@ class MXScrollViewExample: UITableViewController, CLLocationManagerDelegate, MKM
         self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .None, animated: true)
         // Update selected stop for newly selected tableViewCell
         selectedStop = self.curStops[indexPath.row]
+        updateStopAnnotation()
         // Update the bus locations
         getDataFromBuses()
     }
     
+    func updateStopAnnotation() {
+        if stopAnnotation != nil { mapView.removeAnnotations(mapView.annotations.filter {$0 is StopAnnotation}) }
+        dispatch_async(dispatch_get_main_queue(), {
+            guard let stop = self.selectedStop else {
+                print("ERROR: selectedStop was nil")
+                return
+            }
+            let lat = stop.location.latitude
+            let lon = stop.location.longitude
+            let stopName = stop.name
+            
+            let coord: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+            self.stopAnnotation = StopAnnotation(coordinate: coord, title: "Stop at " + stopName, subtitle: "", img: "stop-circle.png")
+            guard let annotation = self.stopAnnotation else {
+                print("ERROR: annotation = nil")
+                return
+            }
+            self.mapView.addAnnotation(annotation as! StopAnnotation)
+        })
+        
+    }
     override func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
 //        super.scrollViewDidEndScrollingAnimation(scrollView)
         // Re-center the map view, etc
@@ -146,9 +168,6 @@ class MXScrollViewExample: UITableViewController, CLLocationManagerDelegate, MKM
             let lon = stop.location.longitude
             let stopName = stop.name
             
-            print(lat)
-            print(lon)
-            print(stopName)
             let coord: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: lat, longitude: lon)
             self.stopAnnotation = StopAnnotation(coordinate: coord, title: "Stop at " + stopName, subtitle: "", img: "stop-circle.png")
             guard let annotation = self.stopAnnotation else {
@@ -193,7 +212,18 @@ class MXScrollViewExample: UITableViewController, CLLocationManagerDelegate, MKM
     }
     
     func centerMapOnLocation(location: CLLocation, animated: Bool) {
-        let polyline = MKPolyline(coordinates: &self.route.routeCoords, count: self.route.routeCoords.count)
+        // This zooms over the user and the stop as an alternative.
+        // It doesn't seem to always show the stop though; sometimes it is covered up
+        // so I commented it out and am now just using the whole route
+//        var coords: [CLLocationCoordinate2D]
+//        if let stopAn = stopAnnotation, userLoc = userLocation {
+//            coords = [userLoc, stopAn.coordinate]
+//        } else {
+//            print("HERE BITCH")
+//            coords = route.routeCoords
+//        }
+        var coords = route.routeCoords
+        let polyline = MKPolyline(coordinates: &coords, count: coords.count)
         let routeRegion = polyline.boundingMapRect
         mapView.setVisibleMapRect(routeRegion, edgePadding: UIEdgeInsetsMake(20.0, 20.0, 20.0, 20.0), animated: animated)
     }
@@ -212,7 +242,7 @@ class MXScrollViewExample: UITableViewController, CLLocationManagerDelegate, MKM
         
         // Parallax Header
         tableView.parallaxHeader.view = mapView
-        tableView.parallaxHeader.height = 500
+        tableView.parallaxHeader.height = 350
         tableView.parallaxHeader.mode = .Fill
         tableView.parallaxHeader.minimumHeight = 0
         
@@ -237,6 +267,14 @@ class MXScrollViewExample: UITableViewController, CLLocationManagerDelegate, MKM
         locationManager!.delegate = self
         locationManager!.startUpdatingLocation()
         locationManager!.desiredAccuracy = kCLLocationAccuracyBest
+    }
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let loc = manager.location {
+            userLocation = loc.coordinate
+        } else {
+            print("ERROR: Failed to update user location")
+        }
     }
     
     // Determines whether or not the bus
