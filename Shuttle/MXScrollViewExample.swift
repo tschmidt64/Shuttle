@@ -35,14 +35,16 @@ class MXScrollViewExample: UITableViewController, CLLocationManagerDelegate, MKM
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         // Perform Setup
         setUpMap()
         sortStops()
         
         // Select the first item in the tableview
         selectedStop = curStops[0]
+        tableView.reloadData()
         let indexPath = NSIndexPath(forRow: 0, inSection: 0)
-        tableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .Bottom)
+        tableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .Top)
         tableView(tableView, didSelectRowAtIndexPath: indexPath)
         
         initBusAnnotations()
@@ -118,10 +120,19 @@ class MXScrollViewExample: UITableViewController, CLLocationManagerDelegate, MKM
     
     // MARK: - Table view delegate
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let index = indexPath.row
-        selectedStop = self.curStops[index]
-        updateMapView(tableView)
+        // scroll to top
+        updateMapView()
+        self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .None, animated: true)
+        // Update selected stop for newly selected tableViewCell
+        selectedStop = self.curStops[indexPath.row]
+        // Update the bus locations
         getDataFromBuses()
+    }
+    
+    override func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+//        super.scrollViewDidEndScrollingAnimation(scrollView)
+        // Re-center the map view, etc
+        updateMapView()
     }
     
     // Initialize stop and bus annotations
@@ -177,14 +188,14 @@ class MXScrollViewExample: UITableViewController, CLLocationManagerDelegate, MKM
                     self.mapView.addAnnotation(annotation)
                 }
             }
-            self.centerMapOnLocation(CLLocation(latitude: lat, longitude: lon)) //consider centering on stop instead
+            self.centerMapOnLocation(CLLocation(latitude: lat, longitude: lon), animated: true) //consider centering on stop instead
         })
     }
     
-    func centerMapOnLocation(location: CLLocation) {
+    func centerMapOnLocation(location: CLLocation, animated: Bool) {
         let polyline = MKPolyline(coordinates: &self.route.routeCoords, count: self.route.routeCoords.count)
         let routeRegion = polyline.boundingMapRect
-        mapView.setVisibleMapRect(routeRegion, edgePadding: UIEdgeInsetsMake(20.0, 20.0, 20.0, 20.0), animated: false)
+        mapView.setVisibleMapRect(routeRegion, edgePadding: UIEdgeInsetsMake(20.0, 20.0, 20.0, 20.0), animated: animated)
     }
     
     // Add the polyline overlay for the route path to the mapview
@@ -202,7 +213,7 @@ class MXScrollViewExample: UITableViewController, CLLocationManagerDelegate, MKM
         // Parallax Header
         tableView.parallaxHeader.view = mapView
         tableView.parallaxHeader.height = 500
-        tableView.parallaxHeader.mode = MXParallaxHeaderMode.Fill
+        tableView.parallaxHeader.mode = .Fill
         tableView.parallaxHeader.minimumHeight = 0
         
         //these three busses are just circulators, 640 and 640 run clockwise, 642 runs counter clockwise
@@ -242,14 +253,14 @@ class MXScrollViewExample: UITableViewController, CLLocationManagerDelegate, MKM
         return false;
     }
     
-    func updateMapView(tableView: UITableView) {
+    func updateMapView() {
         guard let stop = selectedStop else {
             print("ERROR: stop was nil")
             return
         }
-        let location = CLLocation(latitude: stop.location.latitude, longitude: stop.location.longitude)
         addRoutePolyline()
-        centerMapOnLocation(location)
+        let location = CLLocation(latitude: stop.location.latitude, longitude: stop.location.longitude)
+        centerMapOnLocation(location, animated: true)
     }
     
     // MARK: - Scroll view delegate
@@ -267,16 +278,23 @@ class MXScrollViewExample: UITableViewController, CLLocationManagerDelegate, MKM
             route.generateStopCoords(0)
             route.generateRouteCoords(0)
         }
+        // Sort newly assigned stops
         sortStops()
+        // Select first stop on new segment
+        selectedStop = curStops[0]
         self.tableView.reloadData();
+        let indexPath = NSIndexPath(forRow: 0, inSection: 0)
+        tableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .Bottom)
+        tableView(tableView, didSelectRowAtIndexPath: indexPath)
+        
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        if let selected = self.tableView.indexPathForSelectedRow {
-            self.tableView.deselectRowAtIndexPath(selected, animated: true)
-        }
-    }
+//    override func viewWillAppear(animated: Bool) {
+//        super.viewWillAppear(animated)
+//        if let selected = tableView.indexPathForSelectedRow {
+//            tableView.deselectRowAtIndexPath(selected, animated: true)
+//        }
+//    }
     
     
     func sortStops() {
