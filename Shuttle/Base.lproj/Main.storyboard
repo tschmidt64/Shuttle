@@ -87,7 +87,7 @@
         <!--Stops-->
         <scene sceneID="Trh-wJ-CVc">
             <objects>
-                <tableViewController title="Stops" id="3kz-W9-KXO" customClass="StopsTableViewController" customModule="Clutch" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Stops" id="3kz-W9-KXO" customClass="MXScrollViewExample" customModule="Clutch" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="1kV-PT-x2e">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -123,9 +123,6 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="BYZ-38-t0r" kind="show" id="Uro-TL-XQ6"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -173,47 +170,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dm4-Pp-nFE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-978.5" y="245.5"/>
-        </scene>
-        <!--Buses-->
-        <scene sceneID="tne-QT-ifu">
-            <objects>
-                <viewController title="Buses" id="BYZ-38-t0r" customClass="ViewController" customModule="Clutch" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="sOf-7m-Hqe">
-                                <rect key="frame" x="0.0" y="-6" width="375" height="673"/>
-                            </mapView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XRQ-Vc-mWi">
-                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
-                                <items/>
-                            </toolbar>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="XRQ-Vc-mWi" secondAttribute="trailing" id="8Jk-M3-HUs"/>
-                            <constraint firstItem="sOf-7m-Hqe" firstAttribute="leading" secondItem="XRQ-Vc-mWi" secondAttribute="leading" id="Cth-Sp-UF1"/>
-                            <constraint firstItem="sOf-7m-Hqe" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="-6" id="f7i-8v-pNA"/>
-                            <constraint firstItem="sOf-7m-Hqe" firstAttribute="trailing" secondItem="XRQ-Vc-mWi" secondAttribute="trailing" id="lZZ-tw-k7B"/>
-                            <constraint firstItem="XRQ-Vc-mWi" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="mHu-H5-EMH"/>
-                            <constraint firstItem="XRQ-Vc-mWi" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="xcM-3i-WuT"/>
-                            <constraint firstItem="sOf-7m-Hqe" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="z99-eU-AMw"/>
-                        </constraints>
-                    </view>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
-                    <connections>
-                        <outlet property="mapView" destination="sOf-7m-Hqe" id="xqx-fb-0Gb"/>
-                        <outlet property="toolbar" destination="XRQ-Vc-mWi" id="5h3-qp-f6U"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="793.5" y="245.5"/>
         </scene>
     </scenes>
 </document>

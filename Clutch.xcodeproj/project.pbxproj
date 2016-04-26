@@ -462,7 +462,7 @@
 				INFOPLIST_FILE = Shuttle/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = clutchbusapp;
+				PRODUCT_BUNDLE_IDENTIFIER = clutchbusapp2;
 				PRODUCT_NAME = Clutch;
 				PROVISIONING_PROFILE = "";
 			};
@@ -483,7 +483,7 @@
 				INFOPLIST_FILE = Shuttle/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = clutchbusapp;
+				PRODUCT_BUNDLE_IDENTIFIER = clutchbusapp2;
 				PRODUCT_NAME = Clutch;
 				PROVISIONING_PROFILE = "";
 			};
