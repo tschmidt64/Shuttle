@@ -48,7 +48,7 @@ class MXScrollViewExample: UITableViewController, CLLocationManagerDelegate, MKM
         initBusAnnotations()
         self.navigationItem.title = "Stops for Route \(route.routeNum)"
         
-        _ = NSTimer.scheduledTimerWithTimeInterval(15, target: self, selector: #selector(ViewController.getDataFromBuses), userInfo: nil, repeats: true)
+        _ = NSTimer.scheduledTimerWithTimeInterval(15, target: self, selector: #selector(MXScrollViewExample.getDataFromBuses), userInfo: nil, repeats: true)
 //        _ = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(ViewController.updateTitle), userInfo: nil, repeats: true)
         
         getDataFromBuses()
@@ -121,6 +121,7 @@ class MXScrollViewExample: UITableViewController, CLLocationManagerDelegate, MKM
         let index = indexPath.row
         selectedStop = self.curStops[index]
         updateMapView(tableView)
+        getDataFromBuses()
     }
     
     // Initialize stop and bus annotations
@@ -139,11 +140,11 @@ class MXScrollViewExample: UITableViewController, CLLocationManagerDelegate, MKM
             print(stopName)
             let coord: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: lat, longitude: lon)
             self.stopAnnotation = StopAnnotation(coordinate: coord, title: "Stop at " + stopName, subtitle: "", img: "stop-circle.png")
-            if let annotation = self.stopAnnotation {
-                self.mapView.addAnnotation(annotation)
-            } else {
+            guard let annotation = self.stopAnnotation else {
                 print("ERROR: annotation = nil")
+                return
             }
+            self.mapView.addAnnotation(annotation as! StopAnnotation)
             
             let distances = self.route.busDistancesFromStop(stop)
             for (_, bus) in self.route.busesOnRoute {
@@ -189,8 +190,6 @@ class MXScrollViewExample: UITableViewController, CLLocationManagerDelegate, MKM
     // Add the polyline overlay for the route path to the mapview
     func addRoutePolyline() {
         let polyline = MKPolyline(coordinates: &route.routeCoords, count: route.routeCoords.count)
-        print("POLYLINE COORDINATE")
-        print(polyline.coordinate)
         mapView.removeOverlays(mapView.overlays)
         mapView.addOverlay(polyline)
     }
@@ -343,27 +342,27 @@ class MXScrollViewExample: UITableViewController, CLLocationManagerDelegate, MKM
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-        
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-        print("================ HERE =================")
-        let indexPath:NSIndexPath? = self.tableView!.indexPathForSelectedRow
-        let index = indexPath?.row
-        
-        //pass selected route into viewcontroller by sending the string for the route and the array for the route
-        let vc:ViewController = segue.destinationViewController as! ViewController
-        
-        vc.stop = self.curStops[index!]
-        vc.route = self.route
-        
-        //set back button for next screen
-        let backItem = UIBarButtonItem()
-        backItem.title = "Stops"
-        navigationItem.backBarButtonItem = backItem
-    }
+//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+//        // Get the new view controller using segue.destinationViewController.
+//        // Pass the selected object to the new view controller.
+//        
+//        // Get the new view controller using segue.destinationViewController.
+//        // Pass the selected object to the new view controller.
+//        print("================ HERE =================")
+//        let indexPath:NSIndexPath? = self.tableView!.indexPathForSelectedRow
+//        let index = indexPath?.row
+//        
+//        //pass selected route into viewcontroller by sending the string for the route and the array for the route
+//        let vc:ViewController = segue.destinationViewController as! ViewController
+//        
+//        vc.stop = self.curStops[index!]
+//        vc.route = self.route
+//        
+//        //set back button for next screen
+//        let backItem = UIBarButtonItem()
+//        backItem.title = "Stops"
+//        navigationItem.backBarButtonItem = backItem
+//    }
     
     func updateStopwatch() {
         let currentTime = NSDate.timeIntervalSinceReferenceDate()
@@ -395,6 +394,40 @@ class MXScrollViewExample: UITableViewController, CLLocationManagerDelegate, MKM
         */
     }
     
+    // Called by mapview when adding new annotation
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        var view: MKAnnotationView
+        if(annotation is StopAnnotation) {
+            let ann = annotation as! StopAnnotation
+            view = MKAnnotationView(annotation: ann, reuseIdentifier: "stop")
+            //view.pinTintColor = MKPinAnnotationView.greenPinColor()
+            let image = resizeImage( UIImage(named: ann.img)!, newWidth: 15.0)
+            view.image = image
+        } else if (annotation is BusAnnotation) {
+            let ann = annotation as! BusAnnotation
+            view = MKAnnotationView(annotation: ann, reuseIdentifier: "bus")
+            //view.pinTintColor = MKPinAnnotationView.redPinColor()
+            // ROTATE IMAGE
+            // READ EXTENSION DOWN BELOW, GOT FROM:
+            // http://stackoverflow.com/questions/27092354/rotating-uiimage-in-swift
+            //TODO I think all the buses look like they are moving backward, so might need to adjust the orientation modifier (+10) more
+            let image = resizeImage( UIImage(named: ann.img)!, newWidth: 30.0)
+            view.image = image
+        } else {
+            return nil
+        }
+        view.canShowCallout = true
+        return view
+    }
     
-    
+    func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage {
+        let scale = newWidth / image.size.width
+        let newHeight = image.size.height * scale
+        UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight))
+        image.drawInRect(CGRectMake(0, 0, newWidth, newHeight))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
+    }
 }
