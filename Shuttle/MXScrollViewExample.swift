@@ -73,9 +73,9 @@ class MXScrollViewExample: UITableViewController, CLLocationManagerDelegate, MKM
     }
     
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        <#code#>
-    }
+//    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        <#code#>
+//    }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
