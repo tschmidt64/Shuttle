@@ -29,8 +29,6 @@ class MXScrollViewExample: UITableViewController, CLLocationManagerDelegate, MKM
     var startTime = NSTimeInterval() // start stopwatch timer
     
     @IBOutlet weak var StopsSegmentedControl: UISegmentedControl!
-    @IBOutlet weak var navItem: UINavigationItem!
-    @IBOutlet weak var navBar: UINavigationBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +39,7 @@ class MXScrollViewExample: UITableViewController, CLLocationManagerDelegate, MKM
         sortStops()
         
         // Select the first item in the tableview
-        selectedStop = curStops[0]
+        selectedStop = curStops.first
         tableView.reloadData()
         let indexPath = NSIndexPath(forRow: 0, inSection: 0)
         tableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .Top)
@@ -55,14 +53,33 @@ class MXScrollViewExample: UITableViewController, CLLocationManagerDelegate, MKM
         
         getDataFromBuses()
         addRoutePolyline()
-        
-        //popRouteObj(route.routeNum, direction: 0)
-        //generateStops()
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        // Hide segmented control if only one direction
+        if(route.routeNum == 640 || route.routeNum == 642 ) {
+            navigationController?.setToolbarHidden(true, animated: animated)
+        } else {
+            navigationController?.setToolbarHidden(false, animated: animated)
+            let userLocButton = MKUserTrackingBarButtonItem(mapView: mapView)
+            let flexLeft = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
+            let flexRight = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
+            let seg = UIBarButtonItem(customView: StopsSegmentedControl)
+            seg.width = (navigationController?.toolbar.frame.width)! - 100
+            self.setToolbarItems([userLocButton, flexLeft, seg, flexRight], animated: animated)
+        }
+
+    }
+    
+    
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        <#code#>
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setToolbarHidden(true, animated: animated)
     }
     
     // - Update the bus data from OneBusAway API
@@ -246,20 +263,13 @@ class MXScrollViewExample: UITableViewController, CLLocationManagerDelegate, MKM
         tableView.parallaxHeader.mode = .Fill
         tableView.parallaxHeader.minimumHeight = 0
         
-        //these three busses are just circulators, 640 and 640 run clockwise, 642 runs counter clockwise
-        //I referenced capmetro pdf for this info
-        //https://www.capmetro.org/uploadedFiles/Capmetroorg/Schedules_and_Maps/ut-shuttles.pdf
+        // Need to select default of zero for these two routes
+        // They are circular routes (640 run clockwise, 642 runs counter-clockwise)
+        // I referenced capmetro pdf for this info
+        // https://www.capmetro.org/uploadedFiles/Capmetroorg/Schedules_and_Maps/ut-shuttles.pdf
         if(route.routeNum == 640 || route.routeNum == 642 ) {
             route.generateStopCoords(0)
             route.generateRouteCoords(0)
-            //do this because these routes only have on direction, so need to be set on 0
-            StopsSegmentedControl.hidden = true
-            navBar.removeFromSuperview()
-        } else {
-            let item = UINavigationItem()
-            item.titleView = StopsSegmentedControl
-            navBar.barTintColor = UIColor.whiteColor()
-            navBar.items = [item]
         }
         
         // Set up user location
@@ -319,20 +329,13 @@ class MXScrollViewExample: UITableViewController, CLLocationManagerDelegate, MKM
         // Sort newly assigned stops
         sortStops()
         // Select first stop on new segment
-        selectedStop = curStops[0]
+        selectedStop = curStops.first
         self.tableView.reloadData();
         let indexPath = NSIndexPath(forRow: 0, inSection: 0)
         tableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .Bottom)
         tableView(tableView, didSelectRowAtIndexPath: indexPath)
         
     }
-    
-//    override func viewWillAppear(animated: Bool) {
-//        super.viewWillAppear(animated)
-//        if let selected = tableView.indexPathForSelectedRow {
-//            tableView.deselectRowAtIndexPath(selected, animated: true)
-//        }
-//    }
     
     
     func sortStops() {
