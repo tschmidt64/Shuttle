@@ -159,7 +159,7 @@ class MXScrollViewExample: UITableViewController, CLLocationManagerDelegate, MKM
             let stopName = stop.name
             
             let coord: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-            self.stopAnnotation = StopAnnotation(coordinate: coord, title: "Stop at " + stopName, subtitle: "", img: "stop-circle.png")
+            self.stopAnnotation = StopAnnotation(coordinate: coord, title: "Stop at " + stopName, subtitle: "", img: "Bus-Stop.png")
             guard let annotation = self.stopAnnotation else {
                 print("ERROR: annotation = nil")
                 return
@@ -186,7 +186,7 @@ class MXScrollViewExample: UITableViewController, CLLocationManagerDelegate, MKM
             let stopName = stop.name
             
             let coord: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-            self.stopAnnotation = StopAnnotation(coordinate: coord, title: "Stop at " + stopName, subtitle: "", img: "stop-circle.png")
+            self.stopAnnotation = StopAnnotation(coordinate: coord, title: "Stop at " + stopName, subtitle: "", img: "Bus-Stop.png")
             guard let annotation = self.stopAnnotation else {
                 print("ERROR: annotation = nil")
                 return
@@ -335,6 +335,26 @@ class MXScrollViewExample: UITableViewController, CLLocationManagerDelegate, MKM
         tableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .Bottom)
         tableView(tableView, didSelectRowAtIndexPath: indexPath)
         
+    }
+    
+    func mapView(mapView: MKMapView, didAddAnnotationViews views: [MKAnnotationView]) {
+        for v in views {
+            if v.annotation is StopAnnotation {
+                v.superview?.bringSubviewToFront(v)
+            } else {
+                v.sendSubviewToBack(v)
+            }
+        }
+    }
+    
+    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        for ann in mapView.annotations {
+            if ann is StopAnnotation {
+                let v = mapView.viewForAnnotation(ann)
+                v?.superview?.bringSubviewToFront(v!)
+            }
+            
+        }
     }
     
     
