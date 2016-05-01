@@ -107,6 +107,7 @@ class RoutesTableViewController: UITableViewController, UISearchResultsUpdating 
         cell.lblNameShort.text = String(route.nameShort)
         cell.lblNameLong.text = String(route.nameLong)
         cell.lblRouteNum.text = String(route.routeNum)
+        cell.lblNumBuses.text = route.busesOnRoute.count > 0 ? "\(route.busesOnRoute.count) buses running" : ""
         return cell
         
         
@@ -181,6 +182,7 @@ class RoutesTableViewController: UITableViewController, UISearchResultsUpdating 
         routes.append(Route(routeNum: 681, nameShort: "IF/FW", nameLong: "Intramural/Far West"))
         routes.append(Route(routeNum: 801, nameShort: "NL/SC", nameLong: "North Lamar/South Congress"))
         routes.append(Route(routeNum: 803, nameShort: "B/SL", nameLong: "Burnet/South Lamar"))
+        routes.map( {$0.refreshAll()} )
     }
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation

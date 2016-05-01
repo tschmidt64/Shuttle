@@ -13,6 +13,7 @@ class RouteTableViewCell: UITableViewCell {
     @IBOutlet weak var lblNameShort: UILabel!
     @IBOutlet weak var lblNameLong: UILabel!
     @IBOutlet weak var lblRouteNum: UILabel!
+    @IBOutlet weak var lblNumBuses: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
