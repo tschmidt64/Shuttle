@@ -104,9 +104,15 @@ class RoutesTableViewController: UITableViewController, UISearchResultsUpdating 
         } else {
             route = routes[indexPath.row]
         }
+        route.refreshBuses()
         cell.lblNameShort.text = String(route.nameShort)
         cell.lblNameLong.text = String(route.nameLong)
         cell.lblRouteNum.text = String(route.routeNum)
+        if route.busesOnRoute.count > 0 {
+            cell.lblNumBuses.text = "\(route.busesOnRoute.count) buses on route"
+        } else {
+            cell.lblNumBuses.text = ""
+        }
         return cell
         
         

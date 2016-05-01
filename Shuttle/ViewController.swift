@@ -87,7 +87,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     func initBusAnnotations() {
         dispatch_async(dispatch_get_main_queue(), {
             let coord: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: self.stopLat, longitude: self.stopLong)
-            self.stopAnnotation = StopAnnotation(coordinate: coord, title: "Stop at " + self.stopName, subtitle: "", img: "stop-circle.png")
+            self.stopAnnotation = StopAnnotation(coordinate: coord, title: "Stop at " + self.stopName, subtitle: "", img: "Bus-Stop.png")
             self.mapView.addAnnotation(self.stopAnnotation)
             
             let distances = self.route.busDistancesFromStop(self.stop)
@@ -201,7 +201,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             let ann = annotation as! StopAnnotation
             view = MKAnnotationView(annotation: ann, reuseIdentifier: "stop")
             //view.pinTintColor = MKPinAnnotationView.greenPinColor()
-            let image = resizeImage( UIImage(named: ann.img)!, newWidth: 15.0)
+            let image = UIImage(named: ann.img)!
+            //let image = resizeImage( UIImage(named: ann.img)!, newWidth: 15.0)
             view.image = image
         } else if (annotation is BusAnnotation) {
             let ann = annotation as! BusAnnotation
@@ -211,7 +212,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             // READ EXTENSION DOWN BELOW, GOT FROM:
             // http://stackoverflow.com/questions/27092354/rotating-uiimage-in-swift
             //TODO I think all the buses look like they are moving backward, so might need to adjust the orientation modifier (+10) more
-            let image = resizeImage( UIImage(named: ann.img)!, newWidth: 30.0)
+            let image = UIImage(named: ann.img)!
+            //let image = resizeImage( UIImage(named: ann.img)!, newWidth: 15.0)
             view.image = image
         } else {
             return nil
