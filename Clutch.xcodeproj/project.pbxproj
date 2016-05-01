@@ -31,6 +31,7 @@
 		8254857D1C7402BA0023E1A5 /* Shuttle.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8254857B1C7402BA0023E1A5 /* Shuttle.xcdatamodeld */; };
 		8254857F1C7402BA0023E1A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8254857E1C7402BA0023E1A5 /* Assets.xcassets */; };
 		825485821C7402BA0023E1A5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 825485801C7402BA0023E1A5 /* LaunchScreen.storyboard */; };
+		82ABDB9B1CD5EE1900EB19DD /* StackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82ABDB9A1CD5EE1900EB19DD /* StackViewController.swift */; };
 		82F811911CC8A23800655F3E /* SplitViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F811901CC8A23800655F3E /* SplitViewTableViewCell.swift */; };
 		82FD72491CA88383002060F7 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FD72481CA88383002060F7 /* Route.swift */; };
 		82FD724B1CA88507002060F7 /* Bus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FD724A1CA88507002060F7 /* Bus.swift */; };
@@ -65,6 +66,7 @@
 		8254857E1C7402BA0023E1A5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		825485811C7402BA0023E1A5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		825485831C7402BA0023E1A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		82ABDB9A1CD5EE1900EB19DD /* StackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackViewController.swift; sourceTree = "<group>"; };
 		82F811901CC8A23800655F3E /* SplitViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplitViewTableViewCell.swift; sourceTree = "<group>"; };
 		82FD72481CA88383002060F7 /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		82FD724A1CA88507002060F7 /* Bus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bus.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 				6475B1831CA87DBF00B36F4C /* stops */,
 				64A51EFA1CB1CB5B00827578 /* Objects etc. */,
 				64BAAAC51C8747EB0056E2AF /* RoutesTableViewController.swift */,
+				82ABDB9A1CD5EE1900EB19DD /* StackViewController.swift */,
 				64EAC3AF1CAE3A7A00ABE648 /* StopsTableViewController.swift */,
 				825485761C7402BA0023E1A5 /* ViewController.swift */,
 				825485781C7402BA0023E1A5 /* Main.storyboard */,
@@ -338,6 +341,7 @@
 				82F811911CC8A23800655F3E /* SplitViewTableViewCell.swift in Sources */,
 				8254857D1C7402BA0023E1A5 /* Shuttle.xcdatamodeld in Sources */,
 				64BAAAC61C8747EB0056E2AF /* RoutesTableViewController.swift in Sources */,
+				82ABDB9B1CD5EE1900EB19DD /* StackViewController.swift in Sources */,
 				820E01A91CCBFA8200BE2F0E /* SplitViewController.swift in Sources */,
 				64265DE21C8CC20200876484 /* StopPointAnnotation.swift in Sources */,
 			);
@@ -460,7 +464,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = Shuttle/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = clutchbusapp;
 				PRODUCT_NAME = Clutch;
@@ -481,7 +485,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = Shuttle/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = clutchbusapp;
 				PRODUCT_NAME = Clutch;

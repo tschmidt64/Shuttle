@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="UEu-QI-2b3">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -18,7 +17,7 @@
                         <inset key="separatorInset" minX="65" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="reuseIdentifier" rowHeight="75" id="mtn-zo-dyd" customClass="RouteTableViewCell" customModule="Clutch" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="92" width="375" height="75"/>
+                                <rect key="frame" x="0.0" y="28" width="375" height="75"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mtn-zo-dyd" id="tUn-dL-Lce">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="74"/>
@@ -93,7 +92,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <navigationBar key="tableHeaderView" contentMode="scaleToFill" id="9V0-dl-cfS">
-                            <rect key="frame" x="0.0" y="64" width="375" height="44"/>
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <items>
                                 <navigationItem title="Title" id="WR7-wn-W1t"/>
@@ -101,7 +100,7 @@
                         </navigationBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="reuseIdentifier" textLabel="nSc-b2-AFG" detailTextLabel="NjE-gC-Stm" style="IBUITableViewCellStyleValue1" id="LZ7-dK-lcr">
-                                <rect key="frame" x="0.0" y="136" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="72" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LZ7-dK-lcr" id="k7U-0O-Enf">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -156,6 +155,63 @@
             </objects>
             <point key="canvasLocation" x="193.5" y="245.5"/>
         </scene>
+        <!--Stack View Controller-->
+        <scene sceneID="bpX-Cu-830">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BEq-8N-3rm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="kvt-wn-siw" customClass="StackViewController" customModule="Clutch" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="4pD-Su-aqH"/>
+                        <viewControllerLayoutGuide type="bottom" id="rZd-5h-yNu"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="6QS-r7-aNT">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="7hI-Zj-aur">
+                                <rect key="frame" x="-8" y="64" width="392" height="559"/>
+                                <subviews>
+                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="0Y1-76-xA4">
+                                        <rect key="frame" x="0.0" y="0.0" width="392" height="280"/>
+                                    </mapView>
+                                    <tableView opaque="NO" clipsSubviews="YES" alpha="0.90000000000000002" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ehk-Kx-ebL">
+                                        <rect key="frame" x="0.0" y="280" width="392" height="279"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <prototypes>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="StackCell" id="VUX-WA-BsH">
+                                                <rect key="frame" x="0.0" y="28" width="392" height="44"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VUX-WA-BsH" id="oIG-FD-wP7">
+                                                    <rect key="frame" x="0.0" y="0.0" width="392" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </tableViewCellContentView>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            </tableViewCell>
+                                        </prototypes>
+                                    </tableView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="7hI-Zj-aur" firstAttribute="bottom" secondItem="rZd-5h-yNu" secondAttribute="top" id="BnM-uI-ZRJ"/>
+                            <constraint firstItem="7hI-Zj-aur" firstAttribute="centerX" secondItem="6QS-r7-aNT" secondAttribute="centerX" id="Q6T-Pr-wrl"/>
+                            <constraint firstItem="7hI-Zj-aur" firstAttribute="top" secondItem="4pD-Su-aqH" secondAttribute="bottom" id="UeN-Zt-94Y"/>
+                            <constraint firstItem="7hI-Zj-aur" firstAttribute="leading" secondItem="6QS-r7-aNT" secondAttribute="leadingMargin" constant="-24" id="ro9-wt-4yj"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="RZJ-tE-0BZ"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="mapTableStack" destination="7hI-Zj-aur" id="KRb-4C-oOu"/>
+                        <outlet property="mapView" destination="0Y1-76-xA4" id="hEO-3a-Z4A"/>
+                        <outlet property="tableView" destination="ehk-Kx-ebL" id="rle-7v-TPX"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="-893.5" y="1143.5"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="4UP-dt-AFf">
             <objects>
@@ -167,7 +223,7 @@
                         <color key="barTintColor" red="0.54901960780000003" green="0.89411764709999997" blue="0.64705882349999999" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="mbg-tI-83c" kind="relationship" relationship="rootViewController" id="tXZ-t4-dqu"/>
+                        <segue destination="kvt-wn-siw" kind="relationship" relationship="rootViewController" id="bvy-xe-GSf"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dm4-Pp-nFE" userLabel="First Responder" sceneMemberID="firstResponder"/>
