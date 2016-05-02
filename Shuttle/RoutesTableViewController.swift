@@ -191,14 +191,14 @@ class RoutesTableViewController: UITableViewController, UISearchResultsUpdating 
         
         
         //pass selected route into viewcontroller by sending the string for the route and the array for the route
-        let stopsTableView = segue.destinationViewController as! StopsTableViewController
+        let stopsTableView = segue.destinationViewController as! StackViewController
         let selectedRoute: Route
         if self.searchController.active && self.searchController.searchBar.text != "" {
             selectedRoute = filteredRoutes[(indexPath?.row)!]
         } else {
             selectedRoute = routes[(indexPath?.row)!]
         }
-        stopsTableView.curRoute = selectedRoute
+        stopsTableView.route = selectedRoute
 
         //TO-DO this is hard coded, figure out directional stuff
         //stopsTableView.curRoute.generateStopCoords(0)

@@ -16,39 +16,289 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var mapTableStack: UIStackView!
     @IBOutlet weak var toolbar: UIView!
+    @IBOutlet weak var stopsSegmentedControl: UISegmentedControl!
     
     var userLocButton: MKUserTrackingBarButtonItem!
     var showListButton: UIBarButtonItem!
     var tableHidden = false
+    var containsSegmentControl = true
     
-    var curRoute: Route = Route(routeNum: 0, nameShort: "", nameLong: "")
+    /* Timer Fields */
+    var startTime = NSTimeInterval() // start stopwatch timer
+
+    
+    var route: Route = Route(routeNum: 0, nameShort: "", nameLong: "")
+    var stopAnnotation: MKAnnotation?
     var curStops: [Stop] = []
+    var selectedStop: Stop?
     var locationManager = CLLocationManager()
     var userLocation: CLLocationCoordinate2D!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Get's coordinates for stops and buses
-        generateCoordinates()
         setupTableView()
-        setupLocationManager()
         setupMap()
-        setupToolbar()
+        setupLocationManager()
         sortAndSetStops()
-    }
-    override func viewWillAppear(animated: Bool) {
-        if let selected = self.tableView.indexPathForSelectedRow {
-            self.tableView.deselectRowAtIndexPath(selected, animated: true)
-        }
+        selectedStop = curStops.first
+        generateCoordinates()
+        initBusAnnotations()
+        addRoutePolyline()
+        setupToolbar()
+        tableView.reloadData()
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        updateMapView(tableView)
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        checkLocationAuthorizationStatus()
     }
+    
+    func checkLocationAuthorizationStatus() {
+        if CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse {
+            mapView.showsUserLocation = true
+        } else {
+            locationManager.requestWhenInUseAuthorization()
+        }
+    }
+
+    
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        var view: MKAnnotationView
+        if(annotation is StopAnnotation) {
+            let ann = annotation as! StopAnnotation
+            view = MKAnnotationView(annotation: ann, reuseIdentifier: "stop")
+            //view.pinTintColor = MKPinAnnotationView.greenPinColor()
+            let image = UIImage(named: ann.img)
+            view.image = image
+        } else if (annotation is BusAnnotation) {
+            let ann = annotation as! BusAnnotation
+            view = MKAnnotationView(annotation: ann, reuseIdentifier: "bus")
+            //view.pinTintColor = MKPinAnnotationView.redPinColor()
+            // ROTATE IMAGE
+            // READ EXTENSION DOWN BELOW, GOT FROM:
+            // http://stackoverflow.com/questions/27092354/rotating-uiimage-in-swift
+            //TODO I think all the buses look like they are moving backward, so might need to adjust the orientation modifier (+10) more
+            let image = UIImage(named: ann.img)
+            view.image = image
+        } else {
+            return nil
+        }
+        view.canShowCallout = true
+        return view
+    }
+
+    
+    func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
+        if overlay is MKPolyline {
+            let polyRenderer = MKPolylineRenderer(overlay: overlay)
+            polyRenderer.strokeColor = UIColor(red: 0.5703125, green: 0.83203125, blue: 0.63671875, alpha: 0.8)
+            polyRenderer.lineWidth = 5
+            return polyRenderer
+        }
+        return nil
+    }
+    
+    func initBusAnnotations() {
+        dispatch_async(dispatch_get_main_queue(), {
+            guard let stop = self.selectedStop else {
+                print("ERROR: selectedStop was nil")
+                return
+            }
+            let lat = stop.location.latitude
+            let lon = stop.location.longitude
+            let stopName = stop.name
+            
+            let coord: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+            self.stopAnnotation = StopAnnotation(coordinate: coord, title: "Stop at " + stopName, subtitle: "", img: "Bus-Stop.png")
+            guard let annotation = self.stopAnnotation else {
+                print("ERROR: annotation = nil")
+                return
+            }
+            self.mapView.removeAnnotations(self.mapView.annotations)
+            self.mapView.addAnnotation(annotation as! StopAnnotation)
+            
+            let distances = self.route.busDistancesFromStop(stop)
+            for (_, bus) in self.route.busesOnRoute {
+                if(self.containsNextStop(bus.nextStopId)) {
+                    //TODO not sure if orientaiton passing is cool here
+                    var distanceMiles: Double? = nil
+                    if let distanceMeters = distances[bus.busId] {
+                        distanceMiles = distanceMeters * 0.000621371
+                    }
+                    let annotation: BusAnnotation
+                    if distanceMiles != nil {
+                        annotation = BusAnnotation(coordinate: bus.location,
+                            title: "\(String(format: "%.2f", distanceMiles!)) miles to stop",
+                            subtitle: "",
+                            img: "Bus-Circle.png",
+                            orientation: 0,
+                            busId: bus.busId)
+                    } else {
+                        annotation = BusAnnotation(coordinate: bus.location,
+                            title: "Bus \(self.route.routeNum)",
+                            subtitle: "Distance Unkown",
+                            img: "Bus-Circle.png",
+                            orientation: 0,
+                            busId: bus.busId)
+                    }
+                    
+                    //print("bus  latitude: \(bus.location.latitude), bus longitude: \(bus.location.longitude)")
+                    
+                    print("ADDING ANNOTATION")
+                    self.mapView.addAnnotation(annotation)
+                }
+            }
+            self.centerMapOnLocation(CLLocation(latitude: lat, longitude: lon), animated: true) //consider centering on stop instead
+        })
+    }
+
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        // scroll to top
+        updateMapView()
+        self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .None, animated: true)
+        // Update selected stop for newly selected tableViewCell
+        selectedStop = self.curStops[indexPath.row]
+        updateStopAnnotation()
+        // Update the bus locations
+        getDataFromBuses()
+    }
+    
+    func updateStopAnnotation() {
+        if stopAnnotation != nil { mapView.removeAnnotations(mapView.annotations.filter {$0 is StopAnnotation}) }
+        dispatch_async(dispatch_get_main_queue(), {
+            guard let stop = self.selectedStop else {
+                print("ERROR: selectedStop was nil")
+                return
+            }
+            let lat = stop.location.latitude
+            let lon = stop.location.longitude
+            let stopName = stop.name
+            
+            let coord: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+            self.stopAnnotation = StopAnnotation(coordinate: coord, title: "Stop at " + stopName, subtitle: "", img: "Bus-Stop.png")
+            guard let annotation = self.stopAnnotation else {
+                print("ERROR: annotation = nil")
+                return
+            }
+            self.mapView.addAnnotation(annotation as! StopAnnotation)
+        })
+        
+    }
+ 
+    func updateMapView() {
+        guard let stop = selectedStop else {
+            print("ERROR: stop was nil")
+            return
+        }
+        addRoutePolyline()
+        let location = CLLocation(latitude: stop.location.latitude, longitude: stop.location.longitude)
+        centerMapOnLocation(location, animated: true)
+    }
+    
+    func containsNextStop(nextStopId: String) -> Bool {
+        if(nextStopId == "") {
+            print("ERROR: No next stop id")
+            return true;
+        }
+        
+        for stop in curStops {
+            if(nextStopId == stop.stopId) {
+                print("Found next stop")
+                return true;
+            }
+        }
+        print("Next stop not in stops")
+        return false;
+    }
+    
+    @IBAction func StopsSegmentedControlChoose(sender: AnyObject) {
+        if stopsSegmentedControl.selectedSegmentIndex == 1 {
+            print("selected 1")
+            route.generateStopCoords(1)
+            route.generateRouteCoords(1)
+        } else {
+            print("selected 0")
+            route.generateStopCoords(0)
+            route.generateRouteCoords(0)
+        }
+        initBusAnnotations()
+        // Sort newly assigned stops
+        sortAndSetStops()
+        // Select first stop on new segment
+        selectedStop = curStops.first
+        self.tableView.reloadData();
+        let indexPath = NSIndexPath(forRow: 0, inSection: 0)
+        tableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .Bottom)
+        tableView(tableView, didSelectRowAtIndexPath: indexPath)
+        
+    }
+
+
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let loc = manager.location {
+            userLocation = loc.coordinate
+        } else {
+            print("ERROR: Failed to update user location")
+        }
+    }
+ 
+    func getDataFromBuses() {
+        self.route.refreshBuses()
+        
+        self.updateStopwatch()
+        self.startTime = NSDate.timeIntervalSinceReferenceDate()
+        
+        dispatch_async(dispatch_get_main_queue(), {
+            guard let stop = self.selectedStop else {
+                print("ERROR: selectedStop is nil")
+                return
+            }
+            let distances = self.route.busDistancesFromStop(stop)
+            for annotation in ((self.mapView.annotations.filter() { $0 is BusAnnotation }) as! [BusAnnotation]) {
+                let id = annotation.busId
+                if let bus = self.route.busesOnRoute[id] {
+                    var distanceMiles: Double? = nil
+                    if let distanceMeters = distances[id] {
+                        distanceMiles = distanceMeters * 0.000621371
+                        annotation.title = "\(String(format: "%.2f", distanceMiles!)) miles to stop"
+                    } else {
+                        annotation.title = "Distance unknown"
+                    }
+                    if annotation.coordinate.latitude != bus.location.latitude
+                        || annotation.coordinate.longitude != bus.location.longitude {
+                        annotation.coordinate = bus.location
+                        self.mapView.addAnnotation(annotation)
+                    }
+                } else {
+                    print("ERROR: no bus found for id = \(id)")
+                }
+            }
+        })
+    }
+
+    func centerMapOnLocation(location: CLLocation, animated: Bool) {
+        // This zooms over the user and the stop as an alternative.
+        // It doesn't seem to always show the stop though; sometimes it is covered up
+        // so I commented it out and am now just using the whole route
+        //        var coords: [CLLocationCoordinate2D]
+        //        if let stopAn = stopAnnotation, userLoc = userLocation {
+        //            coords = [userLoc, stopAn.coordinate]
+        //        } else {
+        //            print("HERE BITCH")
+        //            coords = route.routeCoords
+        //        }
+        var coords = route.routeCoords
+        let polyline = MKPolyline(coordinates: &coords, count: coords.count)
+        let routeRegion = polyline.boundingMapRect
+        mapView.setVisibleMapRect(routeRegion, edgePadding: UIEdgeInsetsMake(20.0, 20.0, 20.0, 20.0), animated: animated)
+    }
+
     
     func sortAndSetStops() {
         // Sort stops by distance from user
-        self.curStops = self.curRoute.stops.sort {
+        self.curStops = self.route.stops.sort {
             if let uCoord = self.locationManager.location?.coordinate {
                 let uLoc = CLLocation(latitude: uCoord.latitude, longitude: uCoord.longitude)
                 let stop0 = CLLocation(latitude: $0.location.latitude, longitude: $0.location.longitude)
@@ -59,10 +309,14 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
+    
+    
     func generateCoordinates() {
-        if(curRoute.routeNum == 640 || curRoute.routeNum == 642 ) {
-            self.curRoute.generateStopCoords(0)
-            self.curRoute.generateRouteCoords(0)
+        if(route.routeNum == 640 || route.routeNum == 642 ) {
+            self.containsSegmentControl = false
+            self.toolbar.hidden = true
+            self.route.generateStopCoords(0)
+            self.route.generateRouteCoords(0)
             //do this because these routes only have on direction, so need to be set on 0
 //            StopsSegmentedControl.hidden = true
 //            self.navBar.removeFromSuperview()
@@ -105,7 +359,7 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         UIView.animateWithDuration(0.2) {
             self.tableView.hidden = self.tableHidden
-            self.toolbar.hidden = self.tableHidden
+            self.toolbar.hidden = self.containsSegmentControl ? self.tableHidden : true
 //            self.view.layoutIfNeeded()
         }
         print("Button Pressed")
@@ -130,12 +384,53 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return cell
     }
     
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return self.curStops.count
     }
     
-    
+    func addRoutePolyline() {
+        print("ADDING POLY")
+        print(route.routeCoords.count)
+        let polyline = MKPolyline(coordinates: &route.routeCoords, count: route.routeCoords.count)
+        mapView.removeOverlays(mapView.overlays)
+        mapView.addOverlay(polyline)
+    }
+ 
+    func updateStopwatch() {
+        let currentTime = NSDate.timeIntervalSinceReferenceDate()
+        
+        //Find the difference between current time and start time.
+        
+        var elapsedTime: NSTimeInterval = currentTime - startTime
+        //        print(elapsedTime)
+        
+        //calculate the minutes in elapsed time.
+        
+        let minutes = UInt32(elapsedTime / 60.0)
+        
+        elapsedTime -= (NSTimeInterval(minutes) * 60)
+        
+        //calculate the seconds in elapsed time.
+        
+        let seconds = UInt32(elapsedTime)
+        
+        elapsedTime -= NSTimeInterval(seconds)
+        
+        //add the leading zero for minutes, seconds and millseconds and store them as string constants
+        /*
+         let strMinutes = String(format: "%02d", minutes)
+         let strSeconds = String(format: "%02d", seconds)
+         
+         print(strMinutes)
+         print(strSeconds)
+         */
+    }
+
     
 }
 
