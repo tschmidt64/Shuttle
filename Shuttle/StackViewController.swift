@@ -17,6 +17,10 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBOutlet weak var mapTableStack: UIStackView!
     @IBOutlet weak var toolbar: UIView!
     @IBOutlet weak var stopsSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var dividerHeightConstraintHigh: NSLayoutConstraint!
+    @IBOutlet weak var dividerHeightConstraintLow: NSLayoutConstraint!
+    @IBOutlet weak var dividerHigh: UIView!
+    @IBOutlet weak var dividerLow: UIView!
     
     var userLocButton: MKUserTrackingBarButtonItem!
     var showListButton: UIBarButtonItem!
@@ -36,6 +40,9 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        dividerHeightConstraintHigh.constant = 1/UIScreen.mainScreen().scale//enforces it to be a true 1 pixel line
+        dividerHeightConstraintLow.constant = 1/UIScreen.mainScreen().scale//enforces it to be a true 1 pixel line
+
         // Get's coordinates for stops and buses
         setupTableView()
         setupMap()
@@ -313,10 +320,12 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func generateCoordinates() {
         if(route.routeNum == 640 || route.routeNum == 642 ) {
-            self.containsSegmentControl = false
-            self.toolbar.hidden = true
-            self.route.generateStopCoords(0)
-            self.route.generateRouteCoords(0)
+            containsSegmentControl = false
+            toolbar.hidden = true
+            dividerLow.hidden = true
+            dividerHigh.hidden = true
+            route.generateStopCoords(0)
+            route.generateRouteCoords(0)
             //do this because these routes only have on direction, so need to be set on 0
 //            StopsSegmentedControl.hidden = true
 //            self.navBar.removeFromSuperview()
@@ -346,7 +355,7 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func setupToolbar() {
         userLocButton = MKUserTrackingBarButtonItem(mapView: mapView)
-        showListButton = UIBarButtonItem(title: "Show List", style: .Plain, target: self, action: Selector.buttonTapped)
+        showListButton = UIBarButtonItem(title: "Show Stops", style: .Plain, target: self, action: Selector.buttonTapped)
         navigationController?.toolbarHidden = false
         let flexL = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace , target: self, action: nil)
         let flexR = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace , target: self, action: nil)
@@ -360,6 +369,8 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
         UIView.animateWithDuration(0.2) {
             self.tableView.hidden = self.tableHidden
             self.toolbar.hidden = self.containsSegmentControl ? self.tableHidden : true
+            self.dividerHigh.hidden = self.containsSegmentControl ? self.tableHidden : true
+            self.dividerLow.hidden = self.containsSegmentControl ? self.tableHidden : true
 //            self.view.layoutIfNeeded()
         }
         print("Button Pressed")
