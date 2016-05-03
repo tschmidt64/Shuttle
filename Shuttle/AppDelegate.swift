@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
 //        UINavigationBar.appearance().barTintColor = UIColor(red: 0.546875, green: 0.890625, blue: 0.64453125, alpha: 1.0)
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(),             NSFontAttributeName: UIFont(name: "Avenir Next", size: 20)!
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont(name: "Avenir Next", size: 20)!
 ]
         UINavigationBar.appearance().tintColor = UIColor.darkGrayColor()
 

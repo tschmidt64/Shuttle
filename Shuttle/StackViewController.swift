@@ -94,16 +94,20 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
         view.canShowCallout = true
         return view
     }
-
     
-    func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
+    
+    
+    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
         if overlay is MKPolyline {
             let polyRenderer = MKPolylineRenderer(overlay: overlay)
-            polyRenderer.strokeColor = UIColor(red: 0.5703125, green: 0.83203125, blue: 0.63671875, alpha: 0.8)
+//            polyRenderer.strokeColor = UIColor(red: 0.5703125, green: 0.83203125, blue: 0.63671875, alpha: 0.8)
+            polyRenderer.strokeColor = UIColor(red: 49/255, green: 131/255, blue: 255/255, alpha: 1)
             polyRenderer.lineWidth = 5
             return polyRenderer
+        } else {
+            let polyRenderer = MKPolygonRenderer(overlay: overlay)
+            return polyRenderer 
         }
-        return nil
     }
     
     func mapView(mapView: MKMapView, didAddAnnotationViews views: [MKAnnotationView]) {
@@ -391,7 +395,9 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func setupToolbar() {
         userLocButton = MKUserTrackingBarButtonItem(mapView: mapView)
+        userLocButton.customView?.tintColor = UIColor(red: 112/255, green: 183/255, blue: 132/255, alpha: 1)
         showListButton = UIBarButtonItem(title: "Show Stops", style: .Plain, target: self, action: Selector.buttonTapped)
+        showListButton.tintColor = UIColor(red: 112/255, green: 183/255, blue: 132/255, alpha: 1)
         navigationController?.toolbarHidden = false
         let flexL = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace , target: self, action: nil)
         let flexR = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace , target: self, action: nil)
