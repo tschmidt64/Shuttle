@@ -202,7 +202,7 @@ class RoutesTableViewController: UITableViewController, UISearchResultsUpdating 
             selectedRoute = routes[(indexPath?.row)!]
         }
         stopsTableView.route = selectedRoute
-
+        
         //TO-DO this is hard coded, figure out directional stuff
         //stopsTableView.curRoute.generateStopCoords(0)
         

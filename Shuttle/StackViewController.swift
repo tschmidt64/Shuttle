@@ -47,9 +47,9 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
         setupTableView()
         setupMap()
         setupLocationManager()
+        generateCoordinates()
         sortAndSetStops()
         selectedStop = curStops.first
-        generateCoordinates()
         initBusAnnotations()
         addRoutePolyline()
         setupToolbar()
@@ -174,9 +174,9 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func updateStopAnnotation() {
         if stopAnnotation != nil { mapView.removeAnnotations(mapView.annotations.filter {$0 is StopAnnotation}) }
-        dispatch_async(dispatch_get_main_queue(), {
+        dispatch_async(dispatch_get_main_queue()) {
             guard let stop = self.selectedStop else {
-                print("ERROR: selectedStop was nil")
+                print("ERROR: updateStopAnnotation selectedStop was nil")
                 return
             }
             let lat = stop.location.latitude
@@ -190,7 +190,7 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 return
             }
             self.mapView.addAnnotation(annotation as! StopAnnotation)
-        })
+        }
         
     }
  
@@ -252,17 +252,19 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
  
     func getDataFromBuses() {
-        self.route.refreshBuses()
         
         self.updateStopwatch()
         self.startTime = NSDate.timeIntervalSinceReferenceDate()
         
-        dispatch_async(dispatch_get_main_queue(), {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            self.route.refreshBuses()
+            print("BUS DATA REFRESHED")
             guard let stop = self.selectedStop else {
                 print("ERROR: selectedStop is nil")
                 return
             }
             let distances = self.route.busDistancesFromStop(stop)
+            var annArr: [BusAnnotation] = []
             for annotation in ((self.mapView.annotations.filter() { $0 is BusAnnotation }) as! [BusAnnotation]) {
                 let id = annotation.busId
                 if let bus = self.route.busesOnRoute[id] {
@@ -276,13 +278,16 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     if annotation.coordinate.latitude != bus.location.latitude
                         || annotation.coordinate.longitude != bus.location.longitude {
                         annotation.coordinate = bus.location
-                        self.mapView.addAnnotation(annotation)
+                        annArr.append(annotation)
                     }
                 } else {
                     print("ERROR: no bus found for id = \(id)")
                 }
             }
-        })
+            dispatch_async(dispatch_get_main_queue()) {
+                self.mapView.addAnnotations(annArr)
+            }
+        }
     }
 
     func centerMapOnLocation(location: CLLocation, animated: Bool) {
@@ -305,15 +310,21 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func sortAndSetStops() {
         // Sort stops by distance from user
+        if self.route.stops.isEmpty {
+            print("======== Self.route.stops is empty =========")
+        }
         self.curStops = self.route.stops.sort {
             if let uCoord = self.locationManager.location?.coordinate {
                 let uLoc = CLLocation(latitude: uCoord.latitude, longitude: uCoord.longitude)
                 let stop0 = CLLocation(latitude: $0.location.latitude, longitude: $0.location.longitude)
                 let stop1 = CLLocation(latitude: $1.location.latitude, longitude: $1.location.longitude)
                 return stop0.distanceFromLocation(uLoc) < stop1.distanceFromLocation(uLoc)
+            } else {
+                print("RETURNING FALSE")
+                return false
             }
-            return false
         }
+        
     }
     
     
@@ -324,8 +335,12 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
             toolbar.hidden = true
             dividerLow.hidden = true
             dividerHigh.hidden = true
+            print("BEFORE")
+            print(route.stops)
             route.generateStopCoords(0)
             route.generateRouteCoords(0)
+            print(route.stops)
+            print("AFTER")
             //do this because these routes only have on direction, so need to be set on 0
 //            StopsSegmentedControl.hidden = true
 //            self.navBar.removeFromSuperview()

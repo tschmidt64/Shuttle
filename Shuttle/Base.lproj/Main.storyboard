@@ -144,14 +144,14 @@
                                             <constraint firstItem="TiP-HT-cOC" firstAttribute="top" secondItem="RvZ-Gv-nBi" secondAttribute="topMargin" id="kPP-3o-HNg"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="F64-Xm-CZZ">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F64-Xm-CZZ">
                                         <rect key="frame" x="0.0" y="251" width="375" height="1"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="24I-Ln-Zgo"/>
                                         </constraints>
                                     </view>
-                                    <tableView opaque="NO" clipsSubviews="YES" alpha="0.90000000000000002" contentMode="scaleToFill" verticalHuggingPriority="750" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ehk-Kx-ebL">
+                                    <tableView opaque="NO" clipsSubviews="YES" alpha="0.90000000000000002" contentMode="scaleToFill" verticalHuggingPriority="750" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ehk-Kx-ebL">
                                         <rect key="frame" x="0.0" y="252" width="375" height="307"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <prototypes>
