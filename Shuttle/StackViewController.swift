@@ -411,6 +411,7 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
         navigationController?.toolbarHidden = false
         let flexL = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace , target: self, action: nil)
         let flexR = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace , target: self, action: nil)
+        navigationController?.toolbar.barTintColor = .darkGrayColor()
         toolbarItems = [userLocButton, flexL, showListButton, flexR]
         
     }
