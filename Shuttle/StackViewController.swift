@@ -106,10 +106,28 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return nil
     }
     
+    func mapView(mapView: MKMapView, didAddAnnotationViews views: [MKAnnotationView]) {
+        for view in views {
+            if view.annotation is StopAnnotation {
+                view.superview?.bringSubviewToFront(view)
+            } else {
+                view.superview?.sendSubviewToBack(view)
+            }
+        }
+    }
+    
+    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        if let ann = (mapView.annotations.filter { $0 is StopAnnotation }.first as! StopAnnotation?) {
+            if let view = mapView.viewForAnnotation(ann) {
+                view.superview?.bringSubviewToFront(view)
+            }
+        }
+    }
+    
     func initBusAnnotations() {
         dispatch_async(dispatch_get_main_queue(), {
             guard let stop = self.selectedStop else {
-                print("ERROR: selectedStop was nil")
+                print("ERROR: initBusAnnotations selectedStop was nil")
                 return
             }
             let lat = stop.location.latitude
@@ -301,7 +319,10 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
         //            print("HERE BITCH")
         //            coords = route.routeCoords
         //        }
-        var coords = route.routeCoords
+        // Get bus coords
+        let buses = Array(route.busesOnRoute.values)
+        let busCoords = buses.map { $0.location }
+        var coords = busCoords + route.routeCoords
         let polyline = MKPolyline(coordinates: &coords, count: coords.count)
         let routeRegion = polyline.boundingMapRect
         mapView.setVisibleMapRect(routeRegion, edgePadding: UIEdgeInsetsMake(20.0, 20.0, 20.0, 20.0), animated: animated)
