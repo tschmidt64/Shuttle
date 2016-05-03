@@ -55,6 +55,7 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
         addRoutePolyline()
         setupToolbar()
         tableView.reloadData()
+        StopsSegmentedControlChoose(self)
     }
     
     // Hide the navController toolbar when leaving
@@ -263,11 +264,10 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
         sortAndSetStops()
         // Select first stop on new segment
         selectedStop = curStops.first
-        self.tableView.reloadData();
         let indexPath = NSIndexPath(forRow: 0, inSection: 0)
         tableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .Bottom)
         tableView(tableView, didSelectRowAtIndexPath: indexPath)
-        
+        self.tableView.reloadData();
     }
 
 
