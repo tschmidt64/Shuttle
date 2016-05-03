@@ -102,7 +102,7 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
             let polyRenderer = MKPolylineRenderer(overlay: overlay)
 //            polyRenderer.strokeColor = UIColor(red: 0.5703125, green: 0.83203125, blue: 0.63671875, alpha: 0.8)
             polyRenderer.strokeColor = UIColor(red: 49/255, green: 131/255, blue: 255/255, alpha: 1)
-            polyRenderer.lineWidth = 5
+            polyRenderer.lineWidth = 4
             return polyRenderer
         } else {
             let polyRenderer = MKPolygonRenderer(overlay: overlay)
