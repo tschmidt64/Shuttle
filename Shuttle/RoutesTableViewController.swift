@@ -101,7 +101,9 @@ class RoutesTableViewController: UITableViewController, UISearchResultsUpdating 
             route = routes[indexPath.row]
         }
         
-        
+        if route.routeNum == 640 {
+            print("======= SETING LABELS =======")
+        }
         let numBuses = route.busesOnRoute.count
         cell.lblNumBuses.text = numBuses > 0 ? "\(route.busesOnRoute.count) buses running" : ""
         cell.lblNameShort.text = String(route.nameShort)

@@ -72,11 +72,18 @@ class Route {
                     let newBus = Bus(longitude: lon, latitude: lat, orientation: busOrient, updateTime: busUpdateSecs, nextStopId: formattedNextStopId, busId: busId)
                     self.busesOnRoute[busId] = newBus
                 }
+                if self.routeNum == 640 {
+                    print(self.busesOnRoute.count)
+                    print("====== ENDING TASK =====")
+                }
             }
         }
 //        print("in refresh buses")
 //        print(busesOnRoute)
         
+        if routeNum == 640 {
+            print("====== STARTING TASK =====")
+        }
         newTask.resume()
     }
     
