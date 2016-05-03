@@ -401,7 +401,11 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func setupToolbar() {
         userLocButton = MKUserTrackingBarButtonItem(mapView: mapView)
         userLocButton.customView?.tintColor = UIColor(red: 112/255, green: 183/255, blue: 132/255, alpha: 1)
-        showListButton = UIBarButtonItem(title: "Hide Stops", style: .Plain, target: self, action: Selector.buttonTapped)
+        if tableHidden {
+            showListButton = UIBarButtonItem(title: "Show Stops", style: .Plain, target: self, action: Selector.buttonTapped)
+        } else {
+            showListButton = UIBarButtonItem(title: "Hide Stops", style: .Plain, target: self, action: Selector.buttonTapped)
+        }
         showListButton.tintColor = UIColor(red: 112/255, green: 183/255, blue: 132/255, alpha: 1)
         navigationController?.toolbarHidden = false
         let flexL = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace , target: self, action: nil)
@@ -420,6 +424,7 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
             self.dividerLow.hidden = self.containsSegmentControl ? self.tableHidden : true
 //            self.view.layoutIfNeeded()
         }
+        setupToolbar()
         print("Button Pressed")
     }
     
