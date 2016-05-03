@@ -40,6 +40,7 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.title = "Route \(route.routeNum)"
         dividerHeightConstraintHigh.constant = 1/UIScreen.mainScreen().scale//enforces it to be a true 1 pixel line
         dividerHeightConstraintLow.constant = 1/UIScreen.mainScreen().scale//enforces it to be a true 1 pixel line
 
