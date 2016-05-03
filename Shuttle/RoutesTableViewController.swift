@@ -49,11 +49,7 @@ class RoutesTableViewController: UITableViewController, UISearchResultsUpdating 
     
     func addSearchBar() {
         // Set textfield bg color to light gray
-        if #available(iOS 9.0, *) {
-            UITextField.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self]).backgroundColor = UIColor(white: 0.9, alpha: 1.0)
-        } else {
-            // Fallback on earlier versions
-        }
+        UITextField.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self]).backgroundColor = UIColor(white: 0.9, alpha: 1.0)
         // Set the outside of the search bar to white
         self.searchController.searchBar.placeholder = "Search routes"
         self.searchController.searchBar.barTintColor = UIColor.whiteColor()
