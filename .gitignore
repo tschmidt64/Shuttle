@@ -5,5 +5,4 @@ Pods/Crashlytics*
 Pods/Fabric*
 Pods/Headers*
 Pods/MXParallaxHeader*
-
-
+Pods/**
