@@ -28,7 +28,7 @@
 		82FD72491CA88383002060F7 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FD72481CA88383002060F7 /* Route.swift */; };
 		82FD724B1CA88507002060F7 /* Bus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FD724A1CA88507002060F7 /* Bus.swift */; };
 		82FD724D1CA8AF2C002060F7 /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FD724C1CA8AF2C002060F7 /* Stop.swift */; };
-		DB83BEB2B33FCEED3493737A /* Pods_Clutch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE55E62D745429C29D0FABDC /* Pods_Clutch.framework */; };
+		E9F22764AE2292558D53B3CF /* Pods_Clutch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF5D2DCF61B289379019DE83 /* Pods_Clutch.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +38,7 @@
 		6485B59C1C77DBBA00AD7434 /* BusAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusAnnotation.swift; sourceTree = "<group>"; };
 		64BAAAC51C8747EB0056E2AF /* RoutesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoutesTableViewController.swift; sourceTree = "<group>"; };
 		64F3DBA41CAC32BB002F2541 /* RouteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteTableViewCell.swift; sourceTree = "<group>"; };
+		7BC27223FB3F040EF4B8191A /* Pods-Clutch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Clutch.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Clutch/Pods-Clutch.debug.xcconfig"; sourceTree = "<group>"; };
 		8202808A1CCC493000C80B26 /* MXParallaxHeader.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MXParallaxHeader.framework; path = "../../../Library/Developer/Xcode/DerivedData/Clutch-brluuoddtxdpojgijdmulslxtgex/Build/Products/Debug-iphoneos/MXParallaxHeader.framework"; sourceTree = "<group>"; };
 		821F31B91CBB32BA00BD8752 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		822BFFF21CD7089B00FFA538 /* Bus-Stop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Bus-Stop.png"; sourceTree = "<group>"; };
@@ -55,9 +56,8 @@
 		82FD72481CA88383002060F7 /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		82FD724A1CA88507002060F7 /* Bus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bus.swift; sourceTree = "<group>"; };
 		82FD724C1CA8AF2C002060F7 /* Stop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stop.swift; sourceTree = "<group>"; };
-		AAB447F552D74FAC445E1A6B /* Pods-Clutch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Clutch.release.xcconfig"; path = "Pods/Target Support Files/Pods-Clutch/Pods-Clutch.release.xcconfig"; sourceTree = "<group>"; };
-		E768025F4598634A1128205B /* Pods-Clutch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Clutch.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Clutch/Pods-Clutch.debug.xcconfig"; sourceTree = "<group>"; };
-		FE55E62D745429C29D0FABDC /* Pods_Clutch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Clutch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF5D2DCF61B289379019DE83 /* Pods_Clutch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Clutch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DC5E0B77FABCD9B879112F85 /* Pods-Clutch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Clutch.release.xcconfig"; path = "Pods/Target Support Files/Pods-Clutch/Pods-Clutch.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,7 +67,7 @@
 			files = (
 				8202808B1CCC493000C80B26 /* MXParallaxHeader.framework in Frameworks */,
 				821F31BA1CBB32BA00BD8752 /* MapKit.framework in Frameworks */,
-				DB83BEB2B33FCEED3493737A /* Pods_Clutch.framework in Frameworks */,
+				E9F22764AE2292558D53B3CF /* Pods_Clutch.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,13 +99,22 @@
 			name = "Objects etc.";
 			sourceTree = "<group>";
 		};
+		6D509F69DCB2BD362B75F9B5 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7BC27223FB3F040EF4B8191A /* Pods-Clutch.debug.xcconfig */,
+				DC5E0B77FABCD9B879112F85 /* Pods-Clutch.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		825485681C7402BA0023E1A5 = {
 			isa = PBXGroup;
 			children = (
 				825485731C7402BA0023E1A5 /* Shuttle */,
 				825485721C7402BA0023E1A5 /* Products */,
 				BB9D8FC6DE53DC4203BA41E7 /* Frameworks */,
-				EA46E9F09E6C006B0BF98A25 /* Pods */,
+				6D509F69DCB2BD362B75F9B5 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -140,18 +149,9 @@
 			children = (
 				8202808A1CCC493000C80B26 /* MXParallaxHeader.framework */,
 				821F31B91CBB32BA00BD8752 /* MapKit.framework */,
-				FE55E62D745429C29D0FABDC /* Pods_Clutch.framework */,
+				AF5D2DCF61B289379019DE83 /* Pods_Clutch.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		EA46E9F09E6C006B0BF98A25 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				E768025F4598634A1128205B /* Pods-Clutch.debug.xcconfig */,
-				AAB447F552D74FAC445E1A6B /* Pods-Clutch.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -161,13 +161,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 825485861C7402BA0023E1A5 /* Build configuration list for PBXNativeTarget "Clutch" */;
 			buildPhases = (
-				C868F4FF962EB043ED8A3F78 /* Check Pods Manifest.lock */,
+				43A7AFBE390A40C8BF63C622 /* Check Pods Manifest.lock */,
 				8254856D1C7402BA0023E1A5 /* Sources */,
 				8254856E1C7402BA0023E1A5 /* Frameworks */,
 				8254856F1C7402BA0023E1A5 /* Resources */,
 				0D2A2D181CBBF94C003BD270 /* ShellScript */,
-				896253093C4CC2D1A2F17C08 /* Embed Pods Frameworks */,
-				8ADD70AAD4A24EC51B7A7DAC /* Copy Pods Resources */,
+				7610863438EEBAFDD71457A2 /* Embed Pods Frameworks */,
+				400DACB0A02D6455C8147D67 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -185,12 +185,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Taylor Schmidt";
 				TargetAttributes = {
 					825485701C7402BA0023E1A5 = {
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = 4G9Y57SZLT;
+						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
 								enabled = 1;
@@ -250,22 +251,7 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" b5b29aa2445d6d8df24a99437e7fa59bf64a3e85 f5557a5385be5d2f90a148c5bea0be3337c28a1e1a460a8e005f160286acfef4";
 		};
-		896253093C4CC2D1A2F17C08 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Clutch/Pods-Clutch-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8ADD70AAD4A24EC51B7A7DAC /* Copy Pods Resources */ = {
+		400DACB0A02D6455C8147D67 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -280,7 +266,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Clutch/Pods-Clutch-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C868F4FF962EB043ED8A3F78 /* Check Pods Manifest.lock */ = {
+		43A7AFBE390A40C8BF63C622 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -293,6 +279,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		7610863438EEBAFDD71457A2 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Clutch/Pods-Clutch-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -350,8 +351,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -394,8 +397,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -414,14 +419,16 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
 		825485871C7402BA0023E1A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E768025F4598634A1128205B /* Pods-Clutch.debug.xcconfig */;
+			baseConfigurationReference = 7BC27223FB3F040EF4B8191A /* Pods-Clutch.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -437,13 +444,15 @@
 				PRODUCT_BUNDLE_IDENTIFIER = clutchbusapp;
 				PRODUCT_NAME = Clutch;
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		825485881C7402BA0023E1A5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AAB447F552D74FAC445E1A6B /* Pods-Clutch.release.xcconfig */;
+			baseConfigurationReference = DC5E0B77FABCD9B879112F85 /* Pods-Clutch.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -458,6 +467,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = clutchbusapp;
 				PRODUCT_NAME = Clutch;
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

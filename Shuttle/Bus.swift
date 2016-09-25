@@ -12,7 +12,7 @@ import CoreLocation
 class Bus {
     var location: CLLocationCoordinate2D
     var orientation: Double
-    var lastUpdateTime: NSDate
+    var lastUpdateTime: Date
     var nextStopId: String
     var busId: String
     
@@ -21,7 +21,7 @@ class Bus {
         self.orientation = orientation
         self.nextStopId = nextStopId
         self.busId = busId
-        self.lastUpdateTime = NSDate(timeIntervalSince1970: (updateTime/1000))
+        self.lastUpdateTime = Date(timeIntervalSince1970: (updateTime/1000))
     }
     
     func toString() -> String {
@@ -29,7 +29,7 @@ class Bus {
             s += ", lat: " + String(location.latitude) + "long: " + String(location.longitude)
             s += ", orientation: " + String(orientation)
             s += ", next stop: " + String(nextStopId)
-            s += ", last update time: " + String(lastUpdateTime)
+            s += ", last update time: " + String(describing: lastUpdateTime)
         return s
     }
 }

@@ -32,21 +32,21 @@ extension String {
     var toUpperCaseFirstLetters: String {
         get {
             var newCharArr: [String] = []
-            let wordsArr = self.lowercaseString.componentsSeparatedByString(" ")
+            let wordsArr = self.lowercased().components(separatedBy: " ")
             for word in wordsArr {
                 var wordCharArr = word.characters.map() { String($0) }
                 // If empty this will crash
                 if !wordCharArr.isEmpty {
-                    wordCharArr[wordCharArr.startIndex] = wordCharArr.first!.uppercaseString
+                    wordCharArr[wordCharArr.startIndex] = wordCharArr.first!.uppercased()
                     newCharArr += wordCharArr
                     newCharArr.append(" ")
                 }
             }
-            let newStr = newCharArr.joinWithSeparator("")
+            let newStr = newCharArr.joined(separator: "")
             // if empty string this will crash
             if !newStr.isEmpty {
                 // truncate to get rid of
-                let truncated = newStr.substringToIndex(newStr.endIndex.predecessor())
+                let truncated = newStr.substring(to: newStr.characters.index(before: newStr.endIndex))
                 return truncated
             } else {
                 return ""

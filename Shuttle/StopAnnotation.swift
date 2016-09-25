@@ -27,6 +27,6 @@ class StopAnnotation : NSObject, MKAnnotation
     
     func pinColor() -> UIColor
     {
-        return UIColor.greenColor()
+        return UIColor.green
     }
 }

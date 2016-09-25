@@ -30,6 +30,6 @@ class BusAnnotation : NSObject, MKAnnotation
     
     func pinColor() -> UIColor
     {
-        return UIColor.redColor()
+        return UIColor.red
     }
 }

@@ -32,7 +32,7 @@ class RoutesTableViewController: UITableViewController, UISearchResultsUpdating 
     override func viewDidLoad() {
         super.viewDidLoad()
         initRoutes()
-        self.routes.sortInPlace() { $0.routeNum < $1.routeNum } // sort the routes descending by route number
+        self.routes.sort() { $0.routeNum < $1.routeNum } // sort the routes descending by route number
         
         addSearchBar()
         
@@ -49,27 +49,27 @@ class RoutesTableViewController: UITableViewController, UISearchResultsUpdating 
     
     func addSearchBar() {
         // Set textfield bg color to light gray
-        UITextField.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self]).backgroundColor = UIColor(white: 0.9, alpha: 1.0)
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = UIColor(white: 0.9, alpha: 1.0)
         // Set the outside of the search bar to white
         self.searchController.searchBar.placeholder = "Search routes"
-        self.searchController.searchBar.barTintColor = UIColor.whiteColor()
-        self.searchController.searchBar.tintColor = UIColor.darkGrayColor()
+        self.searchController.searchBar.barTintColor = UIColor.white
+        self.searchController.searchBar.tintColor = UIColor.darkGray
         // Make the 1px border go away. This was the best soln I found
         self.searchController.searchBar.layer.borderWidth = 1.0
-        self.searchController.searchBar.layer.borderColor = UIColor.whiteColor().CGColor
+        self.searchController.searchBar.layer.borderColor = UIColor.white.cgColor
         // Makes search bar functional
         self.searchController.searchResultsUpdater = self
         self.searchController.dimsBackgroundDuringPresentation = false
         definesPresentationContext = true
         tableView.tableHeaderView = searchController.searchBar
         // if there are not enough rows, it will not hide the search bar by default, so set an offset
-        self.tableView.contentOffset = CGPointMake(0, self.searchController.searchBar.frame.size.height);
-        self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: false)
+        self.tableView.contentOffset = CGPoint(x: 0, y: self.searchController.searchBar.frame.size.height);
+        self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.top, animated: false)
         
     }
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         if let selected = self.tableView.indexPathForSelectedRow {
-            self.tableView.deselectRowAtIndexPath(selected, animated: true)
+            self.tableView.deselectRow(at: selected, animated: true)
         }
     }
     
@@ -80,25 +80,25 @@ class RoutesTableViewController: UITableViewController, UISearchResultsUpdating 
     }
     
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.searchController.active && searchController.searchBar.text != "" {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if self.searchController.isActive && searchController.searchBar.text != "" {
             return self.filteredRoutes.count
         }
         return self.routes.count
     }
 
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as! RouteTableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath) as! RouteTableViewCell
         let route: Route
-        if self.searchController.active && self.searchController.searchBar.text != "" {
-            route = filteredRoutes[indexPath.row]
+        if self.searchController.isActive && self.searchController.searchBar.text != "" {
+            route = filteredRoutes[(indexPath as NSIndexPath).row]
         } else {
-            route = routes[indexPath.row]
+            route = routes[(indexPath as NSIndexPath).row]
         }
         
         if route.routeNum == 640 {
@@ -150,19 +150,19 @@ class RoutesTableViewController: UITableViewController, UISearchResultsUpdating 
     }
     */
     
-    func filterContentForSearchText(searchText: String, scope: String = "All") {
+    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
         filteredRoutes = routes.filter { route in
-            let lowerSearch = searchText.lowercaseString
-            let result = (route.nameLong.lowercaseString.containsString(lowerSearch)
-                || route.nameShort.lowercaseString.containsString(lowerSearch)
-                || String(route.routeNum).containsString(lowerSearch))
+            let lowerSearch = searchText.lowercased()
+            let result = (route.nameLong.lowercased().contains(lowerSearch)
+                || route.nameShort.lowercased().contains(lowerSearch)
+                || String(route.routeNum).contains(lowerSearch))
             return result
         }
         
         self.tableView.reloadData()
     }
     
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
+    func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)
     }
  
@@ -186,22 +186,23 @@ class RoutesTableViewController: UITableViewController, UISearchResultsUpdating 
     }
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         let indexPath = self.tableView!.indexPathForSelectedRow
         
         
         //pass selected route into viewcontroller by sending the string for the route and the array for the route
-        let stopsTableView = segue.destinationViewController as! StackViewController
+        let stopsTableView = segue.destination as! StackViewController
         let selectedRoute: Route
-        if self.searchController.active && self.searchController.searchBar.text != "" {
-            selectedRoute = filteredRoutes[(indexPath?.row)!]
+        if self.searchController.isActive && self.searchController.searchBar.text != "" {
+            selectedRoute = filteredRoutes[((indexPath as NSIndexPath?)?.row)!]
         } else {
-            selectedRoute = routes[(indexPath?.row)!]
+            selectedRoute = routes[((indexPath as NSIndexPath?)?.row)!]
         }
         stopsTableView.route = selectedRoute
-        
+//        print("HERE BRO")
+//        print(selectedRoute.busesOnRoute)
         //TO-DO this is hard coded, figure out directional stuff
         //stopsTableView.curRoute.generateStopCoords(0)
         

@@ -37,76 +37,70 @@ class Route {
      This refreshes the array self.busesOnRoute with the most recent data available
      */
     func refreshBuses() {
-//        print("REFRESH BUSES ROUTE: \(self.routeNum)")
-//        print("")
-        let newUrlString = "http://52.88.82.199:8080/onebusaway-api-webapp/api/where/trips-for-route/1_\(routeNum).json?key=TEST&includeSchedules=true&includeStatus=true&_=50000"
-        
-        let newURL = NSURL(string: newUrlString)
-        
-        let newSession = NSURLSession.sharedSession()
-        let newTask = newSession.dataTaskWithURL(newURL!) { (data, response, error) -> Void in
+        let urlStr = "https://lnykjry6ze.execute-api.us-west-2.amazonaws.com/prod/gtfsrt-debug?url=https://data.texas.gov/download/eiei-9rpf/application/octet-stream"
+        let url = URL(string: urlStr)
+        let newSession = URLSession.shared
+        let newTask = newSession.dataTask(with: url!, completionHandler: { (data, response, error) -> Void in
             if error != nil {
                 print("ERROR FOUND")
             } else {
                 let json = JSON(data: data!)
-                let newData = json["data", "list"]
-                // Get the pieces data from the JSON
-                for (_, subJson):(String, JSON) in newData {
-//                    print("newUrlString: \(newUrlString)")
-//                    print("JSON: \(subJson)")
-                    let busId = subJson["status", "vehicleId"].string!
-                    let busOrient = subJson["status", "orientation"].double!
-                    let busUpdateSecs = subJson["status", "lastUpdateTime"].double!
-                    let nextStopId = subJson["status", "nextStop"].string!
-                    let formattedNextStopId = nextStopId.substringFromIndex(nextStopId.startIndex.successor().successor())
-                    var busLoc = subJson["status", "lastKnownLocation"].dictionaryValue
-                    // sometimes lastKnownLocation is empty, use this instead
-                    if busLoc.isEmpty { busLoc = subJson["status", "position"].dictionaryValue }
-                    guard let lat = busLoc["lat"]?.double, lon = busLoc["lon"]?.double else {
-                        print("ERROR: NO BUS LOCATION. (Route: \(self.routeNum), Bus id: \(busId))")
-                        break // ignore this bus entry because no coordinates for it
+                let entityJson = json["entity"].arrayValue
+//                print("ENTITY ARR LENGTH: ", entityJson.count)
+                for entity in entityJson {
+                    let vehicle = entity["vehicle"]
+                    let routeNum = vehicle["trip", "route_id"].intValue
+                    if routeNum == self.routeNum {
+//                                            print("ENTITY:")
+                        let busId = vehicle["vehicle", "id"].stringValue
+//                                          print("BusId: ", busId)
+                        let busOrient = vehicle["position", "bearing"].intValue
+//                                            print("BusOrient: ", busOrient)
+                        let lastUpdate = vehicle["timestamp"].intValue
+//                                            print("lastUpdate: ", lastUpdate)
+                        let nextStopId = vehicle["stop_id"].stringValue
+//                                            print("nextStopId: ", nextStopId)
+                        let busLoc = vehicle["position"]
+
+                        
+                        guard let lat = busLoc["latitude"].double, let lon = busLoc["longitude"].double else {
+                            print("ERROR: NO BUS LOCATION.")
+                            break
+                        }
+                        
+//                                            print("lat: ", lat, ", Lon: ", lon)
+                        let newBus = Bus(longitude: lon, latitude: lat, orientation: Double(busOrient), updateTime: Double(lastUpdate), nextStopId: nextStopId, busId: busId)
+                        self.busesOnRoute[busId] = newBus
                     }
-//                    let lat = busLoc["lat"]!.double!
-//                    let lon = busLoc["lon"]!.double!
-                    //print("Bus location \(lat), \(lon)")
-                    let newBus = Bus(longitude: lon, latitude: lat, orientation: busOrient, updateTime: busUpdateSecs, nextStopId: formattedNextStopId, busId: busId)
-                    self.busesOnRoute[busId] = newBus
-                }
-                if self.routeNum == 640 {
-                    print(self.busesOnRoute.count)
-                    print("====== ENDING TASK =====")
+
                 }
             }
-        }
-//        print("in refresh buses")
-//        print(busesOnRoute)
+//            print(self.busesOnRoute)
+        }) 
         
-        if routeNum == 640 {
-            print("====== STARTING TASK =====")
-        }
         newTask.resume()
     }
     
-    
+    /*
     /* same function as refresh buses, uses capmetro data instead */
     /* https://github.com/tschmidt64/Shuttle/blob/c78794dbf0c3c9fd34c5ee7a99bfbbaa82e1adaf/Shuttle/ViewController.swift */
     /* should be similar to getData method */
      func refreshBusesCapMetro() {
         
         let urlPath = "https://data.texas.gov/download/cuc7-ywmd/text/plain"
-        let url:NSURL? = NSURL(string: urlPath)
-        let session = NSURLSession.sharedSession()
-        let task = session.dataTaskWithURL(url!) { (data, response, error) -> Void in
+        let url:URL? = URL(string: urlPath)
+        let session = URLSession.shared
+        let task = session.dataTask(with: url!, completionHandler: { (data, response, error) -> Void in
             if error != nil {
                 print("error found")
             } else {
                 do {
-                    let jsonResult = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as? NSDictionary
+                    let jsonResult = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as? NSDictionary
                     if jsonResult != nil {
                         if let allEntities = jsonResult!["entity"] as? NSArray {
                             if(allEntities.count > 0) {
                                 // Populate busDict
-                                for bus in allEntities{
+                                for bus in allEntities {
                                     
                                     var temp = [String:AnyObject]()
      
@@ -168,23 +162,24 @@ class Route {
                     print("Exception found")
                 }
             }
-        }
+        }) 
         
         task.resume() // start the request
     }
+    */
 
     
     /*
      This refreshes the array self.routeCoords with the most recent data available
      This method needs to be updated to take in an integer that represents whether the route is inbound or outbound
      */
-    func generateRouteCoords(direction: Int) {
+    func generateRouteCoords(_ direction: Int) {
         // This is where Micah's code to fetch routes goes
         var coords = [CLLocationCoordinate2D]()
         
-        if let path = NSBundle.mainBundle().pathForResource("routes/shapes_\(self.routeNum)_\(direction)", ofType: "json") {
-            if let data = NSData(contentsOfFile: path) {
-                let json = JSON(data: data, options: NSJSONReadingOptions.AllowFragments, error: nil)
+        if let path = Bundle.main.path(forResource: "routes/shapes_\(self.routeNum)_\(direction)", ofType: "json") {
+            if let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
+                let json = JSON(data: data, options: JSONSerialization.ReadingOptions.allowFragments, error: nil)
                 for (_, point) in json {
                     
                     let lat = Double(point["shape_pt_lat"].stringValue)!
@@ -200,11 +195,11 @@ class Route {
     /*
      This refreshes the array self.stopCoords with the most recent data available
      */
-    func generateStopCoords(direction: Int) {
+    func generateStopCoords(_ direction: Int) {
         let filePath:String = "stops/stops_\(self.routeNum)_\(direction)"
-        if let path = NSBundle.mainBundle().pathForResource(filePath, ofType: "json") {
-            if let data = NSData(contentsOfFile: path) {
-                let json = JSON(data: data, options: NSJSONReadingOptions.AllowFragments, error: nil)
+        if let path = Bundle.main.path(forResource: filePath, ofType: "json") {
+            if let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
+                let json = JSON(data: data, options: JSONSerialization.ReadingOptions.allowFragments, error: nil)
                 self.stops = []
                 for (_, stop) in json {
                     let lat = Double(stop["stop_lat"].stringValue)!
@@ -221,27 +216,27 @@ class Route {
     } 
     
     
-    func busDistancesFromStop(stopId: Stop) -> [String:Double] {
+    func busDistancesFromStop(_ stopId: Stop) -> [String:Double] {
         var distances: [String:Double] = [:]
         for (_, bus) in self.busesOnRoute {
             let busLoc = CLLocation(latitude: bus.location.latitude, longitude: bus.location.longitude)
             let stopLoc = CLLocation(latitude: stopId.location.latitude, longitude: stopId.location.longitude)
-            let closestCoordToBus = self.routeCoords.minElement({ (first, second) -> Bool in
+            let closestCoordToBus = self.routeCoords.min(by: { (first, second) -> Bool in
                 let firstLoc = CLLocation(latitude: first.latitude, longitude: first.longitude)
                 let secondLoc = CLLocation(latitude: second.latitude, longitude: second.longitude)
-                return firstLoc.distanceFromLocation(busLoc) < secondLoc.distanceFromLocation(busLoc)
+                return firstLoc.distance(from: busLoc) < secondLoc.distance(from: busLoc)
             })
-            let closestCoordToStop = self.routeCoords.minElement({ (first, second) -> Bool in
+            let closestCoordToStop = self.routeCoords.min(by: { (first, second) -> Bool in
                 let firstLoc = CLLocation(latitude: first.latitude, longitude: first.longitude)
                 let secondLoc = CLLocation(latitude: second.latitude, longitude: second.longitude)
-                return firstLoc.distanceFromLocation(stopLoc) < secondLoc.distanceFromLocation(stopLoc)
+                return firstLoc.distance(from: stopLoc) < secondLoc.distance(from: stopLoc)
             })
             
             // TODO: Excuse this disgusting if-let here, will fix later
-            if  var iCur = self.routeCoords.indexOf({ (coord) -> Bool in // use bus for curLoc
+            if  var iCur = self.routeCoords.index(where: { (coord) -> Bool in // use bus for curLoc
                 return closestCoordToBus?.latitude == coord.latitude
                     && closestCoordToBus?.longitude == coord.longitude
-            }), let iStop =  self.routeCoords.indexOf({ (coord) -> Bool in // use stop for stopLoc
+            }), let iStop =  self.routeCoords.index(where: { (coord) -> Bool in // use stop for stopLoc
                 return closestCoordToStop?.latitude == coord.latitude
                     && closestCoordToStop?.longitude == coord.longitude
             }) {
@@ -255,7 +250,7 @@ class Route {
                 var nextLoc = CLLocation(latitude: nextCoord.latitude, longitude: nextCoord.longitude)
                 
                 while iCur != iStop{
-                    let curLen = nextLoc.distanceFromLocation(curLoc)
+                    let curLen = nextLoc.distance(from: curLoc)
                     distance += curLen
                     // Loop the indices
                     iCur = (iCur == self.routeCoords.count - 1) ? 0 : iCur + 1
@@ -269,7 +264,7 @@ class Route {
                     curLoc = CLLocation(latitude: curCoord.latitude, longitude: curCoord.longitude)
                     nextLoc = CLLocation(latitude: nextCoord.latitude, longitude: nextCoord.longitude)
                 }
-                distance += nextLoc.distanceFromLocation(curLoc)
+                distance += nextLoc.distance(from: curLoc)
                 distances[bus.busId] = distance
             }
             

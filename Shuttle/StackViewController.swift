@@ -28,7 +28,7 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var containsSegmentControl = true
     
     /* Timer Fields */
-    var startTime = NSTimeInterval() // start stopwatch timer
+    var startTime = TimeInterval() // start stopwatch timer
 
     
     var route: Route = Route(routeNum: 0, nameShort: "", nameLong: "")
@@ -41,8 +41,8 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Route \(route.routeNum)"
-        dividerHeightConstraintHigh.constant = 1/UIScreen.mainScreen().scale//enforces it to be a true 1 pixel line
-        dividerHeightConstraintLow.constant = 1/UIScreen.mainScreen().scale//enforces it to be a true 1 pixel line
+        dividerHeightConstraintHigh.constant = 1/UIScreen.main.scale//enforces it to be a true 1 pixel line
+        dividerHeightConstraintLow.constant = 1/UIScreen.main.scale//enforces it to be a true 1 pixel line
 
         // Get's coordinates for stops and buses
         setupTableView()
@@ -59,17 +59,17 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     // Hide the navController toolbar when leaving
-    override func viewWillDisappear(animated: Bool) {
-        self.navigationController?.toolbarHidden = true
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.isToolbarHidden = true
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         checkLocationAuthorizationStatus()
     }
     
     func checkLocationAuthorizationStatus() {
-        if CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse {
+        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
             mapView.showsUserLocation = true
         } else {
             locationManager.requestWhenInUseAuthorization()
@@ -77,7 +77,7 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
 
     
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         var view: MKAnnotationView
         if(annotation is StopAnnotation) {
             let ann = annotation as! StopAnnotation
@@ -104,7 +104,7 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     
     
-    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if overlay is MKPolyline {
             let polyRenderer = MKPolylineRenderer(overlay: overlay)
 //            polyRenderer.strokeColor = UIColor(red: 0.5703125, green: 0.83203125, blue: 0.63671875, alpha: 0.8)
@@ -117,26 +117,26 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
-    func mapView(mapView: MKMapView, didAddAnnotationViews views: [MKAnnotationView]) {
+    func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
         for view in views {
             if view.annotation is StopAnnotation {
-                view.superview?.bringSubviewToFront(view)
+                view.superview?.bringSubview(toFront: view)
             } else {
-                view.superview?.sendSubviewToBack(view)
+                view.superview?.sendSubview(toBack: view)
             }
         }
     }
     
-    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         if let ann = (mapView.annotations.filter { $0 is StopAnnotation }.first as! StopAnnotation?) {
-            if let view = mapView.viewForAnnotation(ann) {
-                view.superview?.bringSubviewToFront(view)
+            if let view = mapView.view(for: ann) {
+                view.superview?.bringSubview(toFront: view)
             }
         }
     }
     
     func initBusAnnotations() {
-        dispatch_async(dispatch_get_main_queue(), {
+        DispatchQueue.main.async(execute: {
             guard let stop = self.selectedStop else {
                 print("ERROR: initBusAnnotations selectedStop was nil")
                 return
@@ -190,12 +190,12 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
 
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // scroll to top
         updateMapView()
-        self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .None, animated: true)
+        self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .none, animated: true)
         // Update selected stop for newly selected tableViewCell
-        selectedStop = self.curStops[indexPath.row]
+        selectedStop = self.curStops[(indexPath as NSIndexPath).row]
         updateStopAnnotation()
         // Update the bus locations
         getDataFromBuses()
@@ -203,7 +203,7 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func updateStopAnnotation() {
         if stopAnnotation != nil { mapView.removeAnnotations(mapView.annotations.filter {$0 is StopAnnotation}) }
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             guard let stop = self.selectedStop else {
                 print("ERROR: updateStopAnnotation selectedStop was nil")
                 return
@@ -233,7 +233,7 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
         centerMapOnLocation(location, animated: true)
     }
     
-    func containsNextStop(nextStopId: String) -> Bool {
+    func containsNextStop(_ nextStopId: String) -> Bool {
         if(nextStopId == "") {
             print("ERROR: No next stop id")
             return true;
@@ -249,7 +249,7 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return false;
     }
     
-    @IBAction func StopsSegmentedControlChoose(sender: AnyObject) {
+    @IBAction func StopsSegmentedControlChoose(_ sender: AnyObject) {
         if stopsSegmentedControl.selectedSegmentIndex == 1 {
             print("selected 1")
             route.generateStopCoords(1)
@@ -264,14 +264,14 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
         sortAndSetStops()
         // Select first stop on new segment
         selectedStop = curStops.first
-        let indexPath = NSIndexPath(forRow: 0, inSection: 0)
-        tableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .Bottom)
-        tableView(tableView, didSelectRowAtIndexPath: indexPath)
+        let indexPath = IndexPath(row: 0, section: 0)
+        tableView.selectRow(at: indexPath, animated: true, scrollPosition: .bottom)
+        tableView(tableView, didSelectRowAt: indexPath)
         self.tableView.reloadData();
     }
 
 
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let loc = manager.location {
             userLocation = loc.coordinate
         } else {
@@ -282,9 +282,9 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func getDataFromBuses() {
         
         self.updateStopwatch()
-        self.startTime = NSDate.timeIntervalSinceReferenceDate()
+        self.startTime = Date.timeIntervalSinceReferenceDate
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async {
             self.route.refreshBuses()
             print("BUS DATA REFRESHED")
             guard let stop = self.selectedStop else {
@@ -312,13 +312,13 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     print("ERROR: no bus found for id = \(id)")
                 }
             }
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 self.mapView.addAnnotations(annArr)
             }
         }
     }
 
-    func centerMapOnLocation(location: CLLocation, animated: Bool) {
+    func centerMapOnLocation(_ location: CLLocation, animated: Bool) {
         // This zooms over the user and the stop as an alternative.
         // It doesn't seem to always show the stop though; sometimes it is covered up
         // so I commented it out and am now just using the whole route
@@ -344,12 +344,12 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
         if self.route.stops.isEmpty {
             print("======== Self.route.stops is empty =========")
         }
-        self.curStops = self.route.stops.sort {
+        self.curStops = self.route.stops.sorted {
             if let uCoord = self.locationManager.location?.coordinate {
                 let uLoc = CLLocation(latitude: uCoord.latitude, longitude: uCoord.longitude)
                 let stop0 = CLLocation(latitude: $0.location.latitude, longitude: $0.location.longitude)
                 let stop1 = CLLocation(latitude: $1.location.latitude, longitude: $1.location.longitude)
-                return stop0.distanceFromLocation(uLoc) < stop1.distanceFromLocation(uLoc)
+                return stop0.distance(from: uLoc) < stop1.distance(from: uLoc)
             } else {
                 print("RETURNING FALSE")
                 return false
@@ -363,9 +363,9 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func generateCoordinates() {
         if(route.routeNum == 640 || route.routeNum == 642 ) {
             containsSegmentControl = false
-            toolbar.hidden = true
-            dividerLow.hidden = true
-            dividerHigh.hidden = true
+            toolbar.isHidden = true
+            dividerLow.isHidden = true
+            dividerHigh.isHidden = true
             print("BEFORE")
             print(route.stops)
             route.generateStopCoords(0)
@@ -382,11 +382,11 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.backgroundColor = .clearColor()
-        let blurEffect = UIBlurEffect(style: .Light)
+        tableView.backgroundColor = .clear
+        let blurEffect = UIBlurEffect(style: .light)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         tableView.backgroundView = blurEffectView
-        tableView.separatorEffect = UIVibrancyEffect(forBlurEffect: blurEffect)
+        tableView.separatorEffect = UIVibrancyEffect(blurEffect: blurEffect)
     }
     
     func setupMap() {
@@ -403,56 +403,56 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
         userLocButton = MKUserTrackingBarButtonItem(mapView: mapView)
         userLocButton.customView?.tintColor = UIColor(red: 112/255, green: 183/255, blue: 132/255, alpha: 1)
         if tableHidden {
-            showListButton = UIBarButtonItem(title: "Show Stops", style: .Plain, target: self, action: Selector.buttonTapped)
+            showListButton = UIBarButtonItem(title: "Show Stops", style: .plain, target: self, action: Selector.buttonTapped)
         } else {
-            showListButton = UIBarButtonItem(title: "Hide Stops", style: .Plain, target: self, action: Selector.buttonTapped)
+            showListButton = UIBarButtonItem(title: "Hide Stops", style: .plain, target: self, action: Selector.buttonTapped)
         }
         showListButton.tintColor = UIColor(red: 112/255, green: 183/255, blue: 132/255, alpha: 1)
-        navigationController?.toolbarHidden = false
-        let flexL = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace , target: self, action: nil)
-        let flexR = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace , target: self, action: nil)
+        navigationController?.isToolbarHidden = false
+        let flexL = UIBarButtonItem(barButtonSystemItem: .flexibleSpace , target: self, action: nil)
+        let flexR = UIBarButtonItem(barButtonSystemItem: .flexibleSpace , target: self, action: nil)
         toolbarItems = [userLocButton, flexL, showListButton, flexR]
         
     }
     
-    func showListTapped(sender: UIBarButtonItem) {
+    func showListTapped(_ sender: UIBarButtonItem) {
         self.tableHidden = !self.tableHidden
         
-        UIView.animateWithDuration(0.2) {
-            self.tableView.hidden = self.tableHidden
-            self.toolbar.hidden = self.containsSegmentControl ? self.tableHidden : true
-            self.dividerHigh.hidden = self.containsSegmentControl ? self.tableHidden : true
-            self.dividerLow.hidden = self.containsSegmentControl ? self.tableHidden : true
+        UIView.animate(withDuration: 0.2, animations: {
+            self.tableView.isHidden = self.tableHidden
+            self.toolbar.isHidden = self.containsSegmentControl ? self.tableHidden : true
+            self.dividerHigh.isHidden = self.containsSegmentControl ? self.tableHidden : true
+            self.dividerLow.isHidden = self.containsSegmentControl ? self.tableHidden : true
 //            self.view.layoutIfNeeded()
-        }
+        }) 
         setupToolbar()
         print("Button Pressed")
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("StackCell", forIndexPath: indexPath)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "StackCell", for: indexPath)
         
-        let curStopCoord = curStops[indexPath.row].location
+        let curStopCoord = curStops[(indexPath as NSIndexPath).row].location
         let curStopLoc = CLLocation(latitude: curStopCoord.latitude, longitude: curStopCoord.longitude)
         let userLoc: CLLocation?
         if let userCoord = self.locationManager.location?.coordinate {
             userLoc = CLLocation(latitude: userCoord.latitude, longitude: userCoord.longitude)
-            let distanceMeters = curStopLoc.distanceFromLocation(userLoc!)
+            let distanceMeters = curStopLoc.distance(from: userLoc!)
             let distanceMiles = distanceMeters * 0.000621371
             cell.detailTextLabel!.text = String(format: "%.2f", distanceMiles) + " mi"
         } else {
             cell.detailTextLabel!.text = ""
         }
-        let name:String = curStops[indexPath.row].name
+        let name:String = curStops[(indexPath as NSIndexPath).row].name
         cell.textLabel!.text = name
         return cell
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return self.curStops.count
     }
@@ -462,28 +462,28 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
         print(route.routeCoords.count)
         let polyline = MKPolyline(coordinates: &route.routeCoords, count: route.routeCoords.count)
         mapView.removeOverlays(mapView.overlays)
-        mapView.addOverlay(polyline)
+        mapView.add(polyline)
     }
  
     func updateStopwatch() {
-        let currentTime = NSDate.timeIntervalSinceReferenceDate()
+        let currentTime = Date.timeIntervalSinceReferenceDate
         
         //Find the difference between current time and start time.
         
-        var elapsedTime: NSTimeInterval = currentTime - startTime
+        var elapsedTime: TimeInterval = currentTime - startTime
         //        print(elapsedTime)
         
         //calculate the minutes in elapsed time.
         
         let minutes = UInt32(elapsedTime / 60.0)
         
-        elapsedTime -= (NSTimeInterval(minutes) * 60)
+        elapsedTime -= (TimeInterval(minutes) * 60)
         
         //calculate the seconds in elapsed time.
         
         let seconds = UInt32(elapsedTime)
         
-        elapsedTime -= NSTimeInterval(seconds)
+        elapsedTime -= TimeInterval(seconds)
         
         //add the leading zero for minutes, seconds and millseconds and store them as string constants
         /*
