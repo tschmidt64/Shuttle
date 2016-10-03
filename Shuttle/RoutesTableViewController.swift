@@ -32,10 +32,10 @@ class RoutesTableViewController: UITableViewController, UISearchResultsUpdating 
     override func viewDidLoad() {
         super.viewDidLoad()
         initRoutes()
-        self.routes.sort() { $0.routeNum < $1.routeNum } // sort the routes descending by route number
-        
+        refreshTable()
+        self.routes.sort() { $0.routeNum < $1.routeNum } // sort the routes ascending by route number
+
         addSearchBar()
-        
 //        self.searchController.searchBar.barTintColor =
         
 
@@ -46,6 +46,67 @@ class RoutesTableViewController: UITableViewController, UISearchResultsUpdating 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
+    
+    func refreshTable() {
+        for route in routes {
+            route.refreshBuses {
+                self.tableView.reloadData()
+            }
+        }
+    }
+    /*
+    /*
+     This refreshes the array self.busesOnRoute with the most recent data available
+     */
+    func refreshBuses() {
+        let urlStr = "https://lnykjry6ze.execute-api.us-west-2.amazonaws.com/prod/gtfsrt-debug?url=https://data.texas.gov/download/eiei-9rpf/application/octet-stream"
+        let url = URL(string: urlStr)
+        
+        for route in routes {
+            let newSession = URLSession.shared
+            let newTask = newSession.dataTask(with: url!, completionHandler: { (data, response, error) -> Void in
+                if error != nil {
+                    print("ERROR FOUND")
+                } else {
+                    let json = JSON(data: data!)
+                    let entityJson = json["entity"].arrayValue
+                    //                print("ENTITY ARR LENGTH: ", entityJson.count)
+                    for entity in entityJson {
+                        let vehicle = entity["vehicle"]
+                        let routeNum = vehicle["trip", "route_id"].intValue
+                        if routeNum == route.routeNum {
+                            //                                            print("ENTITY:")
+                            let busId = vehicle["vehicle", "id"].stringValue
+                            //                                          print("BusId: ", busId)
+                            let busOrient = vehicle["position", "bearing"].intValue
+                            //                                            print("BusOrient: ", busOrient)
+                            let lastUpdate = vehicle["timestamp"].intValue
+                            //                                            print("lastUpdate: ", lastUpdate)
+                            let nextStopId = vehicle["stop_id"].stringValue
+                            //                                            print("nextStopId: ", nextStopId)
+                            let busLoc = vehicle["position"]
+                            
+                            
+                            guard let lat = busLoc["latitude"].double, let lon = busLoc["longitude"].double else {
+                                print("ERROR: NO BUS LOCATION.")
+                                break
+                            }
+                            
+                            //                                            print("lat: ", lat, ", Lon: ", lon)
+                            let newBus = Bus(longitude: lon, latitude: lat, orientation: Double(busOrient), updateTime: Double(lastUpdate), nextStopId: nextStopId, busId: busId)
+                            route.busesOnRoute[busId] = newBus
+                        }
+                    }
+                    self.tableView.reloadData()
+                }
+            })
+            
+            newTask.resume()
+        }
+        
+    }
+ */
+
     
     func addSearchBar() {
         // Set textfield bg color to light gray
@@ -104,6 +165,7 @@ class RoutesTableViewController: UITableViewController, UISearchResultsUpdating 
         if route.routeNum == 640 {
             print("======= SETING LABELS =======")
         }
+        
         let numBuses = route.busesOnRoute.count
         cell.lblNumBuses.text = numBuses > 0 ? "\(route.busesOnRoute.count) buses running" : ""
         cell.lblNameShort.text = String(route.nameShort)

@@ -283,37 +283,37 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         self.updateStopwatch()
         self.startTime = Date.timeIntervalSinceReferenceDate
-        
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async {
-            self.route.refreshBuses()
-            print("BUS DATA REFRESHED")
-            guard let stop = self.selectedStop else {
-                print("ERROR: selectedStop is nil")
-                return
-            }
-            let distances = self.route.busDistancesFromStop(stop)
-            var annArr: [BusAnnotation] = []
-            for annotation in ((self.mapView.annotations.filter() { $0 is BusAnnotation }) as! [BusAnnotation]) {
-                let id = annotation.busId
-                if let bus = self.route.busesOnRoute[id] {
-                    var distanceMiles: Double? = nil
-                    if let distanceMeters = distances[id] {
-                        distanceMiles = distanceMeters * 0.000621371
-                        annotation.title = "\(String(format: "%.2f", distanceMiles!)) miles to stop"
-                    } else {
-                        annotation.title = "Distance unknown"
-                    }
-                    if annotation.coordinate.latitude != bus.location.latitude
-                        || annotation.coordinate.longitude != bus.location.longitude {
-                        annotation.coordinate = bus.location
-                        annArr.append(annotation)
-                    }
-                } else {
-                    print("ERROR: no bus found for id = \(id)")
+        DispatchQueue.global(qos: .default).async {
+            self.route.refreshBuses {
+                print("BUS DATA REFRESHED")
+                guard let stop = self.selectedStop else {
+                    print("ERROR: selectedStop is nil")
+                    return
                 }
-            }
-            DispatchQueue.main.async {
-                self.mapView.addAnnotations(annArr)
+                let distances = self.route.busDistancesFromStop(stop)
+                var annArr: [BusAnnotation] = []
+                for annotation in ((self.mapView.annotations.filter() { $0 is BusAnnotation }) as! [BusAnnotation]) {
+                    let id = annotation.busId
+                    if let bus = self.route.busesOnRoute[id] {
+                        var distanceMiles: Double? = nil
+                        if let distanceMeters = distances[id] {
+                            distanceMiles = distanceMeters * 0.000621371
+                            annotation.title = "\(String(format: "%.2f", distanceMiles!)) miles to stop"
+                        } else {
+                            annotation.title = "Distance unknown"
+                        }
+                        if annotation.coordinate.latitude != bus.location.latitude
+                            || annotation.coordinate.longitude != bus.location.longitude {
+                            annotation.coordinate = bus.location
+                            annArr.append(annotation)
+                        }
+                    } else {
+                        print("ERROR: no bus found for id = \(id)")
+                    }
+                }
+                DispatchQueue.main.async {
+                    self.mapView.addAnnotations(annArr)
+                }
             }
         }
     }

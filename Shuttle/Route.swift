@@ -22,21 +22,14 @@ class Route {
         self.routeNum = rNum
         self.nameLong = nameLong
         self.nameShort = nameShort
-        self.refreshAll()
-    }
-    
-    func refreshAll() {
-        self.refreshBuses()
-        //self.refreshBusesCapMetro()
         self.generateRouteCoords(1)
         self.generateStopCoords(1)
     }
     
-    
     /*
      This refreshes the array self.busesOnRoute with the most recent data available
      */
-    func refreshBuses() {
+    func refreshBuses(callback: @escaping () -> ()) {
         let urlStr = "https://lnykjry6ze.execute-api.us-west-2.amazonaws.com/prod/gtfsrt-debug?url=https://data.texas.gov/download/eiei-9rpf/application/octet-stream"
         let url = URL(string: urlStr)
         let newSession = URLSession.shared
@@ -72,11 +65,10 @@ class Route {
                         let newBus = Bus(longitude: lon, latitude: lat, orientation: Double(busOrient), updateTime: Double(lastUpdate), nextStopId: nextStopId, busId: busId)
                         self.busesOnRoute[busId] = newBus
                     }
-
+                    callback()
                 }
             }
-//            print(self.busesOnRoute)
-        }) 
+        })
         
         newTask.resume()
     }
