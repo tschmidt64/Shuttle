@@ -47,6 +47,7 @@ class RoutesTableViewController: UITableViewController, UISearchResultsUpdating 
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
+    // Refresh the tableview to
     func refreshTable() {
         for route in routes {
             route.refreshBuses {
@@ -54,59 +55,6 @@ class RoutesTableViewController: UITableViewController, UISearchResultsUpdating 
             }
         }
     }
-    /*
-    /*
-     This refreshes the array self.busesOnRoute with the most recent data available
-     */
-    func refreshBuses() {
-        let urlStr = "https://lnykjry6ze.execute-api.us-west-2.amazonaws.com/prod/gtfsrt-debug?url=https://data.texas.gov/download/eiei-9rpf/application/octet-stream"
-        let url = URL(string: urlStr)
-        
-        for route in routes {
-            let newSession = URLSession.shared
-            let newTask = newSession.dataTask(with: url!, completionHandler: { (data, response, error) -> Void in
-                if error != nil {
-                    print("ERROR FOUND")
-                } else {
-                    let json = JSON(data: data!)
-                    let entityJson = json["entity"].arrayValue
-                    //                print("ENTITY ARR LENGTH: ", entityJson.count)
-                    for entity in entityJson {
-                        let vehicle = entity["vehicle"]
-                        let routeNum = vehicle["trip", "route_id"].intValue
-                        if routeNum == route.routeNum {
-                            //                                            print("ENTITY:")
-                            let busId = vehicle["vehicle", "id"].stringValue
-                            //                                          print("BusId: ", busId)
-                            let busOrient = vehicle["position", "bearing"].intValue
-                            //                                            print("BusOrient: ", busOrient)
-                            let lastUpdate = vehicle["timestamp"].intValue
-                            //                                            print("lastUpdate: ", lastUpdate)
-                            let nextStopId = vehicle["stop_id"].stringValue
-                            //                                            print("nextStopId: ", nextStopId)
-                            let busLoc = vehicle["position"]
-                            
-                            
-                            guard let lat = busLoc["latitude"].double, let lon = busLoc["longitude"].double else {
-                                print("ERROR: NO BUS LOCATION.")
-                                break
-                            }
-                            
-                            //                                            print("lat: ", lat, ", Lon: ", lon)
-                            let newBus = Bus(longitude: lon, latitude: lat, orientation: Double(busOrient), updateTime: Double(lastUpdate), nextStopId: nextStopId, busId: busId)
-                            route.busesOnRoute[busId] = newBus
-                        }
-                    }
-                    self.tableView.reloadData()
-                }
-            })
-            
-            newTask.resume()
-        }
-        
-    }
- */
-
     
     func addSearchBar() {
         // Set textfield bg color to light gray
