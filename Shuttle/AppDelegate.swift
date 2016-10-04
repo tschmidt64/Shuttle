@@ -24,7 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 ]
         UINavigationBar.appearance().tintColor = UIColor.darkGray
 
-        
         // Override point for customization after application launch.
         Fabric.with([Crashlytics.self])
         return true

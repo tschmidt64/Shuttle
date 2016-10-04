@@ -21,6 +21,13 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBOutlet weak var dividerHeightConstraintLow: NSLayoutConstraint!
     @IBOutlet weak var dividerHigh: UIView!
     @IBOutlet weak var dividerLow: UIView!
+    @IBOutlet weak var refreshButton: UIBarButtonItem!
+    
+    var activitySpinnerView: UIActivityIndicatorView?
+    
+    @IBAction func refreshButtonPress(_ sender: AnyObject) {
+        getDataFromBuses()
+    }
     
     var userLocButton: MKUserTrackingBarButtonItem!
     var showListButton: UIBarButtonItem!
@@ -54,7 +61,9 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
         initBusAnnotations()
         addRoutePolyline()
         setupToolbar()
-        tableView.reloadData()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
         StopsSegmentedControlChoose(self)
     }
     
@@ -198,7 +207,8 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
         selectedStop = self.curStops[(indexPath as NSIndexPath).row]
         updateStopAnnotation()
         // Update the bus locations
-        getDataFromBuses()
+        // getDataFromBuses()
+        updateBusAnnotations()
     }
     
     func updateStopAnnotation() {
@@ -267,7 +277,9 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let indexPath = IndexPath(row: 0, section: 0)
         tableView.selectRow(at: indexPath, animated: true, scrollPosition: .bottom)
         tableView(tableView, didSelectRowAt: indexPath)
-        self.tableView.reloadData();
+        DispatchQueue.main.async {
+            self.tableView.reloadData();
+        }
     }
 
 
@@ -278,6 +290,37 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
             print("ERROR: Failed to update user location")
         }
     }
+    
+    func updateBusAnnotations() {
+        guard let stop = self.selectedStop else {
+            print("ERROR: selectedStop is nil")
+            return
+        }
+        let selectedAnn = mapView.selectedAnnotations
+        for ann in selectedAnn { mapView.deselectAnnotation(ann, animated: true) }
+        let distances = self.route.busDistancesFromStop(stop)
+        var annArr: [BusAnnotation] = []
+        for annotation in ((self.mapView.annotations.filter() { $0 is BusAnnotation }) as! [BusAnnotation]) {
+            let id = annotation.busId
+            if let bus = self.route.busesOnRoute[id] {
+                var distanceMiles: Double? = nil
+                if let distanceMeters = distances[id] {
+                    distanceMiles = distanceMeters * 0.000621371
+                    annotation.title = "\(String(format: "%.2f", distanceMiles!)) miles to stop"
+                } else {
+                    annotation.title = "Distance unknown"
+                }
+                if annotation.coordinate.latitude != bus.location.latitude
+                    || annotation.coordinate.longitude != bus.location.longitude {
+                    annotation.coordinate = bus.location
+                    annArr.append(annotation)
+                }
+            } else {
+                print("ERROR: no bus found for id = \(id)")
+            }
+        }
+        self.mapView.addAnnotations(annArr)
+    }
  
     func getDataFromBuses() {
         
@@ -285,35 +328,8 @@ class StackViewController: UIViewController, UITableViewDelegate, UITableViewDat
         self.startTime = Date.timeIntervalSinceReferenceDate
         DispatchQueue.global(qos: .default).async {
             self.route.refreshBuses {
-                print("BUS DATA REFRESHED")
-                guard let stop = self.selectedStop else {
-                    print("ERROR: selectedStop is nil")
-                    return
-                }
-                let distances = self.route.busDistancesFromStop(stop)
-                var annArr: [BusAnnotation] = []
-                for annotation in ((self.mapView.annotations.filter() { $0 is BusAnnotation }) as! [BusAnnotation]) {
-                    let id = annotation.busId
-                    if let bus = self.route.busesOnRoute[id] {
-                        var distanceMiles: Double? = nil
-                        if let distanceMeters = distances[id] {
-                            distanceMiles = distanceMeters * 0.000621371
-                            annotation.title = "\(String(format: "%.2f", distanceMiles!)) miles to stop"
-                        } else {
-                            annotation.title = "Distance unknown"
-                        }
-                        if annotation.coordinate.latitude != bus.location.latitude
-                            || annotation.coordinate.longitude != bus.location.longitude {
-                            annotation.coordinate = bus.location
-                            annArr.append(annotation)
-                        }
-                    } else {
-                        print("ERROR: no bus found for id = \(id)")
-                    }
-                }
-                DispatchQueue.main.async {
-                    self.mapView.addAnnotations(annArr)
-                }
+                print("=== BUSES UPDATED ===")
+                self.updateBusAnnotations()
             }
         }
     }

@@ -25,6 +25,9 @@ import SwiftyJSON
 
 class RoutesTableViewController: UITableViewController, UISearchResultsUpdating {
     
+    class RoutesTableNavBar {
+    
+    }
     var routes: [Route] = []
     var filteredRoutes: [Route] = []
     let searchController = UISearchController(searchResultsController: nil)
@@ -51,7 +54,22 @@ class RoutesTableViewController: UITableViewController, UISearchResultsUpdating 
     func refreshTable() {
         for route in routes {
             route.refreshBuses {
-                self.tableView.reloadData()
+                let curNum = route.routeNum
+                if let lastNum = self.routes.last?.routeNum {
+                    if curNum == lastNum {
+                        print("=== EQUAL === ")
+                    } else {
+                        print("NOT EQUAL")
+                    }
+                } else {
+                    print("ERROR NO LAST")
+                }
+
+                if route.routeNum == self.routes.last?.routeNum {
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
+                }
             }
         }
     }
@@ -168,8 +186,9 @@ class RoutesTableViewController: UITableViewController, UISearchResultsUpdating 
                 || String(route.routeNum).contains(lowerSearch))
             return result
         }
-        
-        self.tableView.reloadData()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
     func updateSearchResults(for searchController: UISearchController) {

@@ -33,6 +33,7 @@ class Route {
         let urlStr = "https://lnykjry6ze.execute-api.us-west-2.amazonaws.com/prod/gtfsrt-debug?url=https://data.texas.gov/download/eiei-9rpf/application/octet-stream"
         let url = URL(string: urlStr)
         let newSession = URLSession.shared
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         let newTask = newSession.dataTask(with: url!, completionHandler: { (data, response, error) -> Void in
             if error != nil {
                 print("ERROR FOUND")
@@ -65,6 +66,7 @@ class Route {
                         let newBus = Bus(longitude: lon, latitude: lat, orientation: Double(busOrient), updateTime: Double(lastUpdate), nextStopId: nextStopId, busId: busId)
                         self.busesOnRoute[busId] = newBus
                     }
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     callback()
                 }
             }

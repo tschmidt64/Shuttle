@@ -149,7 +149,7 @@
                                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VUX-WA-BsH" id="oIG-FD-wP7">
-                                                    <frame key="frameInset" width="375" height="43.5"/>
+                                                    <frame key="frameInset" width="375" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MAM-xX-d4x">
@@ -184,7 +184,13 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="RZJ-tE-0BZ"/>
+                    <navigationItem key="navigationItem" id="RZJ-tE-0BZ">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="uIR-RC-e6a">
+                            <connections>
+                                <action selector="refreshButtonPress:" destination="kvt-wn-siw" id="o5R-h3-4CZ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="dividerHeightConstraintHigh" destination="Np1-Q2-fJD" id="wXn-Qk-28Q"/>
@@ -193,6 +199,7 @@
                         <outlet property="dividerLow" destination="F64-Xm-CZZ" id="lQd-IX-cv5"/>
                         <outlet property="mapTableStack" destination="7hI-Zj-aur" id="KRb-4C-oOu"/>
                         <outlet property="mapView" destination="0Y1-76-xA4" id="hEO-3a-Z4A"/>
+                        <outlet property="refreshButton" destination="uIR-RC-e6a" id="rGi-WF-lwf"/>
                         <outlet property="stopsSegmentedControl" destination="TiP-HT-cOC" id="SfG-sf-wVJ"/>
                         <outlet property="tableView" destination="ehk-Kx-ebL" id="rle-7v-TPX"/>
                         <outlet property="toolbar" destination="RvZ-Gv-nBi" id="MEb-Gl-oVo"/>
